@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign in — RainCloud</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --surface: #faf9f7;
+      --surface-container-lowest: #ffffff;
+      --surface-container-low: #f4f3f1;
+      --on-surface: #1a1c1b;
+      --on-surface-variant: #424845;
+      --outline: #727875;
+      --outline-variant: #c2c8c4;
+      --primary-container: #F16F26;
+      --primary-container-hover: #d96221;
+      --on-primary: #ffffff;
+      --error: #ba1a1a;
+
+      --radius-input: 0.25rem;
+      --radius-card: 0.5rem;
+
+      --space-base: 4px;
+      --space-xs: 8px;
+      --space-sm: 16px;
+      --space-md: 24px;
+      --space-lg: 40px;
+      --space-xl: 64px;
+
+      --font-display: 'Montserrat', system-ui, sans-serif;
+      --font-body: 'Open Sans', system-ui, sans-serif;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    body {
+      background-color: var(--surface);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 24px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-lg) var(--space-md);
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background-color: var(--surface-container-lowest);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--radius-card);
+      padding: var(--space-lg);
+    }
+
+    .brand {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 16px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--on-surface-variant);
+      margin: 0 0 var(--space-md) 0;
+    }
+
+    .title {
+      font-family: var(--font-display);
+      font-size: 32px;
+      font-weight: 600;
+      line-height: 40px;
+      margin: 0 0 var(--space-xs) 0;
+      color: var(--on-surface);
+    }
+
+    .subtitle {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 24px;
+      color: var(--on-surface-variant);
+      margin: 0 0 var(--space-lg) 0;
+    }
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .label {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 16px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--on-surface-variant);
+    }
+
+    .input {
+      appearance: none;
+      width: 100%;
+      padding: 12px 14px;
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 24px;
+      color: var(--on-surface);
+      background-color: var(--surface-container-lowest);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--radius-input);
+      transition: border-color 120ms ease, background-color 120ms ease;
+    }
+
+    .input::placeholder {
+      color: var(--outline);
+    }
+
+    .input:hover {
+      background-color: var(--surface-container-low);
+    }
+
+    .input:focus {
+      outline: none;
+      border-color: var(--on-surface);
+      background-color: var(--surface-container-lowest);
+    }
+
+    .input[aria-invalid="true"] {
+      border-color: var(--error);
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      margin-top: calc(-1 * var(--space-xs));
+    }
+
+    .checkbox {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--on-surface-variant);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .checkbox input {
+      width: 16px;
+      height: 16px;
+      margin: 0;
+      accent-color: var(--primary-container);
+    }
+
+    .link {
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--on-surface);
+      text-decoration: none;
+      border-bottom: 1px solid var(--outline-variant);
+      padding-bottom: 1px;
+      transition: border-color 120ms ease;
+    }
+
+    .link:hover {
+      border-color: var(--on-surface);
+    }
+
+    .button {
+      appearance: none;
+      width: 100%;
+      padding: 14px 16px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 20px;
+      color: var(--on-primary);
+      background-color: var(--primary-container);
+      border: 1px solid var(--primary-container);
+      border-radius: var(--radius-input);
+      cursor: pointer;
+      transition: background-color 120ms ease, border-color 120ms ease;
+    }
+
+    .button:hover {
+      background-color: var(--primary-container-hover);
+      border-color: var(--primary-container-hover);
+    }
+
+    .button:focus-visible {
+      outline: 2px solid var(--on-surface);
+      outline-offset: 2px;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      margin: var(--space-md) 0;
+      color: var(--on-surface-variant);
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 16px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background-color: var(--outline-variant);
+    }
+
+    .button-ghost {
+      appearance: none;
+      width: 100%;
+      padding: 12px 16px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 20px;
+      color: var(--on-surface);
+      background-color: transparent;
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--radius-input);
+      cursor: pointer;
+      transition: background-color 120ms ease, border-color 120ms ease;
+    }
+
+    .button-ghost:hover {
+      background-color: var(--surface-container-low);
+    }
+
+    .footer {
+      margin-top: var(--space-lg);
+      text-align: center;
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--on-surface-variant);
+    }
+
+    .footer a {
+      color: var(--on-surface);
+      text-decoration: none;
+      border-bottom: 1px solid var(--outline-variant);
+      padding-bottom: 1px;
+    }
+
+    .footer a:hover {
+      border-color: var(--on-surface);
+    }
+
+    @media (max-width: 600px) {
+      .page {
+        padding: var(--space-md) 20px;
+      }
+
+      .card {
+        padding: var(--space-md);
+        border: none;
+        background-color: transparent;
+      }
+
+      .title {
+        font-size: 24px;
+        line-height: 32px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="card" aria-labelledby="signin-title">
+      <p class="brand">RainCloud</p>
+      <h1 class="title" id="signin-title">Welcome back</h1>
+      <p class="subtitle">Sign in to continue your quiet, intentional rhythm.</p>
+
+      <form class="form" action="home.html" method="get" novalidate>
+        <div class="field">
+          <label class="label" for="email">Email</label>
+          <input class="input" type="email" id="email" name="email" autocomplete="email" placeholder="you@example.com" required />
+        </div>
+
+        <div class="field">
+          <label class="label" for="password">Password</label>
+          <input class="input" type="password" id="password" name="password" autocomplete="current-password" placeholder="Enter your password" required />
+        </div>
+
+        <div class="row">
+          <label class="checkbox">
+            <input type="checkbox" name="remember" />
+            Keep me signed in
+          </label>
+          <a class="link" href="#">Forgot password?</a>
+        </div>
+
+        <button class="button" type="submit">Sign in</button>
+      </form>
+
+      <div class="divider" role="separator">or</div>
+
+      <button class="button-ghost" type="button" onclick="window.location.href='home.html'">Continue with Google</button>
+
+      <p class="footer">
+        New here? <a href="#">Create an account</a>
+      </p>
+    </section>
+  </main>
+</body>
+</html>
