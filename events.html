@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Events — RainCloud</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      /* design.md tokens */
+      --surface: #faf9f7;
+      --surface-container-lowest: #ffffff;
+      --surface-container-low: #f4f3f1;
+      --surface-container: #efeeec;
+      --on-surface: #1a1c1b;
+      --on-surface-variant: #424845;
+      --outline: #727875;
+      --outline-variant: #c2c8c4;
+      --primary-container: #F16F26;
+      --primary-container-hover: #d96221;
+      --on-primary: #ffffff;
+      --error: #ba1a1a;
+      --success: #22c55e;
+
+      /* Figma-source colors (preserved for fidelity) — canonical app shell, matches dashboard.html */
+      --sidebar-bg: #1a1a1a;
+      --sidebar-bg-card: #232323;
+      --sidebar-fg: #ffffff;
+      --sidebar-fg-muted: rgba(255, 255, 255, 0.65);
+      --sidebar-fg-dim: rgba(255, 255, 255, 0.35);
+      --sidebar-border: rgba(255, 255, 255, 0.08);
+      --sidebar-active-bg: rgba(255, 255, 255, 0.06);
+      --content-bg: #f5f5f5;
+      --text-strong: #111827;
+      --text-base: #171717;
+      --text-muted: #4b5563;
+      --text-subtle: #6b7280;
+      --text-faint: #9ca3af;
+      --hairline: #f3f4f6;
+      --hairline-strong: #e5e7eb;
+      --chip-bg: #fff3ec;
+      --chip-fg: #B54100;
+
+      --radius-input: 0.25rem;
+      --radius-card: 0.5rem;
+      --radius-pill: 9999px;
+      --radius-panel: 24px;
+      --radius-shell: 32px;
+      --radius-shell-lg: 40px;
+
+      --space-xs: 8px;
+      --space-sm: 16px;
+      --space-md: 24px;
+      --space-lg: 40px;
+      --space-xl: 64px;
+
+      --font-display: 'Montserrat', system-ui, sans-serif;
+      --font-body: 'Open Sans', system-ui, sans-serif;
+
+      --sidebar-w: 240px;
+    }
+
+    *,
+    *::before,
+    *::after { box-sizing: border-box; }
+
+    html, body { margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background-color: var(--sidebar-bg);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 20px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ---------- App shell ---------- */
+    .app {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) 1fr;
+      min-height: 100vh;
+      max-width: 1500px;
+      margin: 0 auto;
+    }
+
+    /* ---------- Sidebar (canonical app shell) ---------- */
+    .sidebar {
+      background-color: var(--sidebar-bg);
+      color: var(--sidebar-fg);
+      padding: var(--space-lg) 24px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 56px;
+      position: relative;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-family: var(--font-display);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      line-height: 1;
+      padding: 0 8px;
+      text-decoration: none;
+    }
+    .brand .brand-rain { font-size: 22px; color: #ffffff; }
+    .brand .brand-rain .brand-cloud { color: rgba(255, 255, 255, 0.3); letter-spacing: 0.15em; }
+    .brand .brand-ukraina {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 4px;
+      font-size: 18px;
+      letter-spacing: 0.2em;
+      margin-top: 2px;
+    }
+    .brand .brand-ukraina sup { font-size: 7px; letter-spacing: 0; color: rgba(255, 255, 255, 0.5); }
+
+    .nav { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 12px;
+      border-radius: 10px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--sidebar-fg-muted);
+      text-decoration: none;
+      cursor: pointer;
+      position: relative;
+      transition: color 120ms ease, background-color 120ms ease;
+    }
+    .nav-item svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.6;
+    }
+    .nav-item:hover { color: #fff; }
+    .nav-item.active { background-color: var(--sidebar-active-bg); color: #ffffff; }
+    .nav-item.active::before {
+      content: '';
+      position: absolute;
+      left: -24px;
+      top: 8px;
+      bottom: 8px;
+      width: 4px;
+      background-color: var(--primary-container);
+      border-top-right-radius: var(--radius-pill);
+      border-bottom-right-radius: var(--radius-pill);
+    }
+
+    /* Storm AI Assistant card */
+    .storm-card {
+      position: relative;
+      border: 1px solid var(--sidebar-border);
+      border-radius: 24px;
+      padding: 22px 16px;
+      text-align: center;
+      background: linear-gradient(160deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0) 100%);
+      overflow: hidden;
+      text-decoration: none;
+      display: block;
+    }
+    .storm-card::before {
+      content: '';
+      position: absolute;
+      left: -32px;
+      top: -32px;
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: rgba(241, 111, 38, 0.22);
+      filter: blur(18px);
+    }
+    .storm-card-icon {
+      position: relative;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-container);
+      margin-bottom: 12px;
+    }
+    .storm-card-icon svg { width: 20px; height: 20px; fill: currentColor; }
+    .storm-card-title {
+      position: relative;
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: #ffffff;
+    }
+    .storm-card-sub {
+      position: relative;
+      margin-top: 2px;
+      font-family: var(--font-display);
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      color: var(--sidebar-fg-dim);
+    }
+
+    /* ---------- Main content shell ---------- */
+    .main-shell { padding: 8px 8px 8px 0; min-width: 0; }
+    .main-content {
+      background-color: var(--content-bg);
+      border-top-left-radius: var(--radius-shell-lg);
+      border-bottom-left-radius: var(--radius-shell-lg);
+      padding: 32px;
+      min-height: calc(100vh - 16px);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ---------- Header ---------- */
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      padding-bottom: 28px;
+    }
+    .page-heading { display: flex; flex-direction: column; gap: 6px; }
+    .page-eyebrow {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+    .page-title {
+      font-family: var(--font-display);
+      font-size: 36px;
+      font-weight: 600;
+      line-height: 40px;
+      letter-spacing: -0.025em;
+      color: var(--text-base);
+      margin: 0;
+      text-transform: uppercase;
+    }
+    .header-actions { display: flex; align-items: center; gap: var(--space-sm); }
+    .stats-pills { display: flex; gap: 10px; }
+    .stat-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background-color: #ffffff;
+      border: 1px solid rgba(243, 244, 246, 0.5);
+      border-radius: var(--radius-pill);
+      padding: 9px 16px;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    }
+    .stat-pill .stat-icon { width: 14px; height: 14px; color: var(--primary-container); flex-shrink: 0; }
+    .stat-pill .stat-value { font-family: var(--font-body); font-size: 14px; font-weight: 600; color: var(--text-base); }
+    .stat-pill .stat-label {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    .action-icons { display: flex; gap: 10px; align-items: center; }
+    .icon-button {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background-color: #ffffff;
+      border: 1px solid rgba(243, 244, 246, 0.5);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+      color: var(--text-base);
+      position: relative;
+      transition: background-color 120ms ease;
+    }
+    .icon-button:hover { background-color: var(--surface-container-low); }
+    .icon-button .icon { width: 18px; height: 18px; }
+    .icon-button .notification-dot {
+      position: absolute;
+      top: 11px;
+      right: 11px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--primary-container);
+      border: 2px solid #ffffff;
+    }
+    .avatar-button {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background-color: var(--text-base);
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 6px;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* ---------- Toolbar: segmented tabs + search + host ---------- */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      flex-wrap: wrap;
+      padding-bottom: var(--space-md);
+    }
+    .segmented {
+      display: inline-flex;
+      gap: 4px;
+      background-color: #ffffff;
+      border: 1px solid var(--hairline-strong);
+      border-radius: var(--radius-pill);
+      padding: 5px;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    }
+    .segmented button {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border: none;
+      background: transparent;
+      border-radius: var(--radius-pill);
+      padding: 9px 16px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      color: var(--text-subtle);
+      cursor: pointer;
+      transition: color 120ms ease, background-color 120ms ease;
+    }
+    .segmented button:hover { color: var(--text-base); }
+    .segmented button.active { background-color: var(--text-base); color: #ffffff; }
+    .segmented .count {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 1px 7px;
+      border-radius: var(--radius-pill);
+      background-color: var(--surface-container-low);
+      color: var(--text-subtle);
+    }
+    .segmented button.active .count { background-color: rgba(255, 255, 255, 0.18); color: #ffffff; }
+
+    .toolbar-right { display: flex; align-items: center; gap: 12px; }
+    .search-input {
+      width: 280px;
+      max-width: 100%;
+      background-color: #ffffff;
+      border: 1px solid var(--hairline-strong);
+      border-radius: var(--radius-pill);
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      height: 44px;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+      transition: box-shadow 120ms ease, border-color 120ms ease;
+    }
+    .search-input:focus-within {
+      border-color: var(--primary-container);
+      box-shadow: 0 0 0 3px rgba(241, 111, 38, 0.18);
+    }
+    .search-input .icon { width: 18px; height: 18px; color: var(--text-subtle); flex-shrink: 0; }
+    .search-input input {
+      flex: 1;
+      min-width: 0;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--text-base);
+    }
+    .search-input input::placeholder { color: var(--text-faint); }
+
+    .btn-host {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      height: 44px;
+      padding: 0 20px;
+      border: none;
+      border-radius: var(--radius-pill);
+      background-color: var(--primary-container);
+      color: var(--on-primary);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(241, 111, 38, 0.3);
+      transition: background-color 120ms ease, transform 120ms ease;
+    }
+    .btn-host:hover { background-color: var(--primary-container-hover); }
+    .btn-host:active { transform: translateY(1px); }
+    .btn-host .icon { width: 18px; height: 18px; }
+
+    /* ---------- Main layout: events + agenda rail ---------- */
+    .events-layout {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 28px;
+      flex: 1;
+      min-height: 0;
+      align-items: start;
+    }
+    .events-main { display: flex; flex-direction: column; gap: var(--space-md); min-width: 0; }
+
+    /* ---------- Featured event hero ---------- */
+    .featured {
+      position: relative;
+      border-radius: var(--radius-shell);
+      overflow: hidden;
+      min-height: 320px;
+      display: flex;
+      align-items: flex-end;
+      color: #ffffff;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    }
+    .featured img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .featured::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(20, 18, 14, 0.05) 0%, rgba(20, 18, 14, 0.35) 45%, rgba(20, 18, 14, 0.88) 100%);
+    }
+    .featured-body { position: relative; z-index: 1; padding: 32px; width: 100%; }
+    .featured-tags { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .tag-accent { background-color: var(--primary-container); color: #ffffff; }
+    .tag-glass {
+      background-color: rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    .tag-glass .icon { width: 13px; height: 13px; }
+    .featured-title {
+      font-family: var(--font-display);
+      font-size: 30px;
+      font-weight: 600;
+      line-height: 36px;
+      letter-spacing: -0.02em;
+      margin: 0 0 10px;
+      max-width: 600px;
+    }
+    .featured-desc {
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 23px;
+      color: rgba(255, 255, 255, 0.82);
+      max-width: 560px;
+      margin: 0 0 20px;
+    }
+    .featured-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      flex-wrap: wrap;
+    }
+    .featured-meta { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+    .meta-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.9);
+    }
+    .meta-item .icon { width: 16px; height: 16px; opacity: 0.85; }
+    .featured-actions { display: flex; align-items: center; gap: 10px; }
+    .btn-register {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 44px;
+      padding: 0 22px;
+      border: none;
+      border-radius: var(--radius-pill);
+      background-color: var(--primary-container);
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 120ms ease, transform 120ms ease;
+    }
+    .btn-register:hover { background-color: var(--primary-container-hover); }
+    .btn-register:active { transform: translateY(1px); }
+    .btn-register .icon { width: 17px; height: 17px; }
+    .btn-ghost-glass {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 44px;
+      width: 44px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: #ffffff;
+      cursor: pointer;
+      transition: background-color 120ms ease;
+    }
+    .btn-ghost-glass:hover { background-color: rgba(255, 255, 255, 0.24); }
+    .btn-ghost-glass .icon { width: 18px; height: 18px; }
+
+    /* ---------- Section header ---------- */
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text-strong);
+      margin: 0;
+    }
+    .section-link {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary-container);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .section-link .icon { width: 14px; height: 14px; }
+
+    /* ---------- Event card grid ---------- */
+    .event-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .event-card {
+      background-color: #ffffff;
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius-panel);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+      transition: box-shadow 160ms ease, transform 160ms ease;
+    }
+    .event-card:hover { box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07); transform: translateY(-2px); }
+
+    .event-banner { position: relative; height: 156px; overflow: hidden; }
+    .event-banner img { width: 100%; height: 100%; object-fit: cover; }
+    .date-chip {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background-color: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border-radius: 12px;
+      padding: 7px 11px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+      line-height: 1;
+    }
+    .date-chip .date-month {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--primary-container);
+    }
+    .date-chip .date-day {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-base);
+      margin-top: 2px;
+    }
+    .banner-cat {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      padding: 5px 11px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      background-color: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      color: #ffffff;
+    }
+
+    .event-body { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+    .event-name {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 600;
+      line-height: 23px;
+      letter-spacing: -0.01em;
+      color: var(--text-strong);
+      margin: 0;
+    }
+    .event-meta { display: flex; flex-direction: column; gap: 7px; }
+    .event-meta .meta-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+    .event-meta .meta-row .icon { width: 15px; height: 15px; color: var(--text-subtle); flex-shrink: 0; }
+
+    .event-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: auto;
+      padding-top: 14px;
+      border-top: 1px solid var(--hairline);
+    }
+    .attendees { display: flex; align-items: center; gap: 10px; }
+    .avatar-stack { display: inline-flex; }
+    .avatar-stack .av {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid #ffffff;
+      margin-left: -8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 10px;
+      font-weight: 600;
+      color: #ffffff;
+    }
+    .avatar-stack .av:first-child { margin-left: 0; }
+    .av.tone-1 { background: linear-gradient(135deg, #c2a18a, #8b6a4f); }
+    .av.tone-2 { background: linear-gradient(135deg, #6b7a8f, #3e4c61); }
+    .av.tone-3 { background: linear-gradient(135deg, #c69b9b, #8b6f6f); }
+    .av.tone-4 { background: linear-gradient(135deg, #5b7a6a, #3a5246); }
+    .av.more { background-color: var(--surface-container); color: var(--text-muted); }
+    .attendees .count {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-subtle);
+    }
+
+    .btn-card {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 36px;
+      padding: 0 16px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 120ms ease, color 120ms ease;
+    }
+    .btn-card.solid {
+      background-color: var(--primary-container);
+      color: #ffffff;
+      border: none;
+    }
+    .btn-card.solid:hover { background-color: var(--primary-container-hover); }
+    .btn-card.outline {
+      background-color: #ffffff;
+      color: var(--text-base);
+      border: 1px solid var(--hairline-strong);
+    }
+    .btn-card.outline:hover { background-color: var(--surface-container-low); }
+    .btn-card.registered {
+      background-color: var(--chip-bg);
+      color: var(--chip-fg);
+      border: 1px solid #ffd9c2;
+    }
+    .btn-card.registered .icon { width: 15px; height: 15px; }
+    .btn-card .icon { width: 15px; height: 15px; }
+
+    /* ---------- Agenda rail ---------- */
+    .rail {
+      position: sticky;
+      top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .rail-card {
+      background-color: #ffffff;
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius-panel);
+      padding: 22px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    }
+    .rail-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .rail-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-strong);
+      margin: 0;
+    }
+    .cal-nav { display: inline-flex; gap: 4px; }
+    .cal-nav button {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid var(--hairline-strong);
+      background: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-subtle);
+      cursor: pointer;
+      transition: background-color 120ms ease;
+    }
+    .cal-nav button:hover { background-color: var(--surface-container-low); }
+    .cal-nav .icon { width: 14px; height: 14px; }
+
+    /* mini calendar */
+    .calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+    .calendar .dow {
+      text-align: center;
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--text-faint);
+      padding-bottom: 6px;
+      text-transform: uppercase;
+    }
+    .calendar .day {
+      aspect-ratio: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-base);
+      border-radius: 50%;
+      cursor: pointer;
+      position: relative;
+      transition: background-color 120ms ease;
+    }
+    .calendar .day:hover { background-color: var(--surface-container-low); }
+    .calendar .day.muted { color: var(--text-faint); }
+    .calendar .day.has-event::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background-color: var(--primary-container);
+    }
+    .calendar .day.today { background-color: var(--text-base); color: #ffffff; font-weight: 600; }
+    .calendar .day.today.has-event::after { background-color: #ffffff; }
+
+    /* agenda list */
+    .agenda-list { display: flex; flex-direction: column; gap: 4px; }
+    .agenda-item {
+      display: flex;
+      gap: 14px;
+      padding: 12px 8px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background-color 120ms ease;
+    }
+    .agenda-item:hover { background-color: var(--surface-container-low); }
+    .agenda-time {
+      flex-shrink: 0;
+      width: 46px;
+      text-align: right;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-base);
+      line-height: 18px;
+    }
+    .agenda-time span {
+      display: block;
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--text-faint);
+      text-transform: uppercase;
+    }
+    .agenda-divider {
+      flex-shrink: 0;
+      width: 3px;
+      border-radius: 3px;
+      background-color: var(--primary-container);
+    }
+    .agenda-divider.muted { background-color: var(--outline-variant); }
+    .agenda-info { min-width: 0; }
+    .agenda-name {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-strong);
+      margin: 0 0 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .agenda-loc {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--text-subtle);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .agenda-loc .icon { width: 12px; height: 12px; flex-shrink: 0; }
+
+    .rail-cta {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 4px;
+      height: 40px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--hairline-strong);
+      background: #ffffff;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-base);
+      cursor: pointer;
+      transition: background-color 120ms ease;
+    }
+    .rail-cta:hover { background-color: var(--surface-container-low); }
+    .rail-cta .icon { width: 15px; height: 15px; }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 1280px) {
+      .events-layout { grid-template-columns: 1fr; }
+      .rail { position: static; flex-direction: row; flex-wrap: wrap; }
+      .rail-card { flex: 1; min-width: 280px; }
+    }
+    @media (max-width: 1080px) {
+      .app { grid-template-columns: 72px 1fr; }
+      .sidebar { padding: 24px 12px; gap: 32px; }
+      .brand, .nav-item span, .storm-card-title, .storm-card-sub { display: none; }
+      .nav-item { justify-content: center; padding: 12px 0; }
+      .nav-item.active::before { left: -12px; }
+      .storm-card { padding: 12px; }
+      .stats-pills { display: none; }
+      .page-title { font-size: 28px; line-height: 32px; }
+      .event-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .main-shell { padding: 0; }
+      .main-content { border-radius: 0; padding: 20px; }
+      .header-actions { gap: 8px; }
+      .toolbar { gap: 12px; }
+      .toolbar-right { width: 100%; }
+      .search-input { flex: 1; width: auto; }
+      .segmented { overflow-x: auto; max-width: 100%; }
+      .featured-title { font-size: 24px; line-height: 30px; }
+      .featured-body { padding: 22px; }
+      .rail { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- ============== Sidebar ============== -->
+    <aside class="sidebar" aria-label="Primary navigation">
+      <a class="brand" href="home.html" aria-label="RainCloud Ukraina">
+        <span class="brand-rain">RAIN<span class="brand-cloud">CLOUD</span></span>
+        <span class="brand-ukraina">UKRAINA<sup>TM</sup></span>
+      </a>
+
+      <nav class="nav">
+        <a class="nav-item" href="home.html">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+          <span>Feed</span>
+        </a>
+        <a class="nav-item" href="dashboard.html">
+          <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c.7-3.5 3.4-5.5 6.5-5.5s5.8 2 6.5 5.5"/><circle cx="17" cy="6.5" r="2.4" stroke-linecap="round"/><path d="M14.5 14c2.5 0 4.7 1.3 5.5 4"/></svg>
+          <span>Network</span>
+        </a>
+        <a class="nav-item" href="#">
+          <svg viewBox="0 0 24 24"><path d="M3 21V8l4-4h6l4 4v13"/><path d="M3 21h18"/><path d="M21 21V12h-4"/><path d="M9 21v-5h4v5"/></svg>
+          <span>Companies</span>
+        </a>
+        <a class="nav-item" href="#">
+          <svg viewBox="0 0 24 24"><path d="M3 7h18l-2 13H5L3 7Z"/><path d="M8 7V5a4 4 0 0 1 8 0v2"/></svg>
+          <span>Trade Show</span>
+        </a>
+        <a class="nav-item" href="#">
+          <svg viewBox="0 0 24 24"><path d="M4 21V10l8-6 8 6v11"/><path d="M9 21v-7h6v7"/></svg>
+          <span>Pavilions</span>
+        </a>
+        <a class="nav-item" href="#">
+          <svg viewBox="0 0 24 24"><path d="M12 3v3"/><circle cx="12" cy="12" r="8"/><path d="M12 8a4 4 0 0 1 4 4"/></svg>
+          <span>Opportunities</span>
+        </a>
+        <a class="nav-item" href="#">
+          <svg viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10.5L9 15v3h6v-3l1-1.5A6 6 0 0 0 12 3Z"/></svg>
+          <span>Insights</span>
+        </a>
+        <a class="nav-item active" href="events.html" aria-current="page">
+          <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M8 3v4M16 3v4"/></svg>
+          <span>Events</span>
+        </a>
+      </nav>
+
+      <a class="storm-card" href="pricing.html">
+        <div class="storm-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>
+        </div>
+        <div class="storm-card-title">STORM AI</div>
+        <div class="storm-card-sub">ASSISTANT</div>
+      </a>
+    </aside>
+
+    <!-- ============== Main ============== -->
+    <div class="main-shell">
+      <main class="main-content">
+        <header class="page-header">
+          <div class="page-heading">
+            <span class="page-eyebrow">Connect &amp; rebuild together</span>
+            <h1 class="page-title">Events</h1>
+          </div>
+          <div class="header-actions">
+            <div class="stats-pills">
+              <div class="stat-pill">
+                <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M8 3v4M16 3v4"/></svg>
+                <span class="stat-value">28</span>
+                <span class="stat-label">Upcoming</span>
+              </div>
+              <div class="stat-pill">
+                <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                <span class="stat-value">4</span>
+                <span class="stat-label">Registered</span>
+              </div>
+            </div>
+            <div class="action-icons">
+              <button class="icon-button" aria-label="Search">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              </button>
+              <button class="icon-button" aria-label="Notifications">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                <span class="notification-dot"></span>
+              </button>
+              <a href="index.html" class="avatar-button" title="Sign out" aria-label="Sign out">VB</a>
+            </div>
+          </div>
+        </header>
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+          <div class="segmented" role="tablist" aria-label="Filter events">
+            <button class="active" role="tab" aria-selected="true">Upcoming <span class="count">28</span></button>
+            <button role="tab" aria-selected="false">This week <span class="count">6</span></button>
+            <button role="tab" aria-selected="false">Registered <span class="count">4</span></button>
+            <button role="tab" aria-selected="false">Past</button>
+          </div>
+          <div class="toolbar-right">
+            <label class="search-input">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              <input type="search" placeholder="Search events, topics, hosts..." aria-label="Search events" />
+            </label>
+            <button class="btn-host">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+              Host event
+            </button>
+          </div>
+        </div>
+
+        <!-- Layout: events + agenda -->
+        <section class="events-layout">
+          <div class="events-main">
+            <!-- Featured -->
+            <article class="featured">
+              <img src="assets/imgSolarPanels.jpg" alt="" />
+              <div class="featured-body">
+                <div class="featured-tags">
+                  <span class="tag tag-accent">Featured</span>
+                  <span class="tag tag-glass">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                    In 12 days
+                  </span>
+                  <span class="tag tag-glass">Energy &amp; Infrastructure</span>
+                </div>
+                <h2 class="featured-title">Ukraine Recovery &amp; Renewable Energy Forum 2026</h2>
+                <p class="featured-desc">Two days connecting investors, ministries, and clean-energy operators driving the reconstruction of Ukraine's power grid. Keynotes, pavilion tours, and curated 1:1 matchmaking.</p>
+                <div class="featured-foot">
+                  <div class="featured-meta">
+                    <span class="meta-item">
+                      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M8 3v4M16 3v4"/></svg>
+                      Jun 23–24, 2026
+                    </span>
+                    <span class="meta-item">
+                      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                      Kyiv Expo Center &amp; Online
+                    </span>
+                    <span class="meta-item">
+                      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.7-3.5 3.4-5.5 6.5-5.5s5.8 2 6.5 5.5"/><circle cx="17" cy="6.5" r="2.5"/></svg>
+                      1,240 attending
+                    </span>
+                  </div>
+                  <div class="featured-actions">
+                    <button class="btn-register">
+                      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                      Register free
+                    </button>
+                    <button class="btn-ghost-glass" aria-label="Save event">
+                      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Section head -->
+            <div class="section-head">
+              <h3 class="section-title">Upcoming events</h3>
+              <a class="section-link">
+                View calendar
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+              </a>
+            </div>
+
+            <!-- Card grid -->
+            <div class="event-grid">
+              <!-- Card 1 -->
+              <article class="event-card">
+                <div class="event-banner">
+                  <img src="assets/imgPanel.jpg" alt="" />
+                  <div class="date-chip"><div class="date-month">Jun</div><div class="date-day">18</div></div>
+                  <span class="banner-cat">Webinar</span>
+                </div>
+                <div class="event-body">
+                  <h4 class="event-name">Grid Resilience: Decentralised Solar After Conflict</h4>
+                  <div class="event-meta">
+                    <div class="meta-row">
+                      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                      14:00 – 15:30 EET
+                    </div>
+                    <div class="meta-row">
+                      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg>
+                      Online · Zoom
+                    </div>
+                  </div>
+                  <div class="event-foot">
+                    <div class="attendees">
+                      <div class="avatar-stack">
+                        <span class="av tone-1">OK</span>
+                        <span class="av tone-2">TJ</span>
+                        <span class="av tone-4">AM</span>
+                        <span class="av more">+86</span>
+                      </div>
+                    </div>
+                    <button class="btn-card solid">Register</button>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Card 2 -->
+              <article class="event-card">
+                <div class="event-banner">
+                  <img src="assets/imgIndustry.png" alt="" />
+                  <div class="date-chip"><div class="date-month">Jun</div><div class="date-day">21</div></div>
+                  <span class="banner-cat">Trade Expo</span>
+                </div>
+                <div class="event-body">
+                  <h4 class="event-name">EU–Ukraine Industrial Supply Chain Expo</h4>
+                  <div class="event-meta">
+                    <div class="meta-row">
+                      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                      09:00 – 18:00 CET
+                    </div>
+                    <div class="meta-row">
+                      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                      Warsaw, Poland
+                    </div>
+                  </div>
+                  <div class="event-foot">
+                    <div class="attendees">
+                      <div class="avatar-stack">
+                        <span class="av tone-3">SJ</span>
+                        <span class="av tone-2">MS</span>
+                        <span class="av more">+312</span>
+                      </div>
+                    </div>
+                    <button class="btn-card outline">Details</button>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Card 3 (registered state) -->
+              <article class="event-card">
+                <div class="event-banner">
+                  <img src="assets/imgPanel1.jpg" alt="" />
+                  <div class="date-chip"><div class="date-month">Jun</div><div class="date-day">25</div></div>
+                  <span class="banner-cat">Roundtable</span>
+                </div>
+                <div class="event-body">
+                  <h4 class="event-name">Investor Roundtable: Financing Green Reconstruction</h4>
+                  <div class="event-meta">
+                    <div class="meta-row">
+                      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                      11:00 – 13:00 EET
+                    </div>
+                    <div class="meta-row">
+                      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                      Lviv, Ukraine
+                    </div>
+                  </div>
+                  <div class="event-foot">
+                    <div class="attendees">
+                      <div class="avatar-stack">
+                        <span class="av tone-1">DV</span>
+                        <span class="av tone-4">AM</span>
+                        <span class="av more">+41</span>
+                      </div>
+                    </div>
+                    <button class="btn-card registered">
+                      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                      Registered
+                    </button>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Card 4 -->
+              <article class="event-card">
+                <div class="event-banner">
+                  <img src="assets/imgSolarPanels1.jpg" alt="" />
+                  <div class="date-chip"><div class="date-month">Jul</div><div class="date-day">02</div></div>
+                  <span class="banner-cat">Workshop</span>
+                </div>
+                <div class="event-body">
+                  <h4 class="event-name">Hands-on: EU Grant Applications for Energy SMEs</h4>
+                  <div class="event-meta">
+                    <div class="meta-row">
+                      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                      10:00 – 16:00 CET
+                    </div>
+                    <div class="meta-row">
+                      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                      Berlin, Germany
+                    </div>
+                  </div>
+                  <div class="event-foot">
+                    <div class="attendees">
+                      <div class="avatar-stack">
+                        <span class="av tone-2">TJ</span>
+                        <span class="av tone-3">SJ</span>
+                        <span class="av more">+28</span>
+                      </div>
+                    </div>
+                    <button class="btn-card solid">Register</button>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <!-- Agenda rail -->
+          <aside class="rail" aria-label="Your agenda">
+            <div class="rail-card">
+              <div class="rail-head">
+                <h3 class="rail-title">June 2026</h3>
+                <div class="cal-nav">
+                  <button aria-label="Previous month">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                  </button>
+                  <button aria-label="Next month">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                  </button>
+                </div>
+              </div>
+              <div class="calendar">
+                <span class="dow">M</span><span class="dow">T</span><span class="dow">W</span><span class="dow">T</span><span class="dow">F</span><span class="dow">S</span><span class="dow">S</span>
+                <span class="day muted">26</span><span class="day muted">27</span><span class="day muted">28</span><span class="day muted">29</span><span class="day muted">30</span><span class="day muted">31</span><span class="day">1</span>
+                <span class="day">2</span><span class="day">3</span><span class="day">4</span><span class="day">5</span><span class="day">6</span><span class="day">7</span><span class="day">8</span>
+                <span class="day today has-event">9</span><span class="day">10</span><span class="day">11</span><span class="day">12</span><span class="day">13</span><span class="day">14</span><span class="day">15</span>
+                <span class="day">16</span><span class="day">17</span><span class="day has-event">18</span><span class="day">19</span><span class="day">20</span><span class="day has-event">21</span><span class="day">22</span>
+                <span class="day has-event">23</span><span class="day has-event">24</span><span class="day has-event">25</span><span class="day">26</span><span class="day">27</span><span class="day">28</span><span class="day">29</span>
+                <span class="day">30</span><span class="day muted">1</span><span class="day muted">2</span><span class="day muted">3</span><span class="day muted">4</span><span class="day muted">5</span><span class="day muted">6</span>
+              </div>
+            </div>
+
+            <div class="rail-card">
+              <div class="rail-head">
+                <h3 class="rail-title">Your agenda</h3>
+                <a class="section-link">All</a>
+              </div>
+              <div class="agenda-list">
+                <div class="agenda-item">
+                  <div class="agenda-time">11:00<span>Jun 25</span></div>
+                  <div class="agenda-divider"></div>
+                  <div class="agenda-info">
+                    <p class="agenda-name">Investor Roundtable</p>
+                    <span class="agenda-loc">
+                      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                      Lviv, Ukraine
+                    </span>
+                  </div>
+                </div>
+                <div class="agenda-item">
+                  <div class="agenda-time">09:00<span>Jun 23</span></div>
+                  <div class="agenda-divider"></div>
+                  <div class="agenda-info">
+                    <p class="agenda-name">Recovery Forum 2026</p>
+                    <span class="agenda-loc">
+                      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                      Kyiv Expo Center
+                    </span>
+                  </div>
+                </div>
+                <div class="agenda-item">
+                  <div class="agenda-time">14:00<span>Jun 18</span></div>
+                  <div class="agenda-divider muted"></div>
+                  <div class="agenda-info">
+                    <p class="agenda-name">Grid Resilience Webinar</p>
+                    <span class="agenda-loc">
+                      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg>
+                      Online · Zoom
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <button class="rail-cta">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+                Sync to calendar
+              </button>
+            </div>
+          </aside>
+        </section>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
