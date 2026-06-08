@@ -23,18 +23,20 @@
       --error: #ba1a1a;
       --success: #22c55e;
 
-      /* Figma-source values not in design.md tokens (preserved for fidelity) */
-      --sidebar-bg: #4b4b4b;
+      /* Figma-source colors (preserved for fidelity) — canonical app shell, matches home.html */
+      --sidebar-bg: #1a1a1a;
+      --sidebar-bg-card: #232323;
       --sidebar-fg: #ffffff;
-      --sidebar-fg-muted: rgba(255, 255, 255, 0.7);
-      --sidebar-active-bg: rgba(255, 255, 255, 0.05);
-      --sidebar-border: rgba(255, 255, 255, 0.1);
+      --sidebar-fg-muted: rgba(255, 255, 255, 0.65);
+      --sidebar-fg-dim: rgba(255, 255, 255, 0.35);
+      --sidebar-border: rgba(255, 255, 255, 0.08);
+      --sidebar-active-bg: rgba(255, 255, 255, 0.06);
       --content-bg: #f5f5f5;
       --text-strong: #111827;
       --text-base: #171717;
       --text-muted: #4b5563;
       --text-subtle: #6b7280;
-      --text-faint: #696969;
+      --text-faint: #9ca3af;
       --hairline: #f3f4f6;
       --hairline-strong: #e5e7eb;
 
@@ -83,153 +85,151 @@
       margin: 0 auto;
     }
 
-    /* ---------- Sidebar ---------- */
+    /* ---------- Sidebar (canonical app shell — matches home.html) ---------- */
     .sidebar {
       background-color: var(--sidebar-bg);
       color: var(--sidebar-fg);
-      padding: var(--space-lg) 32px 32px;
+      padding: var(--space-lg) 24px 24px;
       display: flex;
       flex-direction: column;
-      gap: var(--space-xl);
+      gap: 56px;
       position: relative;
     }
 
-    .brand-mark {
+    .brand {
       display: flex;
       flex-direction: column;
       gap: 4px;
       font-family: var(--font-display);
       font-weight: 600;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.04em;
       line-height: 1;
+      padding: 0 8px;
+      text-decoration: none;
     }
-    .brand-mark .brand-rain { font-size: 28px; }
-    .brand-mark .brand-cloud {
-      font-size: 28px;
-      color: rgba(255, 255, 255, 0.25);
-      letter-spacing: 0.18em;
-    }
-    .brand-mark .brand-ukraina {
+    .brand .brand-rain {
       font-size: 22px;
-      letter-spacing: 0.18em;
-      margin-top: 6px;
+      color: #ffffff;
     }
-    .brand-mark .brand-ukraina sup {
-      font-size: 8px;
-      vertical-align: super;
+    .brand .brand-rain .brand-cloud {
+      color: rgba(255, 255, 255, 0.3);
+      letter-spacing: 0.15em;
+    }
+    .brand .brand-ukraina {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 4px;
+      font-size: 18px;
+      letter-spacing: 0.2em;
+      margin-top: 2px;
+    }
+    .brand .brand-ukraina sup {
+      font-size: 7px;
       letter-spacing: 0;
+      color: rgba(255, 255, 255, 0.5);
     }
 
     .nav {
       display: flex;
       flex-direction: column;
-      gap: var(--space-md);
+      gap: 6px;
       flex: 1;
-      position: relative;
     }
-
     .nav-item {
       display: flex;
       align-items: center;
-      gap: var(--space-sm);
+      gap: 14px;
+      padding: 12px 12px;
+      border-radius: 10px;
       font-family: var(--font-body);
-      font-size: 14px;
-      font-weight: 400;
-      letter-spacing: 0.025em;
-      color: var(--sidebar-fg);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--sidebar-fg-muted);
       text-decoration: none;
-      padding: 4px 0;
-      position: relative;
       cursor: pointer;
+      position: relative;
+      transition: color 120ms ease, background-color 120ms ease;
     }
-
-    .nav-item .nav-icon {
-      width: 20px;
-      height: 20px;
+    .nav-item svg {
+      width: 18px;
+      height: 18px;
       flex-shrink: 0;
-      color: currentColor;
-      opacity: 0.85;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.6;
     }
-
+    .nav-item:hover { color: #fff; }
     .nav-item.active {
-      color: var(--primary-container);
-      font-weight: 600;
+      background-color: var(--sidebar-active-bg);
+      color: #ffffff;
     }
-
     .nav-item.active::before {
       content: '';
       position: absolute;
-      left: -33px;
-      top: -12px;
-      width: 241px;
-      height: 44px;
-      background-color: var(--sidebar-active-bg);
-      z-index: -1;
-    }
-
-    .nav-item.active::after {
-      content: '';
-      position: absolute;
-      left: -32px;
-      top: -12px;
-      width: 6px;
-      height: 44px;
+      left: -24px;
+      top: 8px;
+      bottom: 8px;
+      width: 4px;
       background-color: var(--primary-container);
       border-top-right-radius: var(--radius-pill);
       border-bottom-right-radius: var(--radius-pill);
     }
 
-    .promo-card {
+    /* Storm AI Assistant card */
+    .storm-card {
       position: relative;
       border: 1px solid var(--sidebar-border);
-      border-radius: 32px;
-      padding: 25px;
+      border-radius: 24px;
+      padding: 22px 16px;
       text-align: center;
-      background-image: linear-gradient(137deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 100%);
+      background: linear-gradient(160deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0) 100%);
       overflow: hidden;
+      text-decoration: none;
+      display: block;
     }
-    .promo-card::before {
+    .storm-card::before {
       content: '';
       position: absolute;
-      left: -40px;
-      top: -40px;
-      width: 128px;
-      height: 128px;
-      background-color: rgba(241, 111, 38, 0.2);
-      filter: blur(20px);
+      left: -32px;
+      top: -32px;
+      width: 96px;
+      height: 96px;
       border-radius: 50%;
+      background: rgba(241, 111, 38, 0.22);
+      filter: blur(18px);
     }
-    .promo-icon {
+    .storm-card-icon {
       position: relative;
-      width: 48px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
-      background-color: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      display: flex;
+      background-color: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto;
       color: var(--primary-container);
+      margin-bottom: 12px;
     }
-    .promo-title {
+    .storm-card-icon svg { width: 20px; height: 20px; fill: currentColor; }
+    .storm-card-title {
       position: relative;
-      margin-top: 12px;
       font-family: var(--font-display);
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 500;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--sidebar-fg);
+      letter-spacing: 0.06em;
+      color: #ffffff;
     }
-    .promo-sub {
+    .storm-card-sub {
       position: relative;
       margin-top: 2px;
       font-family: var(--font-display);
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--sidebar-fg-muted);
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      color: var(--sidebar-fg-dim);
     }
 
     /* ---------- Main content shell ---------- */
@@ -272,19 +272,19 @@
     }
     .stats-pills {
       display: flex;
-      gap: 12px;
+      gap: 10px;
     }
     .stat-pill {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       background-color: #ffffff;
       border: 1px solid rgba(243, 244, 246, 0.5);
       border-radius: var(--radius-pill);
-      padding: 9px 17px;
+      padding: 9px 16px;
       box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
     }
-    .stat-pill .stat-icon { width: 16px; height: 16px; color: var(--text-base); flex-shrink: 0; }
+    .stat-pill .stat-icon { width: 14px; height: 14px; color: var(--text-base); flex-shrink: 0; }
     .stat-pill .stat-value {
       font-family: var(--font-body);
       font-size: 14px;
@@ -302,12 +302,12 @@
 
     .action-icons {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       align-items: center;
     }
     .icon-button {
-      width: 48px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       background-color: #ffffff;
       border: 1px solid rgba(243, 244, 246, 0.5);
@@ -321,11 +321,11 @@
       transition: background-color 120ms ease;
     }
     .icon-button:hover { background-color: var(--surface-container-low); }
-    .icon-button .icon { width: 20px; height: 20px; }
+    .icon-button .icon { width: 18px; height: 18px; }
     .icon-button .notification-dot {
       position: absolute;
-      top: 14px;
-      right: 14px;
+      top: 11px;
+      right: 11px;
       width: 8px;
       height: 8px;
       border-radius: 50%;
@@ -333,19 +333,19 @@
       border: 2px solid #ffffff;
     }
     .avatar-button {
-      width: 48px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       background-color: var(--text-base);
       color: #ffffff;
       font-family: var(--font-body);
       font-weight: 600;
-      font-size: 14px;
-      letter-spacing: 0.025em;
+      font-size: 13px;
+      letter-spacing: 0.04em;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      margin-left: 8px;
+      margin-left: 6px;
       border: none;
       cursor: pointer;
     }
@@ -806,12 +806,13 @@
     @media (max-width: 1280px) {
       .directory { grid-template-columns: 320px 1fr; gap: 24px; }
     }
-    @media (max-width: 1024px) {
-      .app { grid-template-columns: 64px 1fr; }
+    @media (max-width: 1080px) {
+      .app { grid-template-columns: 72px 1fr; }
       .sidebar { padding: 24px 12px; gap: 32px; }
-      .brand-mark, .promo-card, .nav-item span:not(.nav-icon) { display: none; }
-      .nav-item.active::before { left: -12px; width: 88px; }
-      .nav-item.active::after { left: -12px; }
+      .brand, .nav-item span, .storm-card-title, .storm-card-sub { display: none; }
+      .nav-item { justify-content: center; padding: 12px 0; }
+      .nav-item.active::before { left: -12px; }
+      .storm-card { padding: 12px; }
       .directory { grid-template-columns: 1fr; }
       .map-panel { height: 480px; }
       .stats-pills { display: none; }
@@ -830,53 +831,53 @@
   <div class="app">
     <!-- ============== Sidebar ============== -->
     <aside class="sidebar" aria-label="Primary navigation">
-      <div class="brand-mark" aria-label="RainCloud Ukraina">
+      <a class="brand" href="home.html" aria-label="RainCloud Ukraina">
         <span class="brand-rain">RAIN<span class="brand-cloud">CLOUD</span></span>
         <span class="brand-ukraina">UKRAINA<sup>TM</sup></span>
-      </div>
+      </a>
 
       <nav class="nav">
         <a class="nav-item" href="home.html">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
-          <span>FEED</span>
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+          <span>Feed</span>
         </a>
         <a class="nav-item active" href="dashboard.html" aria-current="page">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.7-3.5 3.4-5.5 6.5-5.5s5.8 2 6.5 5.5"/><circle cx="17" cy="6.5" r="2.5"/><path d="M14.5 14c2.5 0 4.7 1.3 5.5 4"/></svg>
-          <span>MEMBERS</span>
+          <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c.7-3.5 3.4-5.5 6.5-5.5s5.8 2 6.5 5.5"/><circle cx="17" cy="6.5" r="2.4" stroke-linecap="round"/><path d="M14.5 14c2.5 0 4.7 1.3 5.5 4"/></svg>
+          <span>Network</span>
         </a>
         <a class="nav-item" href="#">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l4-4h6l4 4v13"/><path d="M3 21h18"/><path d="M21 21V12h-4"/><path d="M9 21v-5h4v5"/></svg>
-          <span>COMPANIES</span>
+          <svg viewBox="0 0 24 24"><path d="M3 21V8l4-4h6l4 4v13"/><path d="M3 21h18"/><path d="M21 21V12h-4"/><path d="M9 21v-5h4v5"/></svg>
+          <span>Companies</span>
         </a>
         <a class="nav-item" href="#">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18l-2 13H5L3 7Z"/><path d="M8 7V5a4 4 0 0 1 8 0v2"/></svg>
-          <span>TRADE SHOW</span>
+          <svg viewBox="0 0 24 24"><path d="M3 7h18l-2 13H5L3 7Z"/><path d="M8 7V5a4 4 0 0 1 8 0v2"/></svg>
+          <span>Trade Show</span>
         </a>
         <a class="nav-item" href="#">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V10l8-6 8 6v11"/><path d="M9 21v-7h6v7"/></svg>
-          <span>PAVILIONS</span>
+          <svg viewBox="0 0 24 24"><path d="M4 21V10l8-6 8 6v11"/><path d="M9 21v-7h6v7"/></svg>
+          <span>Pavilions</span>
         </a>
         <a class="nav-item" href="#">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3"/><circle cx="12" cy="12" r="8"/><path d="M12 8a4 4 0 0 1 4 4"/></svg>
-          <span>OPPORTUNITIES</span>
+          <svg viewBox="0 0 24 24"><path d="M12 3v3"/><circle cx="12" cy="12" r="8"/><path d="M12 8a4 4 0 0 1 4 4"/></svg>
+          <span>Opportunities</span>
         </a>
         <a class="nav-item" href="#">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 4 8-8"/><path d="M14 8h6v6"/></svg>
-          <span>INSIGHTS</span>
+          <svg viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10.5L9 15v3h6v-3l1-1.5A6 6 0 0 0 12 3Z"/></svg>
+          <span>Insights</span>
         </a>
         <a class="nav-item" href="#">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M8 3v4M16 3v4"/></svg>
-          <span>EVENTS</span>
+          <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M8 3v4M16 3v4"/></svg>
+          <span>Events</span>
         </a>
       </nav>
 
-      <div class="promo-card">
-        <div class="promo-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>
+      <a class="storm-card" href="pricing.html">
+        <div class="storm-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>
         </div>
-        <div class="promo-title">Storm AI</div>
-        <div class="promo-sub">Assistant</div>
-      </div>
+        <div class="storm-card-title">STORM AI</div>
+        <div class="storm-card-sub">ASSISTANT</div>
+      </a>
     </aside>
 
     <!-- ============== Main ============== -->
