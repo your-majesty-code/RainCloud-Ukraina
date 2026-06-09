@@ -66,10 +66,13 @@
           <section class="storm-hero">
             <h1 class="storm-hero__title">Hello, Mike. What are you looking for today?</h1>
             <p class="storm-hero__sub">You have <span class="hero-pill hero-pill--blue">12 new matches</span>, <span class="hero-pill hero-pill--amber">5 pending requests</span> and <span class="hero-pill hero-pill--purple">3 upcoming events</span>. Let's review them!</p>
-            <div class="hero-search">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-              <input type="search" placeholder="Search by industry, product type, or company..." aria-label="Search" />
-              <span class="hero-search__ask">Ask Storm <span class="key-chip">Tab</span></span>
+            <div class="ss-wrap">
+              <div class="hero-search">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+                <input type="search" placeholder="Search by industry, product type, or company..." aria-label="Search" autocomplete="off" />
+                <span class="hero-search__ask">Ask Storm <span class="key-chip">Tab</span></span>
+              </div>
+              <div class="supersearch" role="dialog" aria-label="Search suggestions"><div class="ss-body"></div></div>
             </div>
             <div class="hero-chips">
               <button class="hero-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 12 0v1"/></svg><span><span class="hero-chip__title">Anna Muller</span><br><span class="hero-chip__sub">Project Director at WeBuild</span></span></button>
@@ -206,5 +209,6 @@
     </div>
   </div>
   <script src="scripts/feed-nav.js" defer></script>
+  <script src="scripts/supersearch.js" defer></script>
 </body>
 </html>
