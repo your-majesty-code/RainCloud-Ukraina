@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Companies & Organisations — RainCloud Ukraina</title>
+  <link rel="stylesheet" href="styles/tokens.css" />
+  <link rel="stylesheet" href="styles/base.css" />
+  <link rel="stylesheet" href="styles/components.css" />
+</head>
+<body>
+  <div class="app-canvas">
+
+    <!-- ============ GLASS HEADER ============ -->
+    <header class="feed-header">
+      <a class="feed-header__brand" href="feeds.html" aria-label="RainCloud Ukraina — home">
+        <img src="assets/feed-logo.png" alt="RainCloud Ukraina" />
+        <span class="feed-header__tagline">Powering global business to build the new Ukraine</span>
+      </a>
+      <span class="feed-header__divider"></span>
+      <span class="feed-header__greeting">Hello, Mike</span>
+      <span class="feed-header__spacer"></span>
+      <div class="stats-pill">
+        <span class="stats-pill__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="stats-pill__value">4,280</span><span class="stats-pill__label">Members</span></span>
+        <span class="stats-pill__sep"></span>
+        <span class="stats-pill__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-3"/><path d="M9 9v.01M9 12v.01M9 15v.01"/></svg><span class="stats-pill__value">1,140</span><span class="stats-pill__label">Companies</span></span>
+        <span class="stats-pill__sep"></span>
+        <span class="stats-pill__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg><span class="stats-pill__value">2,123</span><span class="stats-pill__label">Products</span></span>
+      </div>
+      <div class="feed-header__actions">
+        <button class="feed-icon-btn" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></button>
+        <button class="feed-icon-btn" aria-label="Messages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 9 9 0 0 1-3.9-.9L3 21l1.9-5.6a8.38 8.38 0 0 1-.9-3.9A8.5 8.5 0 0 1 12.5 3 8.38 8.38 0 0 1 21 11.5z"/></svg></button>
+        <button class="feed-icon-btn" aria-label="Notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="feed-icon-btn__dot"></span></button>
+        <button class="feed-icon-btn" aria-label="Storm AI"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></button>
+        <span class="feed-avatar">MK</span>
+      </div>
+    </header>
+
+    <!-- ============ FEED SHELL ============ -->
+    <div class="feed-layout">
+      <aside class="feed-sidebar">
+        <nav class="feed-nav" aria-label="Sections">
+          <a class="feed-nav__row" href="feeds.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Feed</a>
+          <a class="feed-nav__row" href="network.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Network</a>
+          <a class="feed-nav__row is-active" href="companies.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-3"/></svg>Companies &amp; Organisations</a>
+          <a class="feed-nav__row" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Virtual Trade Show</a>
+          <a class="feed-nav__row" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></svg>Business Pavilions</a>
+          <a class="feed-nav__row" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-9M14 17H5M17 3l3 4-3 4M7 13l-3 4 3 4"/></svg>Opportunities</a>
+          <a class="feed-nav__row" href="insights.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg>Thought Leadership</a>
+          <a class="feed-nav__row" href="events.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Events</a>
+          <a class="feed-nav__row" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9h4"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg>News</a>
+        </nav>
+        <div class="feed-sidebar__foot">
+          <button class="feed-nav__row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M14 9l-3 3 3 3"/></svg>Close sidebar</button>
+        </div>
+      </aside>
+
+      <main class="feed-main">
+        <div class="search-page">
+
+          <!-- ===== Search hero ===== -->
+          <section class="search-hero">
+            <h1 class="search-hero__title">Find trusted companies and organisations</h1>
+            <div class="search-row">
+              <div class="search-field">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+                <input type="search" placeholder="Search by company name, industry, location, or contact person..." aria-label="Search companies" />
+              </div>
+              <div class="filters-wrap">
+                <button class="btn-filters" data-filters-toggle aria-expanded="false" aria-haspopup="dialog">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+                  Filters
+                </button>
+                <!-- Filters popover -->
+                <div class="filters-popover" role="dialog" aria-label="Filters">
+                  <div class="fp-head">
+                    <span class="fp-head__title">Filters</span>
+                    <span class="fp-head__right">
+                      <button class="fp-clear" type="button">Clear all</button>
+                      <button class="fp-close" type="button" data-filters-close aria-label="Close filters"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+                    </span>
+                  </div>
+                  <div class="fp-body">
+                    <div class="fp-section">
+                      <span class="fp-label">Primary Industry</span>
+                      <button class="fp-dropdown" type="button">Technology, Defense &amp; Space<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+                    </div>
+                    <div class="fp-section">
+                      <span class="fp-label">Organisation Type</span>
+                      <div class="fp-chips">
+                        <button class="fp-chip" type="button">Manufacturer</button>
+                        <button class="fp-chip" type="button">Supplier</button>
+                        <button class="fp-chip" type="button">Technology Provider</button>
+                        <button class="fp-chip" type="button">Energy Provider</button>
+                        <button class="fp-chip" type="button">NGO</button>
+                        <button class="fp-chip" type="button">Public Institution</button>
+                        <button class="fp-chip" type="button">Investor / Fund</button>
+                      </div>
+                    </div>
+                    <div class="fp-section">
+                      <span class="fp-label">Location</span>
+                      <div class="fp-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><input type="search" placeholder="Search locations..." /></div>
+                      <div class="fp-loc-chips"><span class="fp-loc-chip">Ukraine</span><span class="fp-loc-chip">Kyiv</span><span class="fp-loc-chip">Poland</span></div>
+                    </div>
+                    <div class="fp-section">
+                      <span class="fp-label">Company Size</span>
+                      <button class="fp-dropdown is-placeholder" type="button">Any size<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+                    </div>
+                    <div class="fp-section">
+                      <span class="fp-label">Content Availability</span>
+                      <div class="fp-checks">
+                        <label class="fp-check"><input type="checkbox" checked /> Has products</label>
+                        <label class="fp-check"><input type="checkbox" /> Has members</label>
+                        <label class="fp-check"><input type="checkbox" /> Has opportunities</label>
+                        <label class="fp-check"><input type="checkbox" checked /> Open to contact</label>
+                      </div>
+                    </div>
+                    <div class="fp-section">
+                      <span class="fp-label">Verification</span>
+                      <div class="fp-radios">
+                        <label class="fp-radio-row"><input type="radio" name="co-verify" /> Verified only</label>
+                        <label class="fp-radio-row"><input type="radio" name="co-verify" checked /> All results</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="fp-foot">
+                    <button class="btn btn--secondary" type="button">Reset</button>
+                    <button class="btn btn--primary" type="button" style="background:var(--ink)">Apply filters</button>
+                  </div>
+                </div>
+              </div>
+              <button class="btn-search" type="button">Search</button>
+            </div>
+            <div class="scope-chips">
+              <button class="scope-chip is-active">All</button>
+              <button class="scope-chip">Companies</button>
+              <button class="scope-chip">NGOs</button>
+              <button class="scope-chip">Investors &amp; Funds</button>
+              <button class="scope-chip scope-chip--verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.5 8 8 11 4.5-3 8-6 8-11V5z"/><path d="m9 12 2 2 4-4"/></svg>Verified Companies</button>
+            </div>
+            <div class="industry-chips">
+              <button class="industry-chip">Technology, Defense &amp; Space</button>
+              <button class="industry-chip">Infrastructure &amp; Construction</button>
+              <button class="industry-chip">Energy &amp; Utilities</button>
+              <button class="industry-chip">Agriculture &amp; Food</button>
+              <button class="industry-chip">Manufacturing</button>
+            </div>
+          </section>
+
+          <!-- ===== Stats row ===== -->
+          <section class="stats-row">
+            <div class="stat-card"><div class="stat-card__num">1,140</div><div class="stat-card__label">Companies</div></div>
+            <div class="stat-card"><div class="stat-card__num">2,123</div><div class="stat-card__label">Products</div></div>
+            <div class="stat-card"><div class="stat-card__num">4,280</div><div class="stat-card__label">Members</div></div>
+            <div class="stat-card"><div class="stat-card__num">248</div><div class="stat-card__label">Verified companies</div></div>
+            <div class="promo-card">
+              <div><div class="promo-card__title">Add your company</div><div class="promo-card__sub">Create a company profile and connect with opportunities.</div></div>
+              <span class="promo-card__plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>
+            </div>
+          </section>
+
+          <!-- ===== Relevant companies ===== -->
+          <section class="feed-section">
+            <div class="results-head">
+              <span class="results-head__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-3"/></svg></span>
+              <span class="results-head__title">Relevant companies</span>
+            </div>
+            <div class="results-toolbar">
+              <div class="results-toolbar__left">No filters added: <a href="#">Clear all</a></div>
+              <button class="results-sort">Sort by: <b>Most relevant</b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+            </div>
+            <div class="results-grid">
+
+              <article class="company-card">
+                <div class="company-card__top">
+                  <span class="company-logo" style="background:#2563eb">UB</span>
+                  <div>
+                    <div class="company-card__name">UkrBuild Solutions</div>
+                    <div class="company-card__typerow"><span class="type-chip">Manufacturer</span><span class="company-card__sector">Construction / Housing</span></div>
+                    <div class="company-meta">
+                      <span class="company-meta__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Ukraine</span>
+                      <span class="company-meta__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>12 products</span>
+                      <span class="company-meta__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>38 members</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="company-card__bottom">
+                  <div class="contact-person"><span class="contact-person__av">IP</span><div><div class="contact-person__name">Ivan Petrov</div><div class="contact-person__role">Product Owner</div></div></div>
+                  <button class="icon-round-btn" aria-label="View company"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+                </div>
+              </article>
+
+              <article class="company-card">
+                <div class="company-card__top">
+                  <span class="company-logo" style="background:#16a34a">EG</span>
+                  <div>
+                    <div class="company-card__name">EnerGreen Home</div>
+                    <div class="company-card__typerow"><span class="type-chip">Energy Provider</span><span class="company-card__sector">Renewable Energy</span></div>
+                    <div class="company-meta">
+                      <span class="company-meta__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Poland</span>
+                      <span class="company-meta__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>8 products</span>
+                      <span class="company-meta__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>24 members</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="company-card__bottom">
+                  <div class="contact-person"><span class="contact-person__av">OK</span><div><div class="contact-person__name">Olena Kovalenko</div><div class="contact-person__role">Energy Policy Manager</div></div></div>
+                  <button class="icon-round-btn" aria-label="View company"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+                </div>
+              </article>
+
+              <article class="company-card">
+                <div class="company-card__top">
+                  <span class="company-logo" style="background:#475569">SF</span>
+                  <div>
+                    <div class="company-card__name">SteelFrame Ltd</div>
+                    <div class="company-card__typerow"><span class="type-chip">Supplier</span><span class="company-card__sector">Infrastructure</span></div>
+                    <div class="company-meta">
+                      <span class="company-meta__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Denmark</span>
+                      <span class="company-meta__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>5 products</span>
+                      <span class="company-meta__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>17 members</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="company-card__bottom">
+                  <div class="contact-person"><span class="contact-person__av">LN</span><div><div class="contact-person__name">Lars Nielsen</div><div class="contact-person__role">Sales Director</div></div></div>
+                  <button class="icon-round-btn" aria-label="View company"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+                </div>
+              </article>
+
+              <article class="company-card">
+                <div class="company-card__top">
+                  <span class="company-logo" style="background:#7c3aed">SG</span>
+                  <div>
+                    <div class="company-card__name">SafeGround Ukraine</div>
+                    <div class="company-card__typerow"><span class="type-chip">Technology Provider</span><span class="company-card__sector">Defense &amp; Demining</span></div>
+                    <div class="company-meta">
+                      <span class="company-meta__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Ukraine</span>
+                      <span class="company-meta__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>6 products</span>
+                      <span class="company-meta__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>14 members</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="company-card__bottom">
+                  <div class="contact-person"><span class="contact-person__av">MS</span><div><div class="contact-person__name">Maria Shevchuk</div><div class="contact-person__role">Operations Lead</div></div></div>
+                  <button class="icon-round-btn" aria-label="View company"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+                </div>
+              </article>
+
+              <article class="company-card">
+                <div class="company-card__top">
+                  <span class="company-logo" style="background:#0891b2">AT</span>
+                  <div>
+                    <div class="company-card__name">AquaTech UA</div>
+                    <div class="company-card__typerow"><span class="type-chip">Manufacturer</span><span class="company-card__sector">Water</span></div>
+                    <div class="company-meta">
+                      <span class="company-meta__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Kharkiv, Ukraine</span>
+                      <span class="company-meta__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>7 products</span>
+                      <span class="company-meta__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>12 members</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="company-card__bottom">
+                  <div class="contact-person"><span class="contact-person__av">OD</span><div><div class="contact-person__name">Oleksii Demchenko</div><div class="contact-person__role">Business Development</div></div></div>
+                  <button class="icon-round-btn" aria-label="View company"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+                </div>
+              </article>
+
+              <article class="company-card">
+                <div class="company-card__top">
+                  <span class="company-logo" style="background:#db2777">MU</span>
+                  <div>
+                    <div class="company-card__name">MedUnit Systems</div>
+                    <div class="company-card__typerow"><span class="type-chip">Manufacturer</span><span class="company-card__sector">Healthcare</span></div>
+                    <div class="company-meta">
+                      <span class="company-meta__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Warsaw, Poland</span>
+                      <span class="company-meta__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>9 products</span>
+                      <span class="company-meta__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>20 members</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="company-card__bottom">
+                  <div class="contact-person"><span class="contact-person__av">AW</span><div><div class="contact-person__name">Agnieszka Wójcik</div><div class="contact-person__role">Partnerships</div></div></div>
+                  <button class="icon-round-btn" aria-label="View company"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+                </div>
+              </article>
+
+            </div>
+          </section>
+
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="scripts/feed-nav.js" defer></script>
+</body>
+</html>

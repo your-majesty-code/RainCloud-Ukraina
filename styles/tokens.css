@@ -113,6 +113,7 @@
   --nav-height:           80px;
   --content-max:          1155px;
   --container-max:        1155px;
+  --page-max:             1980px;   /* HARD ceiling for every page (design-rules.md Rule 2) */
 
   /* --------------------------------------------------------
      TYPOGRAPHY — Montserrat single family

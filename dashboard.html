@@ -856,13 +856,18 @@
     .feed-avatar { width: 40px; height: 40px; margin-left: 8px; border-radius: 9999px; background: var(--ink); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500; }
 
     .feed-layout { display: flex; align-items: flex-start; }
-    .feed-sidebar { position: sticky; top: 80px; flex: none; width: 285px; height: calc(100vh - 80px); display: flex; flex-direction: column; justify-content: space-between; padding: 16px 16px 0; -webkit-backdrop-filter: blur(15px); backdrop-filter: blur(15px); }
+    .feed-sidebar { position: sticky; top: 80px; flex: none; z-index: 200; width: 285px; height: calc(100vh - 80px); display: flex; flex-direction: column; justify-content: space-between; padding: 16px 16px 0; -webkit-backdrop-filter: blur(15px); backdrop-filter: blur(15px); }
     .feed-nav { display: flex; flex-direction: column; gap: 4px; }
-    .feed-nav__row { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 8px; color: var(--ink-600); font-size: 14px; font-weight: 500; background: none; border: 0; cursor: pointer; text-align: left; transition: background var(--transition-fast), color var(--transition-fast); }
+    .feed-nav__row { position: relative; display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 8px; color: var(--ink-600); font-size: 14px; font-weight: 500; background: none; border: 0; cursor: pointer; text-align: left; transition: background var(--transition-fast), color var(--transition-fast); }
     .feed-nav__row:hover { background: var(--surface-muted); }
     .feed-nav__row.is-active { background: var(--pill-dark); color: #fff; }
     .feed-nav__row svg { width: 20px; height: 20px; flex: none; }
     .feed-sidebar__foot { padding: 16px 0; }
+    .feed-nav__row[data-tip]::before, .feed-nav__row[data-tip]::after { position: absolute; left: calc(100% + 12px); top: 50%; opacity: 0; visibility: hidden; transform: translateY(-50%) translateX(-4px); transition: opacity var(--transition-fast), transform var(--transition-fast); pointer-events: none; z-index: 700; }
+    .feed-nav__row[data-tip]::after { content: attr(data-tip); width: max-content; max-width: 240px; padding: 10px 12px; background: var(--ink-800); color: #fff; font-size: 13px; font-weight: 500; line-height: 18px; border-radius: 8px; box-shadow: 0 1px 2px rgba(16,24,40,0.06), 0 1px 3px rgba(16,24,40,0.10); white-space: normal; }
+    .feed-nav__row[data-tip]::before { content: ""; left: calc(100% + 6px); width: 8px; height: 8px; background: var(--ink-800); border-radius: 1px; transform: translateY(-50%) translateX(-4px) rotate(45deg); }
+    .feed-nav__row[data-tip]:hover::after, .feed-nav__row[data-tip]:focus-visible::after { opacity: 1; visibility: visible; transform: translateY(-50%) translateX(0); }
+    .feed-nav__row[data-tip]:hover::before, .feed-nav__row[data-tip]:focus-visible::before { opacity: 1; visibility: visible; transform: translateY(-50%) translateX(0) rotate(45deg); }
 
     @media (max-width: 900px) {
       .feed-sidebar { display: none; }
@@ -907,8 +912,8 @@
       <aside class="feed-sidebar">
         <nav class="feed-nav" aria-label="Sections">
           <a class="feed-nav__row" href="feeds.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Feed</a>
-          <a class="feed-nav__row is-active" href="dashboard.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Network</a>
-          <a class="feed-nav__row" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-3"/></svg>Companies &amp; Organisations</a>
+          <a class="feed-nav__row is-active" href="network.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Network</a>
+          <a class="feed-nav__row" href="companies.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-3"/></svg>Companies &amp; Organisations</a>
           <a class="feed-nav__row" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Virtual Trade Show</a>
           <a class="feed-nav__row" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></svg>Business Pavilions</a>
           <a class="feed-nav__row" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-9M14 17H5M17 3l3 4-3 4M7 13l-3 4 3 4"/></svg>Opportunities</a>
@@ -1134,5 +1139,6 @@
     </div>
     </div>
   </div>
+  <script src="scripts/feed-nav.js" defer></script>
 </body>
 </html>
