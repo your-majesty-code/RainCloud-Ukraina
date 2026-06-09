@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles/tokens.css" />
   <style>
     :root {
       --surface: #ffffff;
@@ -234,6 +235,7 @@
 
     /* ---------- Main content shell ---------- */
     .main-shell {
+      flex: 1;
       padding: 8px 8px 8px 0;
       min-width: 0;
     }
@@ -825,93 +827,105 @@
       .filter-controls { flex-wrap: wrap; }
       .active-filters { flex-wrap: wrap; }
     }
+
+    /* ===== Feed shell (inlined to keep this page's generic classes isolated) ===== */
+    .app-canvas { position: relative; min-height: 100vh; background: linear-gradient(180deg, #f7f8fa 0%, #f3f4f6 42%, #f6f7f9 100%); overflow-x: hidden; }
+    .app-canvas::before, .app-canvas::after { content: ""; position: fixed; border-radius: 9999px; filter: blur(40px); pointer-events: none; z-index: 0; }
+    .app-canvas::before { width: 720px; height: 360px; top: -120px; left: 50%; transform: translateX(-50%); background: radial-gradient(closest-side, rgba(240,92,38,0.10), rgba(240,92,38,0)); }
+    .app-canvas::after { width: 420px; height: 420px; top: 240px; right: -120px; background: radial-gradient(closest-side, rgba(15,23,42,0.05), rgba(15,23,42,0)); }
+    .app-canvas > * { position: relative; z-index: 1; }
+
+    .feed-header { position: sticky; top: 0; z-index: 200; display: flex; align-items: center; gap: 24px; height: 80px; padding: 0 33px 0 17px; background: rgba(255,255,255,0.65); border-bottom: 1px solid rgba(255,255,255,0.6); box-shadow: var(--shadow-glass); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+    .feed-header__brand { display: flex; flex-direction: column; gap: 3px; }
+    .feed-header__brand img { height: 26px; width: auto; }
+    .feed-header__tagline { font-size: 7px; font-weight: 500; letter-spacing: 0.6px; text-transform: uppercase; color: var(--ink-700); }
+    .feed-header__divider { width: 1px; height: 25px; background: var(--border); }
+    .feed-header__greeting { font-size: 20px; font-weight: 500; letter-spacing: -0.5px; color: var(--text-primary); white-space: nowrap; }
+    .feed-header__spacer { flex: 1; }
+    .stats-pill { display: inline-flex; align-items: center; gap: 16px; padding: 9px 17px; background: var(--page); border: 1px solid var(--border); border-radius: 9999px; }
+    .stats-pill__item { display: inline-flex; align-items: center; gap: 8px; }
+    .stats-pill__item svg { width: 16px; height: 16px; color: var(--ink-500); }
+    .stats-pill__value { font-size: 14px; font-weight: 700; color: var(--ink); }
+    .stats-pill__label { font-size: 14px; font-weight: 500; color: var(--ink-600); }
+    .stats-pill__sep { width: 1px; height: 16px; background: var(--border); }
+    .feed-header__actions { display: inline-flex; align-items: center; gap: 8px; }
+    .feed-icon-btn { width: 40px; height: 40px; border-radius: 9999px; display: inline-flex; align-items: center; justify-content: center; color: var(--ink-600); position: relative; background: none; border: 0; cursor: pointer; transition: background var(--transition-fast); }
+    .feed-icon-btn:hover { background: var(--surface-muted); }
+    .feed-icon-btn svg { width: 20px; height: 20px; }
+    .feed-icon-btn__dot { position: absolute; top: 8px; right: 8px; width: 8px; height: 8px; border-radius: 9999px; background: #ef4444; border: 2px solid #fff; }
+    .feed-avatar { width: 40px; height: 40px; margin-left: 8px; border-radius: 9999px; background: var(--ink); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500; }
+
+    .feed-layout { display: flex; align-items: flex-start; }
+    .feed-sidebar { position: sticky; top: 80px; flex: none; width: 285px; height: calc(100vh - 80px); display: flex; flex-direction: column; justify-content: space-between; padding: 16px 16px 0; -webkit-backdrop-filter: blur(15px); backdrop-filter: blur(15px); }
+    .feed-nav { display: flex; flex-direction: column; gap: 4px; }
+    .feed-nav__row { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 8px; color: var(--ink-600); font-size: 14px; font-weight: 500; background: none; border: 0; cursor: pointer; text-align: left; transition: background var(--transition-fast), color var(--transition-fast); }
+    .feed-nav__row:hover { background: var(--surface-muted); }
+    .feed-nav__row.is-active { background: var(--pill-dark); color: #fff; }
+    .feed-nav__row svg { width: 20px; height: 20px; flex: none; }
+    .feed-sidebar__foot { padding: 16px 0; }
+
+    @media (max-width: 900px) {
+      .feed-sidebar { display: none; }
+      .stats-pill { display: none; }
+    }
+    @media (max-width: 640px) {
+      .feed-header { gap: 12px; padding: 0 16px; height: 64px; }
+      .feed-header__tagline, .feed-header__divider, .feed-header__greeting { display: none; }
+      .feed-header__brand img { height: 22px; }
+    }
   </style>
 </head>
 <body>
-  <div class="app">
-    <!-- ============== Sidebar ============== -->
-    <aside class="sidebar" aria-label="Primary navigation">
-      <a class="brand" href="home.html" aria-label="RainCloud Ukraina">
-        <span class="brand-rain">RAIN<span class="brand-cloud">CLOUD</span></span>
-        <span class="brand-ukraina">UKRAINA<sup>TM</sup></span>
+  <div class="app-canvas">
+    <!-- ============ FEED-STYLE GLASS HEADER ============ -->
+    <header class="feed-header">
+      <a class="feed-header__brand" href="feeds.html" aria-label="RainCloud Ukraina — home">
+        <img src="assets/feed-logo.png" alt="RainCloud Ukraina" />
+        <span class="feed-header__tagline">Powering global business to build the new Ukraine</span>
       </a>
+      <span class="feed-header__divider"></span>
+      <span class="feed-header__greeting">Hello, Mike</span>
+      <span class="feed-header__spacer"></span>
+      <div class="stats-pill">
+        <span class="stats-pill__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="stats-pill__value">4,280</span><span class="stats-pill__label">Members</span></span>
+        <span class="stats-pill__sep"></span>
+        <span class="stats-pill__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-3"/><path d="M9 9v.01M9 12v.01M9 15v.01"/></svg><span class="stats-pill__value">1,140</span><span class="stats-pill__label">Companies</span></span>
+        <span class="stats-pill__sep"></span>
+        <span class="stats-pill__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg><span class="stats-pill__value">2,123</span><span class="stats-pill__label">Products</span></span>
+      </div>
+      <div class="feed-header__actions">
+        <button class="feed-icon-btn" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></button>
+        <button class="feed-icon-btn" aria-label="Messages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 9 9 0 0 1-3.9-.9L3 21l1.9-5.6a8.38 8.38 0 0 1-.9-3.9A8.5 8.5 0 0 1 12.5 3 8.38 8.38 0 0 1 21 11.5z"/></svg></button>
+        <button class="feed-icon-btn" aria-label="Notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="feed-icon-btn__dot"></span></button>
+        <button class="feed-icon-btn" aria-label="Storm AI"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></button>
+        <span class="feed-avatar">MK</span>
+      </div>
+    </header>
 
-      <nav class="nav">
-        <a class="nav-item" href="home.html">
-          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
-          <span>Feed</span>
-        </a>
-        <a class="nav-item active" href="dashboard.html" aria-current="page">
-          <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c.7-3.5 3.4-5.5 6.5-5.5s5.8 2 6.5 5.5"/><circle cx="17" cy="6.5" r="2.4" stroke-linecap="round"/><path d="M14.5 14c2.5 0 4.7 1.3 5.5 4"/></svg>
-          <span>Network</span>
-        </a>
-        <a class="nav-item" href="#">
-          <svg viewBox="0 0 24 24"><path d="M3 21V8l4-4h6l4 4v13"/><path d="M3 21h18"/><path d="M21 21V12h-4"/><path d="M9 21v-5h4v5"/></svg>
-          <span>Companies</span>
-        </a>
-        <a class="nav-item" href="#">
-          <svg viewBox="0 0 24 24"><path d="M3 7h18l-2 13H5L3 7Z"/><path d="M8 7V5a4 4 0 0 1 8 0v2"/></svg>
-          <span>Trade Show</span>
-        </a>
-        <a class="nav-item" href="#">
-          <svg viewBox="0 0 24 24"><path d="M4 21V10l8-6 8 6v11"/><path d="M9 21v-7h6v7"/></svg>
-          <span>Pavilions</span>
-        </a>
-        <a class="nav-item" href="#">
-          <svg viewBox="0 0 24 24"><path d="M12 3v3"/><circle cx="12" cy="12" r="8"/><path d="M12 8a4 4 0 0 1 4 4"/></svg>
-          <span>Opportunities</span>
-        </a>
-        <a class="nav-item" href="#">
-          <svg viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10.5L9 15v3h6v-3l1-1.5A6 6 0 0 0 12 3Z"/></svg>
-          <span>Insights</span>
-        </a>
-        <a class="nav-item" href="events.html">
-          <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M8 3v4M16 3v4"/></svg>
-          <span>Events</span>
-        </a>
-      </nav>
-
-      <a class="storm-card" href="pricing.html">
-        <div class="storm-card-icon">
-          <svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>
+    <!-- ============ FEED SHELL: icon sidebar + main ============ -->
+    <div class="feed-layout">
+      <aside class="feed-sidebar">
+        <nav class="feed-nav" aria-label="Sections">
+          <a class="feed-nav__row" href="feeds.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Feed</a>
+          <a class="feed-nav__row is-active" href="dashboard.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Network</a>
+          <a class="feed-nav__row" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-3"/></svg>Companies &amp; Organisations</a>
+          <a class="feed-nav__row" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Virtual Trade Show</a>
+          <a class="feed-nav__row" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></svg>Business Pavilions</a>
+          <a class="feed-nav__row" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-9M14 17H5M17 3l3 4-3 4M7 13l-3 4 3 4"/></svg>Opportunities</a>
+          <a class="feed-nav__row" href="insights.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg>Thought Leadership</a>
+          <a class="feed-nav__row" href="events.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Events</a>
+          <a class="feed-nav__row" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9h4"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg>News</a>
+        </nav>
+        <div class="feed-sidebar__foot">
+          <button class="feed-nav__row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M14 9l-3 3 3 3"/></svg>Close sidebar</button>
         </div>
-        <div class="storm-card-title">STORM AI</div>
-        <div class="storm-card-sub">ASSISTANT</div>
-      </a>
-    </aside>
+      </aside>
 
-    <!-- ============== Main ============== -->
-    <div class="main-shell">
+      <!-- ============== Main ============== -->
+      <div class="main-shell">
       <main class="main-content">
         <header class="page-header">
           <h1 class="page-title">Network Directory</h1>
-          <div class="header-actions">
-            <div class="stats-pills">
-              <div class="stat-pill">
-                <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.7-3.5 3.4-5.5 6.5-5.5s5.8 2 6.5 5.5"/><circle cx="17" cy="6.5" r="2.5"/><path d="M14.5 14c2.5 0 4.7 1.3 5.5 4"/></svg>
-                <span class="stat-value">4,280</span>
-                <span class="stat-label">Members</span>
-              </div>
-              <div class="stat-pill">
-                <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l4-4h6l4 4v13"/><path d="M3 21h18"/></svg>
-                <span class="stat-value">1,140</span>
-                <span class="stat-label">Companies</span>
-              </div>
-            </div>
-            <div class="action-icons">
-              <button class="icon-button" aria-label="Search">
-                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-              </button>
-              <button class="icon-button" aria-label="Messages">
-                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-              </button>
-              <button class="icon-button" aria-label="Notifications">
-                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-                <span class="notification-dot"></span>
-              </button>
-              <a href="index.html" class="avatar-button" title="Sign out" aria-label="Sign out">VB</a>
-            </div>
-          </div>
         </header>
 
         <section class="search-section">
@@ -1117,6 +1131,7 @@
           </div>
         </section>
       </main>
+    </div>
     </div>
   </div>
 </body>
