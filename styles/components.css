@@ -549,11 +549,11 @@
 }
 
 .feed-main { flex: 1; min-width: 0; padding: 32px; }
-.feed-main__inner { max-width: 1091px; margin: 0 auto; display: flex; flex-direction: column; gap: 64px; }
+.feed-main__inner { max-width: var(--content-inner); margin: 0 auto; display: flex; flex-direction: column; gap: 64px; }
 
 /* directory (filter rail + grid) embedded inside the feed shell main column */
 .feed-main--directory { padding: 32px; }
-.directory--embedded { max-width: none; margin: 0; padding: 0; }
+.directory--embedded { max-width: var(--content-inner); margin: 0 auto; padding: 0; }
 
 /* ---- Storm AI hero ---- */
 .storm-hero {
@@ -762,7 +762,7 @@
 /* ============================================================
    SEARCH-DIRECTORY PAGES (Companies & Organisations · Network)
    ============================================================ */
-.search-page { max-width: 1107px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
+.search-page { max-width: var(--content-inner); margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
 
 /* ---- Search hero ---- */
 .search-hero {

@@ -113,6 +113,7 @@
   --nav-height:           80px;
   --content-max:          1155px;
   --container-max:        1155px;
+  --content-inner:        1107px;   /* shared content-column cap inside the feed shell — keep identical on every page so navigation never shifts */
   --page-max:             1980px;   /* HARD ceiling for every page (design-rules.md Rule 2) */
 
   /* --------------------------------------------------------
