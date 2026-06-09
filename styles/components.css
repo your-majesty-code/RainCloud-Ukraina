@@ -13,7 +13,10 @@
   min-height: 100vh;
   background:
     linear-gradient(180deg, #f7f8fa 0%, #f3f4f6 42%, #f6f7f9 100%);
-  overflow-x: hidden;
+  /* `clip` prevents the ambient blobs from causing horizontal scroll WITHOUT
+     turning this into a scroll container (which `hidden` does — that breaks
+     position:sticky on the header + sidebar). */
+  overflow-x: clip;
 }
 .app-canvas::before,
 .app-canvas::after {
@@ -431,9 +434,12 @@
    ============================================================ */
 .feed-header {
   position: sticky; top: 0; z-index: var(--z-sticky);
-  max-width: var(--page-max); margin-inline: auto;   /* Rule 2: 1980px cap */
   display: flex; align-items: center; gap: 24px;
-  height: 80px; padding: 0 33px 0 17px;
+  height: 80px;
+  /* Full-bleed white bar; CONTENT centered within --page-max (Rule 2).
+     Gutter = (viewport − page-max)/2, plus the original 17/33 inner padding. */
+  padding-left: calc(max(0px, (100% - var(--page-max)) / 2) + 17px);
+  padding-right: calc(max(0px, (100% - var(--page-max)) / 2) + 33px);
   background: rgba(255,255,255,0.65);
   border-bottom: 1px solid rgba(255,255,255,0.6);
   box-shadow: var(--shadow-glass);
@@ -479,7 +485,7 @@
   max-width: var(--page-max); margin-inline: auto;   /* Rule 2: 1980px cap */
 }
 .feed-sidebar {
-  position: sticky; top: 80px; flex: none; z-index: var(--z-sticky);
+  position: sticky; top: 80px; flex: none; z-index: var(--z-overlay);  /* above header so tooltips clear the top bar */
   width: var(--sidebar-width); height: calc(100vh - 80px);
   display: flex; flex-direction: column; justify-content: space-between;
   padding: 16px 16px 0;
@@ -684,6 +690,7 @@
 
 /* ---- Search hero ---- */
 .search-hero {
+  position: relative; z-index: 30;   /* lift the hero (and its Filters popover) above the sections below */
   background: var(--glass-soft);
   border: 1px solid rgba(255,255,255,0.6);
   border-radius: var(--radius-xl);
@@ -691,6 +698,9 @@
   -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
   padding: 33px; display: flex; flex-direction: column; gap: 24px;
 }
+/* When the popover is open, raise the hero above the sticky sidebar too,
+   so the popover can never be covered by neighbouring chrome. */
+.search-hero:has(.filters-wrap.is-open) { z-index: calc(var(--z-popover) + 1); }
 .search-hero__title { font-size: 28px; font-weight: 600; line-height: 36px; letter-spacing: -0.6px; color: var(--ink); margin: 0; }
 .search-row { display: flex; gap: 16px; align-items: stretch; }
 .search-field {
