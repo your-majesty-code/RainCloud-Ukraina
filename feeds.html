@@ -1,1210 +1,209 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Feed — RainCloud</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      /* design.md tokens */
-      --surface: #faf9f7;
-      --surface-container-lowest: #ffffff;
-      --surface-container-low: #f4f3f1;
-      --on-surface: #1a1c1b;
-      --on-surface-variant: #424845;
-      --outline: #727875;
-      --outline-variant: #c2c8c4;
-      --primary-container: #F16F26;
-      --primary-container-hover: #d96221;
-      --on-primary: #ffffff;
-      --error: #ba1a1a;
-      --success: #22c55e;
-
-      /* Figma-source colors (preserved for fidelity) */
-      --top-bg: #1b1d18;
-      --top-bg-2: #2a2c27;
-      --top-fg: #ffffff;
-      --top-fg-muted: rgba(255, 255, 255, 0.65);
-      --top-fg-dim: rgba(255, 255, 255, 0.45);
-      --content-bg: #f5f5f5;
-      --text-strong: #111827;
-      --text-base: #171717;
-      --text-muted: #4b5563;
-      --text-subtle: #6b7280;
-      --text-faint: #696969;
-      --hairline: #f3f4f6;
-      --hairline-strong: #e5e7eb;
-      --chip-bg: #fff3ec;
-      --chip-fg: #F16F26;
-
-      --radius-input: 0.25rem;
-      --radius-card: 0.5rem;
-      --radius-pill: 9999px;
-      --radius-panel: 20px;
-      --radius-card-lg: 24px;
-      --radius-shell: 32px;
-
-      --space-xs: 8px;
-      --space-sm: 16px;
-      --space-md: 24px;
-      --space-lg: 40px;
-      --space-xl: 64px;
-
-      --font-display: 'Montserrat', system-ui, sans-serif;
-      --font-body: 'Open Sans', system-ui, sans-serif;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; }
-    body {
-      min-height: 100vh;
-      background-color: var(--content-bg);
-      color: var(--on-surface);
-      font-family: var(--font-body);
-      font-size: 14px;
-      line-height: 20px;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-    a { color: inherit; text-decoration: none; }
-    button { font: inherit; cursor: pointer; }
-
-    /* ============================================
-       TOP NAVIGATION BAR (dark)
-       ============================================ */
-    .topbar {
-      background-color: var(--top-bg);
-      color: var(--top-fg);
-      padding: 18px 32px;
-      display: flex;
-      align-items: center;
-      gap: var(--space-lg);
-    }
-    .brand {
-      display: inline-flex;
-      align-items: baseline;
-      gap: 8px;
-      font-family: var(--font-display);
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      white-space: nowrap;
-    }
-    .brand .brand-rain {
-      font-size: 22px;
-      color: #ffffff;
-    }
-    .brand .brand-cloud {
-      font-size: 22px;
-      color: rgba(255, 255, 255, 0.25);
-      letter-spacing: 0.18em;
-    }
-    .brand .brand-ukraina {
-      font-size: 16px;
-      letter-spacing: 0.22em;
-      color: #ffffff;
-      padding-left: 8px;
-      border-left: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    .brand .brand-ukraina sup {
-      font-size: 8px;
-      vertical-align: super;
-      letter-spacing: 0;
-      color: rgba(255, 255, 255, 0.5);
-    }
-
-    .topnav {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      justify-content: center;
-    }
-    .topnav a {
-      padding: 8px 16px;
-      font-family: var(--font-body);
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--top-fg-muted);
-      border-radius: var(--radius-pill);
-      transition: color 120ms ease, background-color 120ms ease;
-    }
-    .topnav a:hover { color: var(--top-fg); }
-    .topnav a.active {
-      color: var(--primary-container);
-      background-color: rgba(241, 111, 38, 0.12);
-    }
-
-    .topbar-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .icon-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background-color: var(--top-bg-2);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      transition: background-color 120ms ease;
-    }
-    .icon-btn:hover { background-color: rgba(255, 255, 255, 0.08); }
-    .icon-btn img { width: 16px; height: 16px; display: block; filter: brightness(0) invert(1); }
-    .icon-btn .notification-dot {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background-color: var(--primary-container);
-      border: 2px solid var(--top-bg);
-    }
-    .avatar-orange {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #F89060, #F16F26);
-      color: #ffffff;
-      font-family: var(--font-body);
-      font-weight: 600;
-      font-size: 13px;
-      letter-spacing: 0.04em;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* ============================================
-       LIVE STATS STRIP
-       ============================================ */
-    .stats-strip {
-      background-color: var(--top-bg);
-      color: var(--top-fg);
-      padding: 16px 32px 24px;
-      display: flex;
-      align-items: center;
-      gap: 28px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-    .live-indicator {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 12px;
-      background-color: rgba(34, 197, 94, 0.12);
-      color: #4ade80;
-      border-radius: var(--radius-pill);
-      font-family: var(--font-body);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-    .live-indicator::before {
-      content: '';
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background-color: #4ade80;
-      box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.6);
-      animation: live-pulse 1.6s ease-out infinite;
-    }
-    @keyframes live-pulse {
-      0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.6); }
-      100% { box-shadow: 0 0 0 8px rgba(74, 222, 128, 0); }
-    }
-    .stat-block { display: flex; flex-direction: column; gap: 2px; }
-    .stat-block .num {
-      font-family: var(--font-display);
-      font-size: 18px;
-      font-weight: 600;
-      color: var(--top-fg);
-      line-height: 22px;
-    }
-    .stat-block .lbl {
-      font-family: var(--font-body);
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--top-fg-dim);
-    }
-    .stat-divider {
-      width: 1px;
-      height: 32px;
-      background-color: rgba(255, 255, 255, 0.08);
-    }
-
-    /* ============================================
-       MAIN LAYOUT
-       ============================================ */
-    .main {
-      max-width: 1440px;
-      margin: 0 auto;
-      padding: 32px;
-      display: grid;
-      grid-template-columns: 1fr 360px;
-      gap: 32px;
-      align-items: start;
-    }
-
-    /* ============================================
-       STORM AI HERO
-       ============================================ */
-    .storm-hero {
-      position: relative;
-      border-radius: var(--radius-shell);
-      padding: 40px 48px;
-      color: #ffffff;
-      overflow: hidden;
-      background:
-        radial-gradient(circle at 80% 50%, rgba(241, 111, 38, 0.4) 0%, transparent 55%),
-        linear-gradient(135deg, #2a2c27 0%, #1b1d18 100%);
-      min-height: 280px;
-    }
-    .storm-hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image:
-        radial-gradient(circle at 20% 30%, rgba(241, 111, 38, 0.08), transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(241, 111, 38, 0.12), transparent 50%);
-      pointer-events: none;
-    }
-    .storm-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      background-color: rgba(241, 111, 38, 0.15);
-      color: var(--primary-container);
-      border: 1px solid rgba(241, 111, 38, 0.25);
-      border-radius: var(--radius-pill);
-      font-family: var(--font-body);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      position: relative;
-    }
-    .storm-badge img { width: 12px; height: 12px; }
-    .storm-title {
-      margin: 16px 0 24px;
-      font-family: var(--font-display);
-      font-size: 36px;
-      font-weight: 600;
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-      color: #ffffff;
-      max-width: 620px;
-      position: relative;
-    }
-    .storm-search {
-      position: relative;
-      display: flex;
-      gap: 8px;
-      max-width: 720px;
-      padding: 8px;
-      background-color: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: var(--radius-pill);
-      backdrop-filter: blur(20px);
-    }
-    .storm-search input {
-      flex: 1;
-      background: transparent;
-      border: none;
-      outline: none;
-      color: #ffffff;
-      font-family: var(--font-body);
-      font-size: 14px;
-      padding: 10px 18px;
-    }
-    .storm-search input::placeholder { color: rgba(255, 255, 255, 0.4); }
-    .storm-search button {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: linear-gradient(135deg, #F89060, #F16F26);
-      color: #ffffff;
-      border: none;
-      border-radius: var(--radius-pill);
-      padding: 10px 18px;
-      font-family: var(--font-body);
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      transition: filter 120ms ease;
-    }
-    .storm-search button:hover { filter: brightness(1.1); }
-    .storm-search button img { width: 14px; height: 14px; }
-
-    .storm-chips {
-      display: flex;
-      gap: 8px;
-      margin-top: 16px;
-      flex-wrap: wrap;
-      position: relative;
-    }
-    .storm-chip {
-      padding: 6px 14px;
-      background-color: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: var(--radius-pill);
-      color: rgba(255, 255, 255, 0.7);
-      font-family: var(--font-body);
-      font-size: 12px;
-      font-weight: 400;
-      transition: background-color 120ms ease;
-    }
-    .storm-chip:hover { background-color: rgba(255, 255, 255, 0.1); }
-
-    /* Decorative lightning bolts on hero */
-    .storm-bolts {
-      position: absolute;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      width: 380px;
-      pointer-events: none;
-    }
-    .storm-bolts img {
-      position: absolute;
-      width: auto;
-      height: auto;
-    }
-    .storm-bolts .bolt-back {
-      right: 100px;
-      top: 30px;
-      width: 168px;
-      opacity: 0.4;
-    }
-    .storm-bolts .bolt-mid {
-      right: 60px;
-      top: 0;
-      width: 198px;
-      opacity: 0.6;
-    }
-    .storm-bolts .bolt-front {
-      right: 20px;
-      top: -10px;
-      width: 192px;
-      opacity: 1;
-      filter: drop-shadow(0 8px 30px rgba(241, 111, 38, 0.6));
-    }
-
-    /* ============================================
-       FEED CONTROLS (tabs + sort)
-       ============================================ */
-    .feed-controls {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-md);
-      margin-top: var(--space-md);
-      padding: 4px;
-      background-color: #ffffff;
-      border: 1px solid var(--hairline);
-      border-radius: var(--radius-pill);
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
-    }
-    .tabs { display: flex; gap: 2px; }
-    .tab {
-      background: transparent;
-      border: none;
-      padding: 10px 18px;
-      font-family: var(--font-body);
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-subtle);
-      border-radius: var(--radius-pill);
-      transition: background-color 120ms ease, color 120ms ease;
-    }
-    .tab:hover { color: var(--text-strong); background-color: var(--surface-container-low); }
-    .tab.active {
-      background-color: var(--text-base);
-      color: #ffffff;
-    }
-    .sort {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding-right: 16px;
-      font-family: var(--font-body);
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-subtle);
-    }
-    .sort strong {
-      color: var(--text-strong);
-      font-weight: 600;
-    }
-    .sort img { width: 12px; height: 12px; opacity: 0.7; }
-
-    /* ============================================
-       FEED CARDS
-       ============================================ */
-    .feed-list {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      margin-top: 16px;
-    }
-    .post {
-      background-color: #ffffff;
-      border: 1px solid var(--hairline);
-      border-radius: var(--radius-card-lg);
-      padding: 24px;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
-      transition: box-shadow 160ms ease, transform 160ms ease;
-    }
-    .post:hover {
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
-      transform: translateY(-1px);
-    }
-
-    .post-tags { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      border-radius: var(--radius-pill);
-      font-family: var(--font-body);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-    .tag-primary { background-color: var(--chip-bg); color: var(--chip-fg); }
-    .tag-neutral { background-color: var(--surface-container-low); color: var(--text-muted); }
-    .tag-energy { background-color: #fef3c7; color: #92400e; }
-    .tag-housing { background-color: #dbeafe; color: #1e40af; }
-    .tag-renewable { background-color: #dcfce7; color: #166534; }
-    .tag-infra { background-color: #ede9fe; color: #5b21b6; }
-    .tag-smart { background-color: #ffe4e6; color: #9f1239; }
-    .tag img { width: 10px; height: 10px; }
-
-    .post-author {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-    .post-author .avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      flex-shrink: 0;
-      background-position: center;
-      background-size: cover;
-    }
-    .post-author .avatar-mono {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background-color: var(--text-base);
-      color: #ffffff;
-      font-family: var(--font-body);
-      font-weight: 600;
-      font-size: 12px;
-      letter-spacing: 0.04em;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .post-author .author-name {
-      font-family: var(--font-body);
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-strong);
-    }
-    .post-author .author-line {
-      font-family: var(--font-body);
-      font-size: 12px;
-      color: var(--text-subtle);
-    }
-    .post-author .author-action {
-      color: var(--text-subtle);
-      font-weight: 400;
-    }
-    .post-author .dot {
-      width: 3px;
-      height: 3px;
-      border-radius: 50%;
-      background-color: var(--text-subtle);
-      display: inline-block;
-      margin: 0 6px;
-      vertical-align: middle;
-    }
-
-    .post-body { display: grid; grid-template-columns: 1fr 320px; gap: 24px; align-items: start; }
-    .post-body.no-image { grid-template-columns: 1fr; }
-    .post-title {
-      font-family: var(--font-display);
-      font-size: 22px;
-      font-weight: 600;
-      line-height: 28px;
-      letter-spacing: -0.015em;
-      color: var(--text-strong);
-      margin: 0 0 8px;
-    }
-    .post-desc {
-      font-family: var(--font-body);
-      font-size: 14px;
-      line-height: 22px;
-      color: var(--text-muted);
-      margin: 0;
-    }
-    .post-image {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      border-radius: var(--radius-card);
-      border: 1px solid var(--hairline);
-    }
-    .post-meta {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin-top: 16px;
-      padding-top: 16px;
-      border-top: 1px solid var(--hairline);
-    }
-    .post-meta .item {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-family: var(--font-body);
-      font-size: 12px;
-      color: var(--text-subtle);
-    }
-    .post-meta .item img { width: 12px; height: 12px; opacity: 0.7; }
-    .post-meta .item.budget {
-      color: var(--primary-container);
-      font-weight: 600;
-    }
-
-    /* ============================================
-       RIGHT SIDEBAR PANELS
-       ============================================ */
-    .sidebar { display: flex; flex-direction: column; gap: 16px; }
-    .panel {
-      background-color: #ffffff;
-      border: 1px solid var(--hairline);
-      border-radius: var(--radius-card-lg);
-      padding: 20px;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
-    }
-    .panel-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 14px;
-    }
-    .panel-title {
-      font-family: var(--font-display);
-      font-size: 16px;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-      color: var(--text-strong);
-    }
-    .panel-link {
-      font-family: var(--font-body);
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--primary-container);
-    }
-    .panel-link:hover { text-decoration: underline; }
-
-    /* Storm Suggestions items */
-    .suggest-item {
-      display: flex;
-      gap: 12px;
-      padding: 8px 0;
-      border-top: 1px solid var(--hairline);
-    }
-    .suggest-item:first-of-type { border-top: none; padding-top: 0; }
-    .suggest-thumb {
-      width: 48px;
-      height: 48px;
-      border-radius: 10px;
-      object-fit: cover;
-      flex-shrink: 0;
-    }
-    .suggest-body { flex: 1; min-width: 0; }
-    .suggest-kicker {
-      font-family: var(--font-body);
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--primary-container);
-    }
-    .suggest-title {
-      font-family: var(--font-body);
-      font-size: 13px;
-      font-weight: 600;
-      line-height: 18px;
-      color: var(--text-strong);
-      margin-top: 2px;
-    }
-
-    /* Member rows */
-    .member-row {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      padding: 8px 0;
-      border-top: 1px solid var(--hairline);
-    }
-    .member-row:first-of-type { border-top: none; padding-top: 0; }
-    .member-row .avatar {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background-position: center;
-      background-size: cover;
-      flex-shrink: 0;
-    }
-    .member-row .body { flex: 1; min-width: 0; }
-    .member-row .name {
-      font-family: var(--font-body);
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-strong);
-      line-height: 16px;
-    }
-    .member-row .role {
-      font-family: var(--font-body);
-      font-size: 12px;
-      color: var(--text-muted);
-      line-height: 18px;
-    }
-    .member-row .loc {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-family: var(--font-body);
-      font-size: 11px;
-      color: var(--text-subtle);
-    }
-    .member-row .loc img { width: 10px; height: 10px; }
-
-    /* Company rows */
-    .company-row {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      padding: 8px 0;
-      border-top: 1px solid var(--hairline);
-    }
-    .company-row:first-of-type { border-top: none; padding-top: 0; }
-    .badge-square {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 14px;
-      color: #ffffff;
-      flex-shrink: 0;
-      letter-spacing: 0.02em;
-    }
-    .badge-square.ub { background: linear-gradient(135deg, #6366f1, #4338ca); }
-    .badge-square.ec { background: linear-gradient(135deg, #22c55e, #15803d); }
-    .badge-square.sf { background: linear-gradient(135deg, #64748b, #334155); }
-    .company-row .name {
-      font-family: var(--font-body);
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-strong);
-    }
-    .company-row .sector {
-      font-family: var(--font-body);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-subtle);
-    }
-
-    /* Product/trade-show tile */
-    .trade-tile {
-      position: relative;
-      height: 140px;
-      border-radius: var(--radius-panel);
-      overflow: hidden;
-      margin-top: 12px;
-      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
-    }
-    .trade-tile img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .trade-tile::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(27, 29, 24, 0.0) 0%, rgba(27, 29, 24, 0.6) 100%);
-    }
-    .trade-tile .title {
-      position: absolute;
-      left: 16px;
-      bottom: 14px;
-      color: #ffffff;
-      font-family: var(--font-display);
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-      z-index: 1;
-    }
-    .trade-tile .pill {
-      position: absolute;
-      right: 12px;
-      top: 12px;
-      background-color: rgba(255, 255, 255, 0.9);
-      color: var(--text-strong);
-      padding: 4px 10px;
-      border-radius: var(--radius-pill);
-      font-family: var(--font-body);
-      font-size: 10px;
-      font-weight: 600;
-      z-index: 1;
-    }
-
-    /* Opportunities rows */
-    .opp-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 0;
-      border-top: 1px solid var(--hairline);
-    }
-    .opp-row:first-of-type { border-top: none; padding-top: 0; }
-    .opp-chip {
-      padding: 3px 8px;
-      border-radius: var(--radius-pill);
-      font-family: var(--font-body);
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-    .opp-row .body { flex: 1; min-width: 0; }
-    .opp-row .title {
-      font-family: var(--font-body);
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-strong);
-      line-height: 18px;
-    }
-    .opp-row .meta {
-      font-family: var(--font-body);
-      font-size: 11px;
-      color: var(--text-subtle);
-    }
-
-    /* ============================================
-       RESPONSIVE
-       ============================================ */
-    @media (max-width: 1280px) {
-      .main { grid-template-columns: 1fr 320px; gap: 24px; padding: 24px; }
-      .storm-title { font-size: 30px; }
-    }
-    @media (max-width: 1024px) {
-      .main { grid-template-columns: 1fr; }
-      .topnav { gap: 0; }
-      .topnav a { padding: 8px 10px; font-size: 11px; }
-      .stats-strip { overflow-x: auto; padding: 16px 20px 20px; gap: 20px; }
-      .storm-bolts { display: none; }
-      .storm-hero { padding: 32px 24px; }
-      .storm-title { font-size: 26px; }
-      .post-body { grid-template-columns: 1fr; }
-      .post-image { height: 220px; }
-    }
-    @media (max-width: 640px) {
-      .topbar { padding: 14px 16px; gap: 16px; }
-      .topnav { display: none; }
-      .main { padding: 16px; gap: 16px; }
-      .post { padding: 18px; }
-      .feed-controls { padding: 2px; overflow-x: auto; }
-      .tabs { gap: 0; }
-      .tab { padding: 8px 12px; font-size: 12px; }
-    }
-  </style>
+  <title>Feed — RainCloud Ukraina</title>
+  <link rel="stylesheet" href="styles/tokens.css" />
+  <link rel="stylesheet" href="styles/base.css" />
+  <link rel="stylesheet" href="styles/components.css" />
 </head>
 <body>
-  <!-- =============== TOP BAR =============== -->
-  <header class="topbar">
-    <a class="brand" href="dashboard.html">
-      <span class="brand-rain">RAIN<span class="brand-cloud">CLOUD</span></span>
-      <span class="brand-ukraina">UKRAINA<sup>TM</sup></span>
-    </a>
-    <nav class="topnav">
-      <a href="feeds.html" class="active" aria-current="page">FEED</a>
-      <a href="dashboard.html">MEMBERS</a>
-      <a href="#">PAVILIONS</a>
-      <a href="#">TRADE SHOW</a>
-      <a href="#">OPPORTUNITIES</a>
-      <a href="#">INSIGHTS</a>
-      <a href="#">EVENTS</a>
-    </nav>
-    <div class="topbar-actions">
-      <button class="icon-btn" aria-label="Search"><img src="assets/imgVectorStroke14.svg" alt=""></button>
-      <button class="icon-btn" aria-label="Messages"><img src="assets/imgVectorStroke15.svg" alt=""></button>
-      <button class="icon-btn" aria-label="Notifications">
-        <img src="assets/imgVectorStroke16.svg" alt="">
-        <span class="notification-dot"></span>
-      </button>
-      <a href="index.html" class="avatar-orange" title="Sign out">VB</a>
-    </div>
-  </header>
+  <div class="app-canvas">
 
-  <!-- =============== LIVE STATS STRIP =============== -->
-  <div class="stats-strip">
-    <span class="live-indicator">Live Network</span>
-    <div class="stat-block"><span class="num">4,280</span><span class="lbl">Members</span></div>
-    <div class="stat-divider"></div>
-    <div class="stat-block"><span class="num">1,140</span><span class="lbl">Companies</span></div>
-    <div class="stat-divider"></div>
-    <div class="stat-block"><span class="num">38</span><span class="lbl">Countries</span></div>
-    <div class="stat-divider"></div>
-    <div class="stat-block"><span class="num">312</span><span class="lbl">Active Opportunities</span></div>
-    <div class="stat-divider"></div>
-    <div class="stat-block"><span class="num">€48M+</span><span class="lbl">Contracts Facilitated</span></div>
-  </div>
+    <!-- ============ HEADER ============ -->
+    <header class="feed-header">
+      <a class="feed-header__brand" href="feeds.html" aria-label="RainCloud Ukraina — home">
+        <img src="assets/feed-logo.png" alt="RainCloud Ukraina" />
+        <span class="feed-header__tagline">Powering global business to build the new Ukraine</span>
+      </a>
+      <span class="feed-header__divider"></span>
+      <span class="feed-header__greeting">Hello, Mike</span>
+      <span class="feed-header__spacer"></span>
 
-  <!-- =============== MAIN GRID =============== -->
-  <div class="main">
-    <!-- ============ LEFT COLUMN: FEED ============ -->
-    <div class="feed-column">
-      <!-- Storm AI Hero -->
-      <section class="storm-hero">
-        <span class="storm-badge"><img src="assets/imgVectorStroke13.svg" alt=""> Try Asking Storm AI</span>
-        <h1 class="storm-title">Intelligent discovery for the<br>reconstruction ecosystem.</h1>
-        <form class="storm-search" onsubmit="event.preventDefault();">
-          <input type="text" placeholder="Show companies in Poland specializing in modular housing..." aria-label="Ask Storm AI">
-          <button type="submit"><img src="assets/imgSvg5.svg" alt=""> Ask Storm</button>
-        </form>
-        <div class="storm-chips">
-          <button class="storm-chip">Modular housing suppliers in EU</button>
-          <button class="storm-chip">Infrastructure projects in Kyiv region</button>
-        </div>
-        <div class="storm-bolts" aria-hidden="true">
-          <img src="assets/imgVector2.svg" alt="" class="bolt-back">
-          <img src="assets/imgVector3.svg" alt="" class="bolt-mid">
-          <img src="assets/imgVector1.svg" alt="" class="bolt-front">
-        </div>
-      </section>
-
-      <!-- Tabs + Sort -->
-      <div class="feed-controls">
-        <div class="tabs" role="tablist">
-          <button class="tab active" role="tab" aria-selected="true">All</button>
-          <button class="tab" role="tab">Products</button>
-          <button class="tab" role="tab">Opportunities</button>
-          <button class="tab" role="tab">Events</button>
-          <button class="tab" role="tab">Articles</button>
-          <button class="tab" role="tab">News</button>
-        </div>
-        <div class="sort">
-          Sort By: <strong>Latest</strong>
-          <img src="assets/imgSvg6.svg" alt="">
-        </div>
+      <div class="stats-pill">
+        <span class="stats-pill__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="stats-pill__value">4,280</span><span class="stats-pill__label">Members</span></span>
+        <span class="stats-pill__sep"></span>
+        <span class="stats-pill__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-3"/><path d="M9 9v.01M9 12v.01M9 15v.01"/></svg><span class="stats-pill__value">1,140</span><span class="stats-pill__label">Companies</span></span>
+        <span class="stats-pill__sep"></span>
+        <span class="stats-pill__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg><span class="stats-pill__value">2,123</span><span class="stats-pill__label">Products</span></span>
       </div>
 
-      <!-- Feed cards -->
-      <div class="feed-list">
-
-        <!-- Post 1: Article — Olena -->
-        <article class="post">
-          <div class="post-tags">
-            <span class="tag tag-primary"><img src="assets/imgVectorStroke1.svg" alt=""> Article</span>
-            <span class="tag tag-energy">Energy</span>
-            <span class="tag tag-infra">Infrastructure</span>
-          </div>
-          <div class="post-author">
-            <span class="avatar" style="background-image:url('assets/imgOlena.jpg')"></span>
-            <div>
-              <span class="author-name">Olena Kovalenko</span>
-              <span class="dot"></span>
-              <span class="author-action">published an article</span>
-              <span class="dot"></span>
-              <span class="author-line">2h ago</span>
-            </div>
-          </div>
-          <div class="post-body">
-            <div>
-              <h2 class="post-title">Ukraine's Green Rebirth: A New Energy Grid for a New Nation</h2>
-              <p class="post-desc">How innovation and resilience are shaping Ukraine's energy future.</p>
-            </div>
-            <img class="post-image" src="assets/imgSolarPanels.jpg" alt="Solar panels in a field">
-          </div>
-        </article>
-
-        <!-- Post 2: Event — RainCloud Ukraina -->
-        <article class="post">
-          <div class="post-tags">
-            <span class="tag tag-primary"><img src="assets/imgVectorStroke3.svg" alt=""> Event</span>
-            <span class="tag tag-renewable">Renewable Energy</span>
-            <span class="tag tag-smart">Smart Grid</span>
-          </div>
-          <div class="post-author">
-            <span class="avatar-mono">RC</span>
-            <div>
-              <span class="author-name">RainCloud Ukraina</span>
-              <span class="dot"></span>
-              <span class="author-action">announced an event</span>
-              <span class="dot"></span>
-              <span class="author-line">1d ago</span>
-            </div>
-          </div>
-          <div class="post-body">
-            <div>
-              <h2 class="post-title">Rebuild Roundtable: Public-Private Partnerships Driving Recovery</h2>
-              <p class="post-desc">Bringing leaders together to accelerate Ukraine's reconstruction.</p>
-            </div>
-            <img class="post-image" src="assets/imgSolarPanels1.jpg" alt="Power lines at sunset">
-          </div>
-          <div class="post-meta">
-            <span class="item"><img src="assets/imgSvg.svg" alt=""> Kyiv, Ukraine</span>
-            <span class="item"><img src="assets/imgSvg1.svg" alt=""> May 25, 2026 · 1:00 PM UTC</span>
-          </div>
-        </article>
-
-        <!-- Post 3: Product — NovaTech -->
-        <article class="post">
-          <div class="post-tags">
-            <span class="tag tag-primary"><img src="assets/imgVectorStroke5.svg" alt=""> Product</span>
-            <span class="tag tag-energy">Energy</span>
-            <span class="tag tag-infra">Infrastructure</span>
-          </div>
-          <div class="post-author">
-            <span class="avatar-mono" style="background-color:#0ea5e9">NT</span>
-            <div>
-              <span class="author-name">NovaTech Solutions</span>
-              <span class="dot"></span>
-              <span class="author-action">added a new product</span>
-              <span class="dot"></span>
-              <span class="author-line">5h ago</span>
-            </div>
-          </div>
-          <div class="post-body">
-            <div>
-              <h2 class="post-title">Modular Substation for Fast Deployment</h2>
-              <p class="post-desc">Compact, digital-ready substations for power distribution in rebuilding regions.</p>
-            </div>
-            <img class="post-image" src="assets/imgBackground.png" alt="Modular substations at sunset">
-          </div>
-        </article>
-
-        <!-- Post 4: News — RainCloud Ukraina -->
-        <article class="post">
-          <div class="post-tags">
-            <span class="tag tag-primary"><img src="assets/imgVectorStroke9.svg" alt=""> News</span>
-            <span class="tag tag-renewable">Renewable Energy</span>
-            <span class="tag tag-housing">Housing</span>
-          </div>
-          <div class="post-author">
-            <span class="avatar-mono">RC</span>
-            <div>
-              <span class="author-name">RainCloud Ukraina</span>
-              <span class="dot"></span>
-              <span class="author-action">posted news</span>
-              <span class="dot"></span>
-              <span class="author-line">1d ago</span>
-            </div>
-          </div>
-          <div class="post-body">
-            <div>
-              <h2 class="post-title">Recovery and reconstruction of Ukraine — European Commission</h2>
-              <p class="post-desc">EU has launched a new support mechanism for the years 2026-2030.</p>
-            </div>
-            <img class="post-image" src="assets/imgIndustry.png" alt="European Commission delegation meeting children">
-          </div>
-        </article>
-
-        <!-- Post 5: Opportunity — GreenBuild -->
-        <article class="post">
-          <div class="post-tags">
-            <span class="tag tag-primary"><img src="assets/imgVectorStroke8.svg" alt=""> Opportunity</span>
-            <span class="tag tag-renewable">Renewable Energy</span>
-            <span class="tag tag-smart">Smart Grid</span>
-          </div>
-          <div class="post-author">
-            <span class="avatar-mono" style="background-color:#16a34a">GB</span>
-            <div>
-              <span class="author-name">GreenBuild Corp.</span>
-              <span class="dot"></span>
-              <span class="author-action">posted an opportunity</span>
-              <span class="dot"></span>
-              <span class="author-line">2d ago</span>
-            </div>
-          </div>
-          <div class="post-body">
-            <div>
-              <h2 class="post-title">Looking for Solar EPC Partner</h2>
-              <p class="post-desc">Municipality in Western Ukraine seeking an EPC partner for a 15MW solar project.</p>
-            </div>
-            <img class="post-image" src="assets/imgBackground1.png" alt="Solar EPC partnership">
-          </div>
-          <div class="post-meta">
-            <span class="item"><img src="assets/imgSvg.svg" alt=""> Kyiv, Ukraine</span>
-            <span class="item"><img src="assets/imgSvg1.svg" alt=""> Deadline: Jul 30, 2025</span>
-            <span class="item budget">€2.4M – €3.8M</span>
-          </div>
-        </article>
-
+      <div class="feed-header__actions">
+        <button class="feed-icon-btn" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></button>
+        <button class="feed-icon-btn" aria-label="Messages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 9 9 0 0 1-3.9-.9L3 21l1.9-5.6a8.38 8.38 0 0 1-.9-3.9A8.5 8.5 0 0 1 12.5 3 8.38 8.38 0 0 1 21 11.5z"/></svg></button>
+        <button class="feed-icon-btn" aria-label="Notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="feed-icon-btn__dot"></span></button>
+        <button class="feed-icon-btn" aria-label="Storm AI"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></button>
+        <span class="feed-avatar">MK</span>
       </div>
+    </header>
+
+    <div class="feed-layout">
+
+      <!-- ============ SIDEBAR ============ -->
+      <aside class="feed-sidebar">
+        <nav class="feed-nav" aria-label="Sections">
+          <a class="feed-nav__row is-active" href="feeds.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Feed</a>
+          <a class="feed-nav__row" href="dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Network</a>
+          <a class="feed-nav__row" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-3"/></svg>Companies &amp; Organisations</a>
+          <a class="feed-nav__row" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Virtual Trade Show</a>
+          <a class="feed-nav__row" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></svg>Business Pavilions</a>
+          <a class="feed-nav__row" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-9M14 17H5M17 3l3 4-3 4M7 13l-3 4 3 4"/></svg>Opportunities</a>
+          <a class="feed-nav__row" href="insights.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg>Thought Leadership</a>
+          <a class="feed-nav__row" href="events.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Events</a>
+          <a class="feed-nav__row" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9h4"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg>News</a>
+        </nav>
+        <div class="feed-sidebar__foot">
+          <button class="feed-nav__row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M14 9l-3 3 3 3"/></svg>Close sidebar</button>
+        </div>
+      </aside>
+
+      <!-- ============ MAIN ============ -->
+      <main class="feed-main">
+        <div class="feed-main__inner">
+
+          <!-- Storm AI hero -->
+          <section class="storm-hero">
+            <h1 class="storm-hero__title">Hello, Mike. What are you looking for today?</h1>
+            <p class="storm-hero__sub">You have <span class="hero-pill hero-pill--blue">12 new matches</span>, <span class="hero-pill hero-pill--amber">5 pending requests</span> and <span class="hero-pill hero-pill--purple">3 upcoming events</span>. Let's review them!</p>
+            <div class="hero-search">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+              <input type="search" placeholder="Search by industry, product type, or company..." aria-label="Search" />
+              <span class="hero-search__ask">Ask Storm <span class="key-chip">Tab</span></span>
+            </div>
+            <div class="hero-chips">
+              <button class="hero-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 12 0v1"/></svg><span><span class="hero-chip__title">Anna Muller</span><br><span class="hero-chip__sub">Project Director at WeBuild</span></span></button>
+              <button class="hero-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-3"/></svg><span><span class="hero-chip__title">UkrBuild Solutions</span><br><span class="hero-chip__sub">Construction</span></span></button>
+              <button class="hero-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg><span><span class="hero-chip__title">Modular Wall Panel</span><br><span class="hero-chip__sub">Housing</span></span></button>
+            </div>
+          </section>
+
+          <!-- Products -->
+          <section class="feed-section">
+            <div class="section-head">
+              <div class="section-head__left">
+                <span class="section-head__bubble"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></span>
+                <span class="section-head__title">Products</span>
+                <svg class="section-head__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+              </div>
+              <a class="view-all" href="#">View all products <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a>
+            </div>
+            <div class="grid-3">
+              <article class="fcard"><div class="fcard__media"><img src="assets/feed-product-1.gif" alt=""><span class="fcard__cat cat--housing">Housing</span></div><div class="fcard__body"><div class="fcard__toprow"><span class="fcard__company">UkrBuild Solutions</span><span class="fcard__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Kyiv</span></div><h3 class="fcard__title">Rapid Modular Housing Units</h3><p class="fcard__desc">Insulated prefabricated homes for displaced families, deployable in days.</p><div class="fcard__member"><span class="fcard__member-av">MW</span><div><div class="fcard__member-name">Mark Weber</div><div class="fcard__member-role">Business Development Lead</div></div></div></div></article>
+
+              <article class="fcard"><div class="fcard__media"><img src="assets/feed-product-2.png" alt=""><span class="fcard__cat cat--infra">Infrastructure</span></div><div class="fcard__body"><div class="fcard__toprow"><span class="fcard__company">DniproSteel Works</span><span class="fcard__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Dnipro</span></div><h3 class="fcard__title">Steel Bridge Repair Components</h3><p class="fcard__desc">Modular beams, decking plates and connectors for fast replacement of damaged spans.</p><div class="fcard__member"><span class="fcard__member-av">MW</span><div><div class="fcard__member-name">Mark Weber</div><div class="fcard__member-role">Business Development Lead</div></div></div></div></article>
+
+              <article class="fcard"><div class="fcard__media"><img src="assets/feed-product-3.jpg" alt=""><span class="fcard__cat cat--energy">Energy</span></div><div class="fcard__body"><div class="fcard__toprow"><span class="fcard__company">EcoGrid Power</span><span class="fcard__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Lviv</span></div><h3 class="fcard__title">Solar Microgrid Kits</h3><p class="fcard__desc">Containerised solar, battery and inverter systems for schools, clinics and community shelters.</p><div class="fcard__member"><span class="fcard__member-av">MW</span><div><div class="fcard__member-name">Mark Weber</div><div class="fcard__member-role">Business Development Lead</div></div></div></div></article>
+
+              <article class="fcard"><div class="fcard__media"><img src="assets/feed-product-4.jpg" alt=""><span class="fcard__cat cat--water">Water</span></div><div class="fcard__body"><div class="fcard__toprow"><span class="fcard__company">AquaTech UA</span><span class="fcard__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Kharkiv</span></div><h3 class="fcard__title">Mobile Water Purification Units</h3><p class="fcard__desc">Trailer-mounted treatment for emergency drinking water and temporary settlements.</p><div class="fcard__member"><span class="fcard__member-av">MW</span><div><div class="fcard__member-name">Mark Weber</div><div class="fcard__member-role">Business Development Lead</div></div></div></div></article>
+
+              <article class="fcard"><div class="fcard__media"><img src="assets/feed-product-5.jpg" alt=""><span class="fcard__cat cat--health">Healthcare</span></div><div class="fcard__body"><div class="fcard__toprow"><span class="fcard__company">MedUnit Systems</span><span class="fcard__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Warsaw</span></div><h3 class="fcard__title">Prefabricated Clinic Modules</h3><p class="fcard__desc">Ready-to-install medical rooms with HVAC, sanitary cores and medical-grade utilities.</p><div class="fcard__member"><span class="fcard__member-av">MW</span><div><div class="fcard__member-name">Mark Weber</div><div class="fcard__member-role">Business Development Lead</div></div></div></div></article>
+
+              <article class="fcard"><div class="fcard__media"><img src="assets/feed-product-6.jpg" alt=""><span class="fcard__cat cat--transport">Transport</span></div><div class="fcard__body"><div class="fcard__toprow"><span class="fcard__company">Autobahn Systems</span><span class="fcard__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Berlin</span></div><h3 class="fcard__title">Cold-Mix Road Repair Material</h3><p class="fcard__desc">All-season asphalt repair for rapid resurfacing of damaged roads and logistics corridors.</p><div class="fcard__member"><span class="fcard__member-av">MW</span><div><div class="fcard__member-name">Mark Weber</div><div class="fcard__member-role">Business Development Lead</div></div></div></div></article>
+            </div>
+          </section>
+
+          <!-- Members -->
+          <section class="feed-section">
+            <div class="section-head">
+              <div class="section-head__left">
+                <span class="section-head__bubble"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+                <span class="section-head__title">Members</span>
+              </div>
+              <a class="view-all" href="dashboard.html">View all members <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a>
+            </div>
+            <div class="grid-2">
+              <article class="rcard"><div class="rcard__main"><img class="rcard__av" src="assets/feed-avatar-1.jpg" alt=""><div><div class="rcard__name">Anna Müller</div><div class="rcard__sub"><span class="rcard__role-badge">Company Representative</span><span class="rcard__meta">Project Director at WeBuild · Berlin, Germany</span></div></div></div><button class="btn btn--secondary btn--pill">Connect</button></article>
+              <article class="rcard"><div class="rcard__main"><img class="rcard__av" src="assets/feed-avatar-2.jpg" alt=""><div><div class="rcard__name">Olena Kovalenko</div><div class="rcard__sub"><span class="rcard__role-badge">Industry Expert</span><span class="rcard__meta">Energy Policy Manager · Kyiv, Ukraine</span></div></div></div><button class="btn btn--secondary btn--pill">Connect</button></article>
+              <article class="rcard"><div class="rcard__main"><img class="rcard__av" src="assets/feed-avatar-3.jpg" alt=""><div><div class="rcard__name">Ivan Petrov</div><div class="rcard__sub"><span class="rcard__role-badge">Product Owner</span><span class="rcard__meta">Business Development Lead at Slava Modular · Kyiv</span></div></div></div><button class="btn btn--secondary btn--pill">Connect</button></article>
+              <article class="rcard"><div class="rcard__main"><img class="rcard__av" src="assets/feed-avatar-4.jpg" alt=""><div><div class="rcard__name">Tomasz Jabłoński</div><div class="rcard__sub"><span class="rcard__role-badge">Investor</span><span class="rcard__meta">Investment Advisor · Warsaw, Poland</span></div></div></div><button class="btn btn--secondary btn--pill">Connect</button></article>
+            </div>
+          </section>
+
+          <!-- Companies & Organisations -->
+          <section class="feed-section">
+            <div class="section-head">
+              <div class="section-head__left">
+                <span class="section-head__bubble"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-3"/></svg></span>
+                <span class="section-head__title">Companies &amp; Organisations</span>
+              </div>
+              <a class="view-all" href="#">View all companies <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a>
+            </div>
+            <div class="grid-2">
+              <article class="rcard"><div class="rcard__main"><span class="rcard__av rcard__av--logo">SG</span><div><div class="rcard__name">SafeGround Ukraine</div><div class="rcard__sub"><span class="rcard__meta">Technology Provider · Defense &amp; Demining · Ukraine · 6 products • 14 members</span></div></div></div><button class="btn btn--secondary btn--pill">Follow</button></article>
+              <article class="rcard"><div class="rcard__main"><span class="rcard__av rcard__av--logo">SF</span><div><div class="rcard__name">SteelFrame Ltd</div><div class="rcard__sub"><span class="rcard__meta">Supplier · Infrastructure · Denmark · 5 products • 17 members</span></div></div></div><button class="btn btn--secondary btn--pill">Follow</button></article>
+              <article class="rcard"><div class="rcard__main"><span class="rcard__av rcard__av--logo">EG</span><div><div class="rcard__name">EnerGreen Home</div><div class="rcard__sub"><span class="rcard__meta">Energy Provider · Renewable Energy · Poland · 8 products • 24 members</span></div></div></div><button class="btn btn--secondary btn--pill">Follow</button></article>
+              <article class="rcard"><div class="rcard__main"><span class="rcard__av rcard__av--logo">UB</span><div><div class="rcard__name">UkrBuild Solutions</div><div class="rcard__sub"><span class="rcard__meta">Manufacturer · Construction &amp; Housing · Ukraine · 12 products • 38 members</span></div></div></div><button class="btn btn--secondary btn--pill">Follow</button></article>
+            </div>
+          </section>
+
+          <!-- Thought Leadership -->
+          <section class="feed-section">
+            <div class="section-head">
+              <div class="section-head__left">
+                <span class="section-head__bubble"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg></span>
+                <span class="section-head__title">Thought Leadership</span>
+              </div>
+              <a class="view-all" href="insights.html">View all insights <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a>
+            </div>
+            <div class="grid-3">
+              <article class="tcard"><span class="tcard__cat tcard__cat--article">Article</span><span class="tcard__meta">Mar 12, 2025</span><h3 class="tcard__title">How modular housing can shorten recovery timelines</h3><p class="tcard__desc">Lessons from three pilot deployments on cutting time-to-shelter without cutting quality.</p><span class="tcard__foot">Olena Marchenko</span></article>
+              <article class="tcard"><span class="tcard__cat tcard__cat--article">PDF</span><span class="tcard__meta">Mar 8, 2025</span><h3 class="tcard__title">Microgrid procurement checklist for public facilities</h3><p class="tcard__desc">A practical checklist covering sizing, resilience and maintenance for municipal buyers.</p><span class="tcard__foot">Iryna Shevchenko</span></article>
+              <article class="tcard"><span class="tcard__cat tcard__cat--article">Article</span><span class="tcard__meta">Mar 8, 2025</span><h3 class="tcard__title">Choosing cold-mix materials for damaged corridors</h3><p class="tcard__desc">When cold-mix beats hot-mix for rapid, all-weather repair of critical logistics routes.</p><span class="tcard__foot">Dmytro Melnyk</span></article>
+            </div>
+          </section>
+
+          <!-- Events -->
+          <section class="feed-section">
+            <div class="section-head">
+              <div class="section-head__left">
+                <span class="section-head__bubble"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span>
+                <span class="section-head__title">Events</span>
+              </div>
+              <a class="view-all" href="events.html">View all events <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a>
+            </div>
+            <div class="grid-3">
+              <article class="tcard"><span class="tcard__cat tcard__cat--event">Forum</span><span class="tcard__meta">May 25, 2026</span><h3 class="tcard__title">Ukraine Recovery Infrastructure Forum</h3><p class="tcard__desc">Two days of matchmaking between municipalities, suppliers and financing partners.</p><span class="tcard__foot">Kyiv, Ukraine</span></article>
+              <article class="tcard"><span class="tcard__cat tcard__cat--event">Roundtable</span><span class="tcard__meta">June 4, 2026</span><h3 class="tcard__title">Modular Housing Roundtable</h3><p class="tcard__desc">Standards, logistics and financing for scaling modular housing across regions.</p><span class="tcard__foot">Warsaw, Poland</span></article>
+              <article class="tcard"><span class="tcard__cat tcard__cat--event">Conference</span><span class="tcard__meta">June 18, 2026</span><h3 class="tcard__title">Energy Resilience Summit</h3><p class="tcard__desc">Grid hardening, microgrids and distributed storage for critical facilities.</p><span class="tcard__foot">Berlin, Germany</span></article>
+            </div>
+          </section>
+
+          <!-- News -->
+          <section class="feed-section">
+            <div class="section-head">
+              <div class="section-head__left">
+                <span class="section-head__bubble"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9h4"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg></span>
+                <span class="section-head__title">News</span>
+              </div>
+              <a class="view-all" href="#">View all news <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a>
+            </div>
+            <div class="grid-3">
+              <article class="fcard"><div class="fcard__media"><img src="assets/feed-news-1.png" alt=""><span class="fcard__cat cat--energy">Energy</span></div><div class="fcard__body"><h3 class="fcard__title">New EU facility unlocks €2bn for grid repair</h3><p class="fcard__desc">Funding targets distribution networks in front-line regions over the next 18 months.</p><div class="fcard__member"><div><div class="fcard__member-role" style="margin:0">Reuters · Mar 14, 2025</div></div></div></div></article>
+              <article class="fcard"><div class="fcard__media"><img src="assets/feed-news-2.png" alt=""><span class="fcard__cat cat--housing">Housing</span></div><div class="fcard__body"><h3 class="fcard__title">First 500 modular homes handed over in Bucha</h3><p class="fcard__desc">A consortium of manufacturers completes the largest modular delivery to date.</p><div class="fcard__member"><div><div class="fcard__member-role" style="margin:0">Kyiv Independent · Mar 11, 2025</div></div></div></div></article>
+              <article class="fcard"><div class="fcard__media"><img src="assets/feed-news-3.png" alt=""><span class="fcard__cat cat--infra">Infrastructure</span></div><div class="fcard__body"><h3 class="fcard__title">Bridge rebuilding programme adds 40 new sites</h3><p class="fcard__desc">Standardised steel components cut average reconstruction time by a third.</p><div class="fcard__member"><div><div class="fcard__member-role" style="margin:0">UkrInform · Mar 9, 2025</div></div></div></div></article>
+            </div>
+          </section>
+
+          <!-- Opportunities -->
+          <section class="feed-section">
+            <div class="section-head">
+              <div class="section-head__left">
+                <span class="section-head__bubble"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-9M14 17H5M17 3l3 4-3 4M7 13l-3 4 3 4"/></svg></span>
+                <span class="section-head__title">Opportunities</span>
+              </div>
+              <a class="view-all" href="#">View all opportunities <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a>
+            </div>
+            <div class="grid-3">
+              <article class="tcard"><div style="display:flex;align-items:center;justify-content:space-between"><span class="tcard__cat tcard__cat--opp">RFP</span><span class="tcard__value">£1.8M</span></div><h3 class="tcard__title">Prefab housing supplier</h3><p class="tcard__desc">Supply and install 300 modular housing units for a returning-residents programme.</p><span class="tcard__foot">Bucha, Ukraine · Deadline: Aug 12, 2026</span></article>
+              <article class="tcard"><div style="display:flex;align-items:center;justify-content:space-between"><span class="tcard__cat tcard__cat--opp">Tender</span><span class="tcard__value">£3.2M</span></div><h3 class="tcard__title">Solar panels, 2MW minimum</h3><p class="tcard__desc">Procurement of PV modules and inverters for municipal microgrid resilience.</p><span class="tcard__foot">Odesa, Ukraine · Deadline: Aug 20, 2026</span></article>
+              <article class="tcard"><div style="display:flex;align-items:center;justify-content:space-between"><span class="tcard__cat tcard__cat--opp">Procurement</span><span class="tcard__value">£940K</span></div><h3 class="tcard__title">Water treatment system — Kyiv</h3><p class="tcard__desc">Design-build of a containerised water treatment plant for a district of 40,000.</p><span class="tcard__foot">Kyiv, Ukraine · Deadline: Sep 5, 2026</span></article>
+            </div>
+          </section>
+
+        </div>
+      </main>
     </div>
-
-    <!-- ============ RIGHT COLUMN: SIDEBAR ============ -->
-    <aside class="sidebar">
-      <!-- Storm Suggestions -->
-      <section class="panel">
-        <header class="panel-header">
-          <span class="panel-title">Storm Suggestions</span>
-          <a href="#" class="panel-link">View All</a>
-        </header>
-        <div class="suggest-item">
-          <img class="suggest-thumb" src="assets/imgPhoto1486406146926C627A92Ad1Ab.jpg" alt="">
-          <div class="suggest-body">
-            <div class="suggest-kicker">Find Companies</div>
-            <div class="suggest-title">Preferable Housing manufactures in…</div>
-          </div>
-        </div>
-        <div class="suggest-item">
-          <img class="suggest-thumb" src="assets/imgPhoto1454165804606C3D57Bc86B40.jpg" alt="">
-          <div class="suggest-body">
-            <div class="suggest-kicker">Read Insight</div>
-            <div class="suggest-title">How Denmark Supports Ukraine…</div>
-          </div>
-        </div>
-        <div class="suggest-item">
-          <img class="suggest-thumb" src="assets/imgPhoto1540575467063178A50C2Df87.jpg" alt="">
-          <div class="suggest-body">
-            <div class="suggest-kicker">Attend Event</div>
-            <div class="suggest-title">Ukraine Recovery Conference 2026…</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Members -->
-      <section class="panel">
-        <header class="panel-header">
-          <span class="panel-title">Members</span>
-          <a href="dashboard.html" class="panel-link">View All</a>
-        </header>
-        <div class="member-row">
-          <span class="avatar" style="background-image:url('assets/imgOlena.jpg')"></span>
-          <div class="body">
-            <div class="name">Olena Kovalenko</div>
-            <div class="role">Energy Policy Manager</div>
-            <div class="loc"><img src="assets/imgSvg.svg" alt=""> Kyiv, Ukraine</div>
-          </div>
-        </div>
-        <div class="member-row">
-          <span class="avatar" style="background-image:url('assets/imgPhoto158048994476115A19D654956.jpg')"></span>
-          <div class="body">
-            <div class="name">Anna Müller</div>
-            <div class="role">Project Director at WeBuilt</div>
-            <div class="loc"><img src="assets/imgSvg.svg" alt=""> Berlin, Germany</div>
-          </div>
-        </div>
-        <div class="member-row">
-          <span class="avatar" style="background-image:url('assets/imgPhoto14720996457855658Abf4Ff4E.jpg')"></span>
-          <div class="body">
-            <div class="name">Tomasz Jabłoński</div>
-            <div class="role">Investment Advisor</div>
-            <div class="loc"><img src="assets/imgSvg.svg" alt=""> Warsaw, Poland</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Companies -->
-      <section class="panel">
-        <header class="panel-header">
-          <span class="panel-title">Companies</span>
-          <a href="#" class="panel-link">View All</a>
-        </header>
-        <div class="company-row">
-          <span class="badge-square ub">UB</span>
-          <div class="body">
-            <div class="name">UkrBuild Solutions</div>
-            <div class="sector">Construction</div>
-          </div>
-        </div>
-        <div class="company-row">
-          <span class="badge-square ec">EC</span>
-          <div class="body">
-            <div class="name">EnerGreen Home</div>
-            <div class="sector">Energy</div>
-          </div>
-        </div>
-        <div class="company-row">
-          <span class="badge-square sf">SF</span>
-          <div class="body">
-            <div class="name">SteelFrame Ltd</div>
-            <div class="sector">Construction</div>
-          </div>
-        </div>
-        <div class="trade-tile">
-          <img src="assets/imgPanel.jpg" alt="Modular Wall Panel">
-          <span class="pill">View</span>
-          <span class="title">Modular Wall Panel</span>
-        </div>
-        <div class="trade-tile">
-          <img src="assets/imgPanel1.jpg" alt="Solar Storage Unit">
-          <span class="pill">View</span>
-          <span class="title">Solar Storage Unit 100</span>
-        </div>
-      </section>
-
-      <!-- Opportunities -->
-      <section class="panel">
-        <header class="panel-header">
-          <span class="panel-title">Opportunities</span>
-          <a href="#" class="panel-link">View All</a>
-        </header>
-        <div class="opp-row">
-          <span class="opp-chip tag-housing">Housing</span>
-          <div class="body">
-            <div class="title">Prefab housing supplier</div>
-            <div class="meta">Bucha</div>
-          </div>
-        </div>
-        <div class="opp-row">
-          <span class="opp-chip tag-energy">Energy</span>
-          <div class="body">
-            <div class="title">Solar panels, 2kV·m</div>
-            <div class="meta">Odessa</div>
-          </div>
-        </div>
-        <div class="opp-row">
-          <span class="opp-chip tag-renewable">Utilities</span>
-          <div class="body">
-            <div class="title">Water treatment system</div>
-            <div class="meta">Kyiv</div>
-          </div>
-        </div>
-      </section>
-    </aside>
   </div>
 </body>
 </html>

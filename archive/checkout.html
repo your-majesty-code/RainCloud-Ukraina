@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout — Storm AI Pro — RainCloud</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="styles/tokens.css" />
+  <link rel="stylesheet" href="styles/base.css" />
+  <style>
+    /* ============================================================
+       SHELL + TOP BAR (matches pricing.html)
+       ============================================================ */
+    .shell { min-height: 100vh; background-color: var(--surface); }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-6) var(--space-8);
+      border-bottom: var(--border-width) solid var(--border-color);
+    }
+    .topbar .brand {
+      display: inline-flex; align-items: baseline; gap: var(--space-2);
+      font-family: var(--font-display); font-weight: var(--font-weight-semibold);
+      color: var(--on-surface);
+    }
+    .topbar .brand .brand-rain { font-size: 18px; letter-spacing: 0.04em; }
+    .topbar .brand .brand-cloud { color: var(--outline-variant); letter-spacing: 0.16em; }
+    .topbar .brand .brand-ukraina {
+      font-size: 13px; letter-spacing: 0.2em;
+      padding-left: var(--space-2); border-left: 1px solid var(--border-color);
+    }
+    .topbar .back {
+      display: inline-flex; align-items: center; gap: var(--space-2);
+      color: var(--on-surface-variant);
+      transition: color var(--transition-fast);
+    }
+    .topbar .back:hover { color: var(--on-surface); }
+    .topbar .back svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+    /* Stepper */
+    .stepper {
+      display: flex; align-items: center; justify-content: center;
+      gap: var(--space-6); padding: var(--space-8) var(--space-6); flex-wrap: wrap;
+    }
+    .step { display: inline-flex; align-items: center; gap: var(--space-3); color: var(--on-surface-variant); }
+    .step .num {
+      width: 28px; height: 28px; border-radius: var(--radius-full);
+      background-color: var(--surface-container); color: var(--on-surface-variant);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-weight: var(--font-weight-semibold); font-size: 13px; flex-shrink: 0;
+    }
+    .step.active { color: var(--on-surface); }
+    .step.active .num { background-color: var(--primary-container); color: var(--on-primary); }
+    .step.done { color: var(--on-surface); }
+    .step.done .num { background-color: var(--surface-container-high); color: var(--on-surface); }
+    .step.done .num .real-num { display: none; }
+    .step.done .num::before { content: '✓'; }
+    .step-line { flex: 0 0 40px; height: 1px; background-color: var(--border-color); }
+
+    /* ============================================================
+       MAIN GRID
+       ============================================================ */
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 var(--space-8) var(--space-16);
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: var(--space-10);
+      align-items: start;
+    }
+
+    /* ============================================================
+       PAYMENT FORM (LEFT)
+       ============================================================ */
+    .form-card {
+      background-color: var(--surface-container-lowest);
+      border: var(--border-width) solid var(--border-color);
+      border-radius: var(--radius-2xl);
+      padding: var(--space-8);
+    }
+    .form-card + .form-card { margin-top: var(--space-8); }   /* ≥ form-card padding */
+
+    .form-card h2 {
+      margin: 0 0 var(--space-2);
+      color: var(--on-surface);
+    }
+    .form-card .section-desc {
+      color: var(--on-surface-variant);
+      margin: 0 0 var(--space-6);
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4) var(--space-4);
+    }
+    .field-grid .full { grid-column: 1 / -1; }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+    .field-label {
+      color: var(--on-surface-variant);
+    }
+
+    .input-wrap { position: relative; }
+    .input,
+    .select {
+      width: 100%;
+      height: var(--control-height-md);
+      padding: 0 var(--space-4);
+      color: var(--on-surface);
+      background-color: var(--surface-container-lowest);
+      border: var(--border-width) solid var(--border-color);
+      border-radius: var(--radius);
+      transition: border-color var(--transition-fast),
+                  background-color var(--transition-fast),
+                  box-shadow var(--transition-fast);
+      appearance: none;
+    }
+    .input.has-glyph { padding-right: var(--space-12); }
+    .input::placeholder { color: var(--outline); }
+    .input:hover { background-color: var(--surface-container-low); }
+    .input:focus-visible {
+      outline: none;
+      border-color: var(--primary-container);
+      background-color: var(--surface-container-lowest);
+      box-shadow: var(--focus-ring);
+    }
+    .input[aria-invalid="true"] {
+      border-color: var(--error);
+    }
+    .input[aria-invalid="true"]:focus-visible {
+      box-shadow: var(--focus-ring-error);
+    }
+    .select {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none' stroke='%23727875' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4 6L8 10L12 6'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right var(--space-3) center;
+      padding-right: var(--space-10);
+    }
+
+    .input-glyph {
+      position: absolute;
+      right: var(--space-3);
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--on-surface-variant);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      pointer-events: none;
+    }
+    .input-glyph .card-brand {
+      padding: 2px 6px;
+      background-color: var(--surface-container);
+      border-radius: var(--radius-sm);
+      color: var(--on-surface);
+      font-family: var(--font-display);
+      font-weight: var(--font-weight-semibold);
+      font-size: 10px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .input-glyph svg { width: 14px; height: 14px; }
+
+    .helper {
+      color: var(--on-surface-variant);
+      margin-top: var(--space-1);
+    }
+    .helper.error {
+      color: var(--error);
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+    }
+    .helper.error svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2.5; }
+
+    /* Tab selector for billing email vs invoice */
+    .segment {
+      display: inline-flex;
+      padding: var(--space-1);
+      background-color: var(--surface-container);
+      border-radius: var(--radius-full);
+      margin-bottom: var(--space-4);
+    }
+    .segment input { display: none; }
+    .segment label {
+      padding: var(--space-2) var(--space-4);
+      color: var(--on-surface-variant);
+      cursor: pointer;
+      border-radius: var(--radius-full);
+      font-weight: var(--font-weight-semibold);
+      transition: color var(--transition-fast);
+    }
+    .segment input:checked + label {
+      color: var(--on-surface);
+      background-color: var(--surface-container-lowest);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Coupon */
+    .coupon {
+      display: flex;
+      gap: var(--space-2);
+      align-items: stretch;
+    }
+    .coupon .input { flex: 1; }
+    .coupon-apply {
+      height: var(--control-height-md);
+      padding: 0 var(--space-4);
+      background-color: var(--surface-container);
+      color: var(--on-surface);
+      border: var(--border-width) solid var(--border-color);
+      border-radius: var(--radius);
+      font-weight: var(--font-weight-semibold);
+      cursor: pointer;
+      transition: background-color var(--transition-fast), border-color var(--transition-fast);
+      white-space: nowrap;
+    }
+    .coupon-apply:hover {
+      background-color: var(--surface-container-high);
+      border-color: var(--outline);
+    }
+    .coupon-apply:focus-visible {
+      outline: none;
+      box-shadow: var(--focus-ring);
+    }
+
+    /* ============================================================
+       ORDER SUMMARY (RIGHT)
+       ============================================================ */
+    .summary {
+      background-color: var(--surface-container-lowest);
+      border: var(--border-width) solid var(--border-color);
+      border-radius: var(--radius-2xl);
+      padding: var(--space-8);
+      position: sticky;
+      top: var(--space-6);
+    }
+    .summary h2 {
+      margin: 0 0 var(--space-6);
+      color: var(--on-surface);
+    }
+
+    .order-plan {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-3);
+      padding: var(--space-4);
+      background-color: var(--surface-container-low);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-6);
+    }
+    .order-plan .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      background-color: var(--success-container);
+      color: var(--on-primary-container);
+      border-radius: var(--radius-full);
+      font-size: 10px;
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-2);
+    }
+    .order-plan .name {
+      color: var(--on-surface);
+      margin: 0 0 var(--space-1);
+    }
+    .order-plan .meta {
+      color: var(--on-surface-variant);
+      margin: 0;
+    }
+    .order-plan .change {
+      color: var(--primary-container);
+      font-weight: var(--font-weight-semibold);
+      transition: color var(--transition-fast);
+    }
+    .order-plan .change:hover { color: var(--primary-container-hover); }
+
+    .summary-rows { display: flex; flex-direction: column; gap: var(--space-3); }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      color: var(--on-surface);
+    }
+    .summary-row .lbl { color: var(--on-surface-variant); }
+    .summary-row.discount .val { color: var(--primary-container); font-weight: var(--font-weight-semibold); }
+
+    .summary-divider {
+      height: 1px;
+      background-color: var(--border-color);
+      margin: var(--space-4) 0;
+    }
+
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .summary-total .lbl {
+      color: var(--on-surface);
+    }
+    .summary-total .val {
+      font-family: var(--font-display);
+      font-weight: var(--font-weight-semibold);
+      font-size: 28px;
+      letter-spacing: var(--letter-spacing-headline);
+      color: var(--on-surface);
+    }
+    .summary-cycle {
+      color: var(--on-surface-variant);
+      margin-top: var(--space-1);
+      text-align: right;
+    }
+
+    .summary-cta {
+      width: 100%;
+      height: var(--control-height-lg);
+      padding: 0 var(--space-4);
+      margin-top: var(--space-6);
+      color: var(--on-primary);
+      background-color: var(--primary-container);
+      border: var(--border-width) solid var(--primary-container);
+      border-radius: var(--radius);
+      font-weight: var(--font-weight-semibold);
+      cursor: pointer;
+      transition: background-color var(--transition-fast),
+                  border-color var(--transition-fast),
+                  box-shadow var(--transition-fast),
+                  transform var(--transition-fast);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      position: relative;
+    }
+    .summary-cta:hover {
+      background-color: var(--primary-container-hover);
+      border-color: var(--primary-container-hover);
+      box-shadow: var(--shadow-primary);
+    }
+    .summary-cta:active {
+      background-color: var(--primary-container-pressed);
+      transform: translateY(1px);
+    }
+    .summary-cta:focus-visible {
+      outline: none;
+      box-shadow: var(--focus-ring);
+    }
+    .summary-cta:disabled {
+      opacity: 0.6;
+      cursor: wait;
+      pointer-events: none;
+    }
+    .summary-cta .spinner {
+      display: none;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 600ms linear infinite;
+    }
+    .summary-cta.loading .label { opacity: 0; }
+    .summary-cta.loading .spinner { display: inline-block; position: absolute; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .trust-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      justify-content: center;
+      margin-top: var(--space-4);
+      color: var(--on-surface-variant);
+    }
+    .trust-row svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+    .terms {
+      margin-top: var(--space-4);
+      color: var(--on-surface-variant);
+      text-align: center;
+    }
+    .terms a {
+      color: var(--on-surface);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .terms a:hover { border-color: var(--on-surface); }
+
+    /* ============================================================
+       PAY-METHOD CHOICE (cards/Apple Pay/etc.)
+       ============================================================ */
+    .pay-methods {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: var(--space-3);
+      margin-bottom: var(--space-6);
+    }
+    .pay-method {
+      position: relative;
+      padding: var(--space-4);
+      background-color: var(--surface-container-lowest);
+      border: var(--border-width) solid var(--border-color);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      color: var(--on-surface);
+      cursor: pointer;
+      font-weight: var(--font-weight-semibold);
+      transition: border-color var(--transition-fast),
+                  background-color var(--transition-fast);
+    }
+    .pay-method input { position: absolute; opacity: 0; pointer-events: none; }
+    .pay-method:hover { background-color: var(--surface-container-low); }
+    .pay-method:has(input:checked) {
+      border-color: var(--primary-container);
+      border-width: var(--border-width-2);
+      padding: calc(var(--space-4) - 1px);
+    }
+    .pay-method svg { width: 18px; height: 18px; }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 960px) {
+      .container { grid-template-columns: 1fr; max-width: 640px; }
+      .summary { position: static; }
+    }
+    @media (max-width: 640px) {
+      .topbar { padding: var(--space-4) var(--space-5); }
+      .topbar .brand .brand-ukraina { display: none; }
+      .stepper { gap: var(--space-3); padding: var(--space-6) var(--space-5); }
+      .step-line { flex-basis: 24px; }
+      .step span:not(.num) { display: none; }
+      .container { padding: 0 var(--space-5) var(--space-10); }
+      .form-card { padding: var(--space-6); }
+      .summary { padding: var(--space-6); }
+      .field-grid { grid-template-columns: 1fr; }
+      .pay-methods { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <!-- Top bar -->
+    <header class="topbar">
+      <a class="brand" href="home.html">
+        <span class="brand-rain">RAIN<span class="brand-cloud">CLOUD</span></span>
+        <span class="brand-ukraina">UKRAINA</span>
+      </a>
+      <a class="back t-body-sm" href="pricing.html">
+        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Change plan
+      </a>
+    </header>
+
+    <!-- Progress -->
+    <nav class="stepper" aria-label="Checkout progress">
+      <div class="step done">
+        <span class="num"><span class="real-num">1</span></span>
+        <span class="t-body-sm">Choose plan</span>
+      </div>
+      <div class="step-line" aria-hidden="true"></div>
+      <div class="step active" aria-current="step">
+        <span class="num">2</span>
+        <span class="t-body-sm">Payment</span>
+      </div>
+      <div class="step-line" aria-hidden="true"></div>
+      <div class="step">
+        <span class="num">3</span>
+        <span class="t-body-sm">Confirmation</span>
+      </div>
+    </nav>
+
+    <!-- Main grid: form left, summary right -->
+    <form class="container" id="checkout-form" action="success.html" method="get" novalidate>
+
+      <!-- LEFT — payment + billing -->
+      <div>
+        <!-- Account section -->
+        <section class="form-card">
+          <h2 class="t-headline-md">Account</h2>
+          <p class="section-desc t-body-md">We'll send your receipt and license here.</p>
+          <div class="field">
+            <label class="field-label t-label-caps" for="email">Email</label>
+            <input class="input t-body-md" type="email" id="email" name="email" autocomplete="email" placeholder="you@company.com" required value="valeriia@rebuilders.eu">
+          </div>
+        </section>
+
+        <!-- Payment section -->
+        <section class="form-card">
+          <h2 class="t-headline-md">Payment</h2>
+          <p class="section-desc t-body-md">All card details are encrypted end-to-end.</p>
+
+          <!-- Payment method selector -->
+          <div class="pay-methods" role="radiogroup" aria-label="Payment method">
+            <label class="pay-method">
+              <input type="radio" name="pay-method" value="card" checked>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20"/></svg>
+              Card
+            </label>
+            <label class="pay-method">
+              <input type="radio" name="pay-method" value="apple">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 12.5c0-2 1.6-3 1.7-3-1-1.4-2.4-1.6-2.9-1.7-1.2-.1-2.4.7-3 .7s-1.6-.7-2.6-.7c-1.4 0-2.6.8-3.3 2-1.4 2.4-.4 6 1 8 .7.9 1.4 2 2.5 1.9s1.4-.7 2.7-.7 1.6.7 2.7.7c1.1 0 1.8-1 2.5-1.9.8-1.1 1.1-2.1 1.1-2.2-.1 0-2.4-.9-2.4-3.6Z M14.7 5.2c.6-.7 1-1.7.9-2.7-.8 0-1.8.6-2.4 1.2-.5.6-1 1.6-.9 2.6.9.1 1.8-.5 2.4-1.1Z"/></svg>
+              Apple Pay
+            </label>
+            <label class="pay-method">
+              <input type="radio" name="pay-method" value="sepa">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3M3 9h18M3 9v9a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9"/><path d="M7 14h4"/></svg>
+              SEPA debit
+            </label>
+          </div>
+
+          <!-- Card fields -->
+          <div class="field-grid">
+            <div class="field full">
+              <label class="field-label t-label-caps" for="card-number">Card number</label>
+              <div class="input-wrap">
+                <input class="input has-glyph t-body-md" type="text" id="card-number" name="card-number" inputmode="numeric" autocomplete="cc-number" placeholder="1234 1234 1234 1234" maxlength="19">
+                <span class="input-glyph"><span class="card-brand" id="card-brand">CARD</span></span>
+              </div>
+            </div>
+            <div class="field">
+              <label class="field-label t-label-caps" for="card-expiry">Expiry</label>
+              <input class="input t-body-md" type="text" id="card-expiry" name="card-expiry" inputmode="numeric" autocomplete="cc-exp" placeholder="MM / YY" maxlength="7">
+            </div>
+            <div class="field">
+              <label class="field-label t-label-caps" for="card-cvc">CVC</label>
+              <div class="input-wrap">
+                <input class="input has-glyph t-body-md" type="text" id="card-cvc" name="card-cvc" inputmode="numeric" autocomplete="cc-csc" placeholder="123" maxlength="4">
+                <span class="input-glyph">
+                  <svg viewBox="0 0 16 16" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="10" height="6" rx="1"/><path d="M5 6V4a3 3 0 0 1 6 0v2"/></svg>
+                </span>
+              </div>
+            </div>
+            <div class="field full">
+              <label class="field-label t-label-caps" for="card-name">Name on card</label>
+              <input class="input t-body-md" type="text" id="card-name" name="card-name" autocomplete="cc-name" placeholder="Valeriia Bondarenko">
+            </div>
+          </div>
+        </section>
+
+        <!-- Billing address -->
+        <section class="form-card">
+          <h2 class="t-headline-md">Billing address</h2>
+          <p class="section-desc t-body-md">For your invoice and VAT validation.</p>
+          <div class="field-grid">
+            <div class="field full">
+              <label class="field-label t-label-caps" for="address">Address line 1</label>
+              <input class="input t-body-md" type="text" id="address" name="address" autocomplete="address-line1" placeholder="Khreschatyk 22">
+            </div>
+            <div class="field">
+              <label class="field-label t-label-caps" for="city">City</label>
+              <input class="input t-body-md" type="text" id="city" name="city" autocomplete="address-level2" placeholder="Kyiv">
+            </div>
+            <div class="field">
+              <label class="field-label t-label-caps" for="postcode">Postal code</label>
+              <input class="input t-body-md" type="text" id="postcode" name="postcode" autocomplete="postal-code" placeholder="01001">
+            </div>
+            <div class="field full">
+              <label class="field-label t-label-caps" for="country">Country</label>
+              <select class="select t-body-md" id="country" name="country" autocomplete="country">
+                <option value="UA" selected>Ukraine</option>
+                <option value="PL">Poland</option>
+                <option value="DE">Germany</option>
+                <option value="FR">France</option>
+                <option value="NL">Netherlands</option>
+                <option value="GB">United Kingdom</option>
+                <option value="US">United States</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label class="field-label t-label-caps" for="vat">VAT number <span style="color:var(--outline)">(optional)</span></label>
+              <input class="input t-body-md" type="text" id="vat" name="vat" placeholder="UA1234567890">
+              <p class="helper t-body-sm">EU customers with a valid VAT ID are reverse-charged.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- RIGHT — order summary -->
+      <aside class="summary" aria-label="Order summary">
+        <h2 class="t-headline-md">Order summary</h2>
+
+        <div class="order-plan">
+          <div>
+            <span class="badge">Annual</span>
+            <h3 class="name t-body-md">Storm AI Pro</h3>
+            <p class="meta t-body-sm">€15 / month, billed annually</p>
+          </div>
+          <a class="change t-body-sm" href="pricing.html">Change</a>
+        </div>
+
+        <div class="summary-rows">
+          <div class="summary-row">
+            <span class="lbl t-body-sm">Subtotal (12 months)</span>
+            <span class="val t-body-sm">€180.00</span>
+          </div>
+          <div class="summary-row">
+            <span class="lbl t-body-sm">Annual discount (20%)</span>
+            <span class="val t-body-sm">−€48.00</span>
+          </div>
+          <div class="summary-row discount" id="coupon-row" hidden>
+            <span class="lbl t-body-sm">Coupon REBUILD25</span>
+            <span class="val t-body-sm">−€33.00</span>
+          </div>
+          <div class="summary-row">
+            <span class="lbl t-body-sm">VAT (0% — reverse charge)</span>
+            <span class="val t-body-sm">€0.00</span>
+          </div>
+        </div>
+
+        <div class="summary-divider"></div>
+
+        <div class="summary-total">
+          <span class="lbl t-body-md">Total today</span>
+          <span class="val" id="total-amount">€180.00</span>
+        </div>
+        <p class="summary-cycle t-body-sm">Then €180 / year on Jun 3, 2027.</p>
+
+        <!-- Coupon -->
+        <div class="field" style="margin-top: var(--space-6);">
+          <label class="field-label t-label-caps" for="coupon">Promo code</label>
+          <div class="coupon">
+            <input class="input t-body-sm" type="text" id="coupon" placeholder="Enter code" autocomplete="off">
+            <button type="button" class="coupon-apply t-body-sm" id="apply-coupon">Apply</button>
+          </div>
+          <p class="helper t-body-sm" id="coupon-msg" hidden></p>
+        </div>
+
+        <button class="summary-cta t-body-md" type="submit" id="pay-btn">
+          <span class="label">Pay €180 and start Pro</span>
+          <span class="spinner" aria-hidden="true"></span>
+        </button>
+
+        <div class="trust-row t-body-sm">
+          <svg viewBox="0 0 16 16" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5 7V5a3 3 0 0 1 6 0v2"/></svg>
+          Secured by Stripe · 256-bit TLS
+        </div>
+
+        <p class="terms t-body-sm">
+          By subscribing you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.
+        </p>
+      </aside>
+    </form>
+  </div>
+
+  <script>
+    // --- Card brand detection ---
+    const cardInput = document.getElementById('card-number');
+    const brandEl = document.getElementById('card-brand');
+    cardInput.addEventListener('input', (e) => {
+      const v = e.target.value.replace(/\s/g, '');
+      // Format with spaces every 4
+      e.target.value = v.replace(/(.{4})/g, '$1 ').trim();
+      // Brand sniff
+      let brand = 'CARD';
+      if (/^4/.test(v)) brand = 'VISA';
+      else if (/^5[1-5]/.test(v) || /^2[2-7]/.test(v)) brand = 'MC';
+      else if (/^3[47]/.test(v)) brand = 'AMEX';
+      else if (/^6/.test(v)) brand = 'DISC';
+      brandEl.textContent = brand;
+    });
+
+    // --- Expiry format ---
+    const expiry = document.getElementById('card-expiry');
+    expiry.addEventListener('input', (e) => {
+      let v = e.target.value.replace(/\D/g, '');
+      if (v.length >= 3) v = v.slice(0,2) + ' / ' + v.slice(2,4);
+      e.target.value = v;
+    });
+
+    // --- Coupon ---
+    const couponInput = document.getElementById('coupon');
+    const applyBtn = document.getElementById('apply-coupon');
+    const couponMsg = document.getElementById('coupon-msg');
+    const couponRow = document.getElementById('coupon-row');
+    const totalEl = document.getElementById('total-amount');
+    applyBtn.addEventListener('click', () => {
+      const code = couponInput.value.trim().toUpperCase();
+      if (code === 'REBUILD25') {
+        couponRow.hidden = false;
+        totalEl.textContent = '€147.00';
+        couponMsg.hidden = false;
+        couponMsg.textContent = 'REBUILD25 applied — €33 off your first year.';
+        couponMsg.style.color = 'var(--on-success-green-container)';
+        applyBtn.textContent = 'Applied';
+        applyBtn.disabled = true;
+        applyBtn.style.opacity = 0.6;
+      } else if (code) {
+        couponMsg.hidden = false;
+        couponMsg.classList.add('error');
+        couponMsg.textContent = 'That code doesn\'t look right.';
+      }
+    });
+
+    // --- Submit: simulate loading ---
+    const form = document.getElementById('checkout-form');
+    const payBtn = document.getElementById('pay-btn');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      payBtn.disabled = true;
+      payBtn.classList.add('loading');
+      setTimeout(() => { window.location.href = 'success.html'; }, 900);
+    });
+  </script>
+</body>
+</html>

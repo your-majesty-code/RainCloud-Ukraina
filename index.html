@@ -1,248 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sign in — RainCloud</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <title>Sign in — RainCloud Ukraina</title>
   <link rel="stylesheet" href="styles/tokens.css" />
   <link rel="stylesheet" href="styles/base.css" />
+  <link rel="stylesheet" href="styles/components.css" />
   <style>
-    .page {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: var(--space-lg) var(--space-md);
+    .auth { min-height: 100vh; display: grid; place-items: center; padding: 40px 24px; }
+    .auth-card {
+      width: 100%; max-width: 440px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-3xl);
+      box-shadow: var(--shadow-glass);
+      padding: 40px;
     }
-
-    .card {
-      width: 100%;
-      max-width: 420px;
-      background-color: var(--surface-container-lowest);
-      border: var(--border-width) solid var(--border-color);
-      border-radius: var(--radius-lg);
-      padding: var(--space-lg);
+    .auth-brand {
+      display: inline-flex; align-items: center; height: 48px; padding: 0 20px;
+      background: var(--pill-dark); border-radius: var(--radius-full);
+      margin-bottom: 28px;
     }
-
-    .brand {
-      color: var(--on-surface-variant);
-      margin: 0 0 var(--space-md) 0;
-    }
-
-    .title {
-      margin: 0 0 var(--space-2) 0;
-      color: var(--on-surface);
-    }
-
-    .subtitle {
-      color: var(--on-surface-variant);
-      margin: 0 0 var(--space-lg) 0;
-    }
-
-    .form {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-md);
-    }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-1);     /* 4px label-to-input per ui-designer */
-    }
-
-    .label { color: var(--on-surface-variant); }
-
+    .auth-brand img { height: 26px; width: auto; }
+    .auth-title { margin: 0 0 8px; }
+    .auth-sub { color: var(--ink-500); margin: 0 0 28px; }
+    .form { display: flex; flex-direction: column; gap: 18px; }
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field label { font-size: 13px; font-weight: 500; color: var(--ink-600); }
     .input {
-      appearance: none;
-      width: 100%;
-      height: var(--control-height-md);
-      padding: 0 var(--space-4);
-      color: var(--on-surface);
-      background-color: var(--surface-container-lowest);
-      border: var(--border-width) solid var(--border-color);
-      border-radius: var(--radius);
-      transition: border-color var(--transition-fast),
-                  background-color var(--transition-fast),
-                  box-shadow var(--transition-fast);
+      width: 100%; height: 48px; padding: 0 16px;
+      background: var(--surface); color: var(--text-primary);
+      border: 1px solid var(--border); border-radius: var(--radius-md);
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
     }
-    .input::placeholder { color: var(--outline); }
-    .input:hover { background-color: var(--surface-container-low); }
-    .input:focus-visible {
-      outline: none;
-      border-color: var(--primary-container);
-      background-color: var(--surface-container-lowest);
-      box-shadow: var(--focus-ring);
-    }
-    .input[aria-invalid="true"] {
-      border-color: var(--error);
-      box-shadow: var(--focus-ring-error);
-    }
-
-    .row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-4);
-      margin-top: var(--space-1);
-    }
-
-    .checkbox {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-2);
-      color: var(--on-surface-variant);
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .checkbox input {
-      width: 16px;
-      height: 16px;
-      margin: 0;
-      accent-color: var(--primary-container);
-    }
-
-    .link {
-      color: var(--on-surface);
-      text-decoration: none;
-      border-bottom: var(--border-width) solid var(--border-color);
-      padding-bottom: 1px;
-      transition: border-color var(--transition-fast);
-    }
-    .link:hover { border-color: var(--on-surface); }
-
-    /* --- Buttons share the input height scale --- */
-    .button,
-    .button-ghost {
-      appearance: none;
-      width: 100%;
-      height: var(--control-height-lg);     /* 48px — matches large input/CTA */
-      padding: 0 var(--space-4);
-      font-weight: var(--font-weight-semibold);
-      border-radius: var(--radius);
-      border: var(--border-width) solid transparent;
-      cursor: pointer;
-      transition: background-color var(--transition-fast),
-                  border-color var(--transition-fast),
-                  box-shadow var(--transition-fast),
-                  transform var(--transition-fast);
-    }
-
-    .button {
-      color: var(--on-primary);
-      background-color: var(--primary-container);
-      border-color: var(--primary-container);
-    }
-    .button:hover {
-      background-color: var(--primary-container-hover);
-      border-color: var(--primary-container-hover);
-      box-shadow: var(--shadow-primary);
-    }
-    .button:active {
-      background-color: var(--primary-container-pressed);
-      border-color: var(--primary-container-pressed);
-      transform: translateY(1px);
-    }
-    .button:focus-visible {
-      outline: none;
-      box-shadow: var(--focus-ring);
-    }
-    .button:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-      pointer-events: none;
-    }
-
-    .button-ghost {
-      color: var(--on-surface);
-      background-color: transparent;
-      border-color: var(--border-color);
-    }
-    .button-ghost:hover { background-color: var(--surface-container-low); }
-    .button-ghost:active { background-color: var(--surface-container); }
-    .button-ghost:focus-visible {
-      outline: none;
-      box-shadow: var(--focus-ring);
-    }
-
-    .divider {
-      display: flex;
-      align-items: center;
-      gap: var(--space-4);
-      margin: var(--space-md) 0;
-      color: var(--on-surface-variant);
-    }
-    .divider::before,
-    .divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background-color: var(--border-color);
-    }
-
-    .footer {
-      margin-top: var(--space-lg);
-      text-align: center;
-      color: var(--on-surface-variant);
-    }
-    .footer a {
-      color: var(--on-surface);
-      text-decoration: none;
-      border-bottom: var(--border-width) solid var(--border-color);
-      padding-bottom: 1px;
-    }
-    .footer a:hover { border-color: var(--on-surface); }
-
-    @media (max-width: 600px) {
-      .page { padding: var(--space-md) var(--space-margin-mobile); }
-      .card {
-        padding: var(--space-md);
-        border: none;
-        background-color: transparent;
-      }
-    }
+    .input::placeholder { color: var(--ink-400); }
+    .input:focus { outline: none; border-color: var(--primary); box-shadow: var(--focus-ring); }
+    .row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .checkbox { display: inline-flex; align-items: center; gap: 8px; color: var(--ink-500); font-size: 14px; cursor: pointer; }
+    .checkbox input { width: 16px; height: 16px; accent-color: var(--primary); }
+    .link { color: var(--primary); font-size: 14px; font-weight: 500; }
+    .link:hover { color: var(--primary-hover); }
+    .btn--block { width: 100%; height: 48px; font-size: 15px; }
+    .divider { display: flex; align-items: center; gap: 16px; margin: 22px 0; color: var(--ink-400); font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+    .auth-foot { margin-top: 28px; text-align: center; color: var(--ink-500); font-size: 14px; }
+    .auth-foot a { color: var(--primary); font-weight: 500; }
+    @media (max-width: 600px) { .auth-card { border: none; box-shadow: none; background: transparent; padding: 24px; } }
   </style>
 </head>
 <body>
-  <main class="page">
-    <section class="card" aria-labelledby="signin-title">
-      <p class="brand t-label-caps">RainCloud</p>
-      <h1 class="title t-headline-lg" id="signin-title">Welcome back</h1>
-      <p class="subtitle t-body-md">Sign in to continue your quiet, intentional rhythm.</p>
+  <div class="app-canvas">
+    <main class="auth">
+      <section class="auth-card" aria-labelledby="signin-title">
+        <span class="auth-brand"><img src="assets/ins-logo.png" alt="RainCloud Ukraina" /></span>
+        <h1 class="auth-title t-title" id="signin-title">Welcome back</h1>
+        <p class="auth-sub t-body-lg">Sign in to continue building the new Ukraine.</p>
 
-      <form class="form" action="home.html" method="get" novalidate>
-        <div class="field">
-          <label class="label t-label-caps" for="email">Email</label>
-          <input class="input t-body-md" type="email" id="email" name="email" autocomplete="email" placeholder="you@example.com" required />
-        </div>
+        <form class="form" action="feeds.html" method="get" novalidate>
+          <div class="field">
+            <label for="email">Email</label>
+            <input class="input" type="email" id="email" name="email" autocomplete="email" placeholder="you@example.com" required />
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <input class="input" type="password" id="password" name="password" autocomplete="current-password" placeholder="Enter your password" required />
+          </div>
+          <div class="row">
+            <label class="checkbox"><input type="checkbox" name="remember" /> Keep me signed in</label>
+            <a class="link" href="#">Forgot password?</a>
+          </div>
+          <button class="btn btn--primary btn--block" type="submit">Sign in</button>
+        </form>
 
-        <div class="field">
-          <label class="label t-label-caps" for="password">Password</label>
-          <input class="input t-body-md" type="password" id="password" name="password" autocomplete="current-password" placeholder="Enter your password" required />
-        </div>
+        <div class="divider">or</div>
 
-        <div class="row">
-          <label class="checkbox t-body-sm">
-            <input type="checkbox" name="remember" />
-            Keep me signed in
-          </label>
-          <a class="link t-body-sm" href="#">Forgot password?</a>
-        </div>
+        <button class="btn btn--secondary btn--block" type="button" onclick="window.location.href='feeds.html'">Continue with Google</button>
 
-        <button class="button t-body-sm" type="submit">Sign in</button>
-      </form>
-
-      <div class="divider t-label-caps" role="separator">or</div>
-
-      <button class="button-ghost t-body-sm" type="button" onclick="window.location.href='home.html'">Continue with Google</button>
-
-      <p class="footer t-body-sm">
-        New here? <a href="#">Create an account</a>
-      </p>
-    </section>
-  </main>
+        <p class="auth-foot">New here? <a href="#">Create an account</a></p>
+      </section>
+    </main>
+  </div>
 </body>
 </html>

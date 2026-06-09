@@ -1,134 +1,104 @@
 /* ============================================================
-   RainCloud Ukraina — Design Token System
+   RainCloud Ukraina — Design Token System  (v3 "Clarity / Slate & Storm")
    Source of truth: .claude/design.md
-   Principles: ui-designer skill (8pt grid, mathematical scales,
-   tonal layering, considered dark mode, GPU-only motion)
+   Palette: cool slate canvas · white glass cards · Storm-Orange accent
+   Typography: Montserrat, single family
    ============================================================ */
 
 :root {
   /* --------------------------------------------------------
-     COLOR — Light mode
-     60% surface · 30% surface-container · 10% primary-container
+     COLOR
      -------------------------------------------------------- */
 
-  /* Surface family (60% — canvas) */
-  --surface:                      #faf9f7;
-  --surface-dim:                  #dadad8;
-  --surface-bright:               #faf9f7;
+  /* Brand accent — Storm Orange */
+  --primary:              #f05c26;   /* Orange 600 */
+  --primary-hover:        #ea580c;   /* Orange 700 */
+  --primary-strong:       #dc4f1f;   /* pressed */
+  --on-primary:           #ffffff;
+  --primary-soft:         #fff1eb;   /* wash for tints / badges */
+  --primary-soft-border:  #fdd9c8;
 
-  /* Surface containers (30% — cards, panels) */
-  --surface-container-lowest:     #ffffff;
-  --surface-container-low:        #f4f3f1;
-  --surface-container:            #efeeec;
-  --surface-container-high:       #e9e8e6;
-  --surface-container-highest:    #e3e2e0;
-  --surface-variant:              #e3e2e0;
+  /* Ink / Slate scale */
+  --ink:                  #0f172a;   /* Navy 900 — nav pill, strongest ink */
+  --ink-800:              #1e293b;
+  --ink-700:              #334155;   /* headings */
+  --ink-600:              #475569;   /* strong body */
+  --ink-500:              #64748b;   /* secondary text */
+  --ink-400:              #94a3b8;   /* muted / icons / placeholder */
+  --ink-300:              #cbd5e1;   /* faint / disabled */
+  --text-primary:         #111827;   /* primary reading text */
 
-  /* On-surface (text) */
-  --on-surface:                   #1a1c1b;  /* body text */
-  --on-surface-variant:           #424845;  /* secondary text */
+  /* Surfaces */
+  --page:                 #f8fafc;   /* Slate 50 — app canvas */
+  --surface:              #ffffff;   /* cards / panels */
+  --surface-muted:        #f1f5f9;   /* Slate 100 — hover rows / track */
+  --surface-subtle:       #f8fafc;
+  --surface-200:          #e2e8f0;   /* Slate 200 */
 
-  /* Inverse surface (tooltips, snackbars) */
-  --inverse-surface:              #2f3130;
-  --inverse-on-surface:           #f1f1ef;
+  /* Lines */
+  --border:               #e5e7eb;   /* hairline */
+  --border-strong:        #cbd5e1;
 
-  /* Outlines (borders, dividers) */
-  --outline:                      #727875;  /* strong border */
-  --outline-variant:              #c2c8c4;  /* hairline */
+  /* Glass */
+  --glass:                rgba(255, 255, 255, 0.72);
+  --glass-soft:           rgba(255, 255, 255, 0.45);
+  --glass-blur:           20px;
 
-  /* Brand — sage primary (rarely used directly; mostly for tints) */
-  --surface-tint:                 #4e635a;
-  --primary:                      #4e635a;
-  --on-primary:                   #ffffff;
+  /* Glass cards / floating pills (directory shell) */
+  --pill-dark:            #2d2d2d;   /* nav / logo / actions pills + active nav item */
+  --glass-card-bg:        rgba(255, 255, 255, 0.55);
+  --glass-card-border:    rgba(255, 255, 255, 0.8);
+  --glass-card-shadow:    0 16px 40px rgba(15, 23, 42, 0.06);
+  --glass-pill-bg:        rgba(255, 255, 255, 0.7);
+  --glass-pill-shadow:    0 10px 30px rgba(15, 23, 42, 0.08);
+  --pill-dark-shadow:     0 12px 18px rgba(15, 23, 42, 0.22);
 
-  /* Brand — orange primary-container (10% — the accent that draws the eye) */
-  --primary-container:            #F16F26;
-  --primary-container-hover:      #d96221;
-  --primary-container-pressed:    #B54100;
-  --on-primary-container:         #B54100;
-  --inverse-primary:              #CCBDB5;
+  /* Semantic states (system only — accent stays orange) */
+  --success:              #16a34a;
+  --on-success:           #ffffff;
+  --success-soft:         #dcfce7;
+  --on-success-soft:      #166534;
+  --warning:              #d97706;
+  --on-warning:           #ffffff;
+  --warning-soft:         #fef3c7;
+  --on-warning-soft:      #92400e;
+  --danger:               #dc2626;
+  --on-danger:            #ffffff;
+  --danger-soft:          #fee2e2;
+  --on-danger-soft:       #991b1b;
+  --info:                 #2563eb;
+  --on-info:              #ffffff;
+  --info-soft:            #dbeafe;
+  --on-info-soft:         #1e40af;
 
-  /* Secondary — terracotta */
-  --secondary:                    #A37861;
-  --on-secondary:                 #ffffff;
-  --secondary-container:          #e4e2e1;
-  --on-secondary-container:       #656464;
-
-  /* Tertiary — brown */
-  --tertiary:                     #755755;
-  --on-tertiary:                  #ffffff;
-  --tertiary-container:           #b99693;
-  --on-tertiary-container:        #482f2d;
-
-  /* Semantic — error/destructive (desaturated terracotta-red per design.md) */
-  --error:                        #ba1a1a;
-  --on-error:                     #ffffff;
-  --error-container:              #ffdad6;
-  --on-error-container:           #93000a;
-
-  /* Semantic — success/warning/info (filling design.md gaps with ui-designer
-     four-variant pattern: surface, container, text, on-text)
-     Note: design.md says "Success is represented by the orange accent."
-     We expose success-* as aliases to primary-container for that intent,
-     while adding a true green for states where orange would conflict
-     (online presence, growth metrics). */
-  --success:                      #F16F26;             /* alias = primary-container */
-  --on-success:                   #ffffff;
-  --success-container:            #fff3ec;
-  --on-success-container:         #B54100;
-
-  --success-green:                #22c55e;             /* presence/online only */
-  --on-success-green:             #ffffff;
-  --success-green-container:      #dcfce7;
-  --on-success-green-container:   #166534;
-
-  --warning:                      #d97706;
-  --on-warning:                   #ffffff;
-  --warning-container:            #fef3c7;
-  --on-warning-container:         #92400e;
-
-  --info:                         #2563eb;
-  --on-info:                      #ffffff;
-  --info-container:               #dbeafe;
-  --on-info-container:            #1e40af;
-
-  /* Fixed palette (intentionally identical across modes — M3 semantics) */
-  --primary-fixed:                #d1e8dd;
-  --primary-fixed-dim:            #b5ccc1;
-  --on-primary-fixed:             #0b1f18;
-  --on-primary-fixed-variant:     #374b43;
-  --secondary-fixed:              #e4e2e1;
-  --secondary-fixed-dim:          #c8c6c6;
-  --on-secondary-fixed:           #1b1c1c;
-  --on-secondary-fixed-variant:   #474747;
-  --tertiary-fixed:               #ffdad7;
-  --tertiary-fixed-dim:           #e4bdbb;
-  --on-tertiary-fixed:            #2b1614;
-  --on-tertiary-fixed-variant:    #5b403e;
-
-  /* Aliases used across legacy CSS */
-  --background:                   var(--surface);
-  --on-background:                var(--on-surface);
+  /* Legacy aliases (used by older CSS being restyled) */
+  --background:           var(--page);
+  --on-surface:           var(--text-primary);
+  --on-surface-variant:   var(--ink-500);
+  --on-background:        var(--text-primary);
+  --outline:              var(--border-strong);
+  --outline-variant:      var(--border);
+  --primary-container:    var(--primary);
+  --on-primary-container: var(--primary-hover);
 
   /* --------------------------------------------------------
-     SPACING — 8pt grid + design.md aliases
-     Rule: internal spacing ≤ external spacing (always)
+     SPACING — 4/8 grid
      -------------------------------------------------------- */
   --space-0:    0;
-  --space-1:    4px;     /* 4px fine-tune */
+  --space-1:    4px;
   --space-2:    8px;
   --space-3:    12px;
   --space-4:    16px;
-  --space-5:    20px;    /* mobile margin */
+  --space-5:    20px;
   --space-6:    24px;
   --space-8:    32px;
   --space-10:   40px;
   --space-12:   48px;
   --space-16:   64px;
+  --space-20:   80px;
   --space-24:   96px;
-  --space-32:   128px;
 
-  /* design.md aliases (kept for backward compatibility) */
+  /* legacy aliases */
   --space-base:           var(--space-1);
   --space-xs:             var(--space-2);
   --space-sm:             var(--space-4);
@@ -138,122 +108,117 @@
   --space-gutter:         var(--space-6);
   --space-margin-mobile:  var(--space-5);
 
-  --container-max:        800px;
+  /* layout */
+  --sidebar-width:        285px;
+  --nav-height:           80px;
+  --content-max:          1155px;
+  --container-max:        1155px;
 
   /* --------------------------------------------------------
-     TYPOGRAPHY — Montserrat headlines, Open Sans body
-     Scale roughly follows Major Third (1.25) between display
-     and headline-lg, Major Second (1.125) within body sizes.
+     TYPOGRAPHY — Montserrat single family
      -------------------------------------------------------- */
-  --font-display:  'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-body:     'Open Sans',  system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display:  'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-body:     'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
   --font-weight-regular:    400;
   --font-weight-medium:     500;
   --font-weight-semibold:   600;
 
-  /* Sizes — never pick arbitrary numbers, only these scale steps */
-  --font-size-display:              40px;
-  --font-size-headline-lg:          32px;
-  --font-size-headline-lg-mobile:   24px;
-  --font-size-headline-md:          20px;
-  --font-size-body-lg:              18px;
-  --font-size-body-md:              16px;
-  --font-size-body-sm:              14px;
-  --font-size-label-caps:           12px;
+  /* sizes */
+  --font-size-display:      36px;
+  --font-size-title:        28px;
+  --font-size-h3:           20px;
+  --font-size-h4:           18px;
+  --font-size-body-lg:      16px;
+  --font-size-body:         14px;
+  --font-size-label:        12px;
+  --font-size-label-caps:   11px;
 
-  /* Line heights — 1.1–1.3 for headings, 1.4–1.6 for body */
-  --line-height-display:            48px;
-  --line-height-headline-lg:        40px;
+  /* legacy size aliases */
+  --font-size-headline-lg:        var(--font-size-title);
+  --font-size-headline-lg-mobile: 24px;
+  --font-size-headline-md:        var(--font-size-h3);
+  --font-size-body-md:            var(--font-size-body);
+  --font-size-body-sm:            var(--font-size-label);
+
+  /* line heights */
+  --line-height-display:    45px;
+  --line-height-title:      36px;
+  --line-height-h3:         28px;
+  --line-height-h4:         24px;
+  --line-height-body-lg:    24px;
+  --line-height-body:       20px;
+  --line-height-label:      16px;
+  --line-height-label-caps: 16px;
+
+  --line-height-headline-lg:        var(--line-height-title);
   --line-height-headline-lg-mobile: 32px;
-  --line-height-headline-md:        28px;
-  --line-height-body-lg:            28px;
-  --line-height-body-md:            24px;
-  --line-height-body-sm:            20px;
-  --line-height-label-caps:         16px;
+  --line-height-headline-md:        var(--line-height-h3);
+  --line-height-body-md:            var(--line-height-body);
+  --line-height-body-sm:            var(--line-height-label);
 
-  /* Letter spacing — tighter for big text, opened up for caps */
-  --letter-spacing-display:    -0.02em;
-  --letter-spacing-headline:   -0.015em;
+  /* letter spacing */
+  --letter-spacing-display:    -0.9px;
+  --letter-spacing-title:      -0.6px;
+  --letter-spacing-h3:         -0.5px;
+  --letter-spacing-h4:         -0.4px;
   --letter-spacing-body:        0;
-  --letter-spacing-label-caps:  0.05em;
+  --letter-spacing-label-caps:  0.06em;
+  --letter-spacing-headline:   -0.6px;
 
   /* --------------------------------------------------------
-     RADIUS — medium / modern-SaaS commitment
-     Rule: nested radii MUST be smaller than their parent
+     RADIUS
      -------------------------------------------------------- */
   --radius-none:    0;
-  --radius-sm:      2px;
-  --radius:         4px;     /* default — buttons, inputs */
-  --radius-md:      6px;
-  --radius-lg:      8px;     /* cards */
-  --radius-xl:      12px;    /* large containers */
-  --radius-2xl:     16px;
-  --radius-3xl:     24px;    /* hero/shell */
-  --radius-4xl:     32px;
-  --radius-5xl:     40px;    /* outer app shell */
+  --radius-sm:      6px;
+  --radius:         8px;
+  --radius-md:      10px;    /* buttons, inputs */
+  --radius-lg:      12px;
+  --radius-xl:      16px;    /* cards */
+  --radius-2xl:     20px;
+  --radius-3xl:     24px;    /* filter rail cards / large panels */
   --radius-full:    9999px;
 
   /* --------------------------------------------------------
-     ELEVATION — tonal layering (design.md preference)
-     Each step = a lighter container color. Shadows are the
-     OPTIONAL escape hatch — use only for floating overlays.
+     ELEVATION — soft wide shadows on white
      -------------------------------------------------------- */
-  --elevation-0:        var(--surface);
-  --elevation-1:        var(--surface-container-low);
-  --elevation-2:        var(--surface-container);
-  --elevation-3:        var(--surface-container-high);
-  --elevation-4:        var(--surface-container-highest);
-
-  /* Subtle shadows — for genuinely floating elements only
-     (popovers, modals, dropdown menus). NOT for cards. */
-  --shadow-xs:  0 1px 1px rgba(15, 17, 21, 0.04);
-  --shadow-sm:  0 1px 2px rgba(15, 17, 21, 0.05),
-                0 1px 1px rgba(15, 17, 21, 0.03);
-  --shadow-md:  0 4px 12px rgba(15, 17, 21, 0.06),
-                0 1px 2px rgba(15, 17, 21, 0.04);
-  --shadow-lg:  0 8px 24px rgba(15, 17, 21, 0.08),
-                0 2px 4px rgba(15, 17, 21, 0.04);
-  --shadow-xl:  0 16px 40px rgba(15, 17, 21, 0.12),
-                0 4px 8px rgba(15, 17, 21, 0.06);
-
-  /* Tinted shadow — orange glow for active primary actions */
-  --shadow-primary: 0 8px 24px rgba(241, 111, 38, 0.24);
+  --shadow-xs:      0 1px 2px rgba(2, 6, 23, 0.04);
+  --shadow-card:    0 1px 2px rgba(2, 6, 23, 0.04), 0 1px 3px rgba(2, 6, 23, 0.06);
+  --shadow-sm:      var(--shadow-card);
+  --shadow-card-hover: 0 8px 24px rgba(2, 6, 23, 0.08), 0 2px 6px rgba(2, 6, 23, 0.05);
+  --shadow-md:      var(--shadow-card-hover);
+  --shadow-glass:   0 8px 32px rgba(2, 6, 23, 0.05);
+  --shadow-pill:    0 4px 16px rgba(2, 6, 23, 0.08);
+  --shadow-lg:      0 16px 40px rgba(2, 6, 23, 0.12), 0 4px 8px rgba(2, 6, 23, 0.06);
+  --shadow-xl:      var(--shadow-lg);
+  --shadow-primary: 0 6px 18px rgba(240, 92, 38, 0.30);
 
   /* --------------------------------------------------------
-     BORDERS — semantic tokens, not raw widths everywhere
+     BORDERS / FOCUS
      -------------------------------------------------------- */
   --border-width:      1px;
   --border-width-2:    2px;
-  --border-color:      var(--outline-variant);
-  --border-strong:     var(--outline);
-  --focus-ring:        0 0 0 3px rgba(241, 111, 38, 0.25);
-  --focus-ring-error:  0 0 0 3px rgba(186, 26, 26, 0.22);
+  --border-color:      var(--border);
+  --focus-ring:        0 0 0 3px rgba(240, 92, 38, 0.18);
+  --focus-ring-error:  0 0 0 3px rgba(220, 38, 38, 0.18);
 
   /* --------------------------------------------------------
-     MOTION — GPU-only properties (transform, opacity)
-     Easing per ui-designer:
-       ease-out  → entering   (fast start, gentle land)
-       ease-in   → leaving    (slow start, fast exit)
-       cubic     → repositioning
+     MOTION
      -------------------------------------------------------- */
   --duration-instant:  80ms;
   --duration-fast:     120ms;
-  --duration-base:     200ms;
-  --duration-slow:     320ms;
-  --duration-slower:   480ms;
+  --duration-base:     180ms;
+  --duration-slow:     280ms;
 
-  --ease-out:        cubic-bezier(0.16, 1, 0.3, 1);     /* entering */
-  --ease-in:         cubic-bezier(0.7, 0, 0.84, 0);     /* leaving */
-  --ease-in-out:     cubic-bezier(0.65, 0, 0.35, 1);    /* repositioning */
-  --ease-linear:     linear;                             /* progress only */
+  --ease-out:        cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in:         cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out:     cubic-bezier(0.65, 0, 0.35, 1);
 
-  /* Convenience transitions for the common case */
   --transition-fast: var(--duration-fast) var(--ease-out);
   --transition-base: var(--duration-base) var(--ease-out);
 
   /* --------------------------------------------------------
-     Z-INDEX SCALE — never use random z values
+     Z-INDEX
      -------------------------------------------------------- */
   --z-base:        0;
   --z-raised:      1;
@@ -265,183 +230,115 @@
   --z-toast:       600;
   --z-tooltip:     700;
 
-  /* --------------------------------------------------------
-     LAYOUT — breakpoints documented for reference (CSS vars
-     can't be used inside media queries; keep values in sync
-     with @media rules below)
-     -------------------------------------------------------- */
+  /* breakpoints (reference) */
   --breakpoint-sm:   640px;
   --breakpoint-md:   768px;
   --breakpoint-lg:   1024px;
   --breakpoint-xl:   1280px;
-  --breakpoint-2xl:  1536px;
 
-  /* --------------------------------------------------------
-     SIZING — buttons and inputs MUST share this scale
-     -------------------------------------------------------- */
+  /* control sizing */
   --control-height-sm:   32px;
-  --control-height-md:   40px;     /* default */
+  --control-height-md:   40px;
   --control-height-lg:   48px;
-  --control-padding-x:   var(--space-4);   /* 2× vertical */
+  --control-padding-x:   var(--space-4);
   --control-padding-y:   var(--space-2);
-}
 
-/* ============================================================
-   DARK MODE — first-class, not an inversion
-   Activated by system preference. Override with [data-theme]
-   on <html> for explicit user control.
-   ============================================================ */
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    /* Surfaces — darkest furthest back, lighter forward */
-    --surface:                      #1a1c1b;
-    --surface-dim:                  #121414;
-    --surface-bright:               #393a39;
-
-    --surface-container-lowest:     #0f1110;
-    --surface-container-low:        #1f2120;
-    --surface-container:            #252726;
-    --surface-container-high:       #2f3130;
-    --surface-container-highest:    #393a39;
-    --surface-variant:              #424845;
-
-    /* Text — never pure white */
-    --on-surface:                   #f1f1ef;
-    --on-surface-variant:           #c2c8c4;
-
-    --inverse-surface:              #e3e2e0;
-    --inverse-on-surface:           #2f3130;
-
-    /* Borders — semi-transparent feeling */
-    --outline:                      #8c918e;
-    --outline-variant:              #424845;
-
-    /* Brand — desaturated for dark mode comfort */
-    --surface-tint:                 #b5ccc1;
-    --primary:                      #b5ccc1;
-    --on-primary:                   #1f3530;
-
-    --primary-container:            #F16F26;           /* brand orange holds */
-    --primary-container-hover:      #f88346;
-    --primary-container-pressed:    #d4581a;
-    --on-primary-container:         #FFDBC9;
-    --inverse-primary:              #4e635a;
-
-    --secondary:                    #C2A492;
-    --on-secondary:                 #2A1F18;
-    --secondary-container:          #3D352E;
-    --on-secondary-container:       #D9D6D2;
-
-    --tertiary:                     #B99693;
-    --on-tertiary:                  #2B1614;
-    --tertiary-container:           #5B403E;
-    --on-tertiary-container:        #FFDAD7;
-
-    --error:                        #FFB4AB;
-    --on-error:                     #690005;
-    --error-container:              #93000a;
-    --on-error-container:           #FFDAD6;
-
-    /* Semantic states in dark mode */
-    --success-container:            rgba(241, 111, 38, 0.18);
-    --on-success-container:         #FFDBC9;
-    --success-green-container:      rgba(34, 197, 94, 0.18);
-    --on-success-green-container:   #86efac;
-    --warning:                      #fbbf24;
-    --warning-container:            rgba(217, 119, 6, 0.18);
-    --on-warning-container:         #fde68a;
-    --info-container:               rgba(37, 99, 235, 0.18);
-    --on-info-container:            #bfdbfe;
-
-    /* Elevation: tonal layering REVERSES in dark mode */
-    --elevation-0:    var(--surface);
-    --elevation-1:    var(--surface-container-low);
-    --elevation-2:    var(--surface-container);
-    --elevation-3:    var(--surface-container-high);
-    --elevation-4:    var(--surface-container-highest);
-
-    /* Shadows — softer + colored borders carry more weight in dark */
-    --shadow-xs:  0 1px 1px rgba(0, 0, 0, 0.4);
-    --shadow-sm:  0 1px 2px rgba(0, 0, 0, 0.45),
-                  0 1px 1px rgba(0, 0, 0, 0.3);
-    --shadow-md:  0 4px 12px rgba(0, 0, 0, 0.5),
-                  0 1px 2px rgba(0, 0, 0, 0.35);
-    --shadow-lg:  0 8px 24px rgba(0, 0, 0, 0.55),
-                  0 2px 4px rgba(0, 0, 0, 0.35);
-    --shadow-xl:  0 16px 40px rgba(0, 0, 0, 0.65),
-                  0 4px 8px rgba(0, 0, 0, 0.4);
-
-    --border-color:   rgba(255, 255, 255, 0.08);
-    --border-strong:  rgba(255, 255, 255, 0.16);
-    --focus-ring:        0 0 0 3px rgba(241, 111, 38, 0.4);
-    --focus-ring-error:  0 0 0 3px rgba(255, 180, 171, 0.35);
-  }
-}
-
-/* Explicit light theme override (data-theme="light" beats system pref) */
-:root[data-theme="light"] {
   color-scheme: light;
 }
 
-/* Explicit dark theme override */
-:root[data-theme="dark"] {
-  color-scheme: dark;
+/* ============================================================
+   LEGACY COMPATIBILITY SHIM
+   Maps v1/v2 token names (used by pricing/checkout/success and the
+   older app shells) onto the v3 slate/storm palette, so legacy markup
+   recolors automatically. New work should use the v3 tokens above.
+   ============================================================ */
+:root {
+  /* surfaces */
+  --surface-container-lowest:   var(--surface);
+  --surface-container-low:      var(--surface-muted);
+  --surface-container:          var(--surface-muted);
+  --surface-container-high:     var(--surface-200);
+  --surface-container-highest:  var(--surface-200);
+  --surface-variant:            var(--surface-200);
+  --surface-bright:             var(--surface);
+  --surface-dim:                var(--surface-200);
+  --content-bg:                 var(--page);
 
-  --surface:                      #1a1c1b;
-  --surface-dim:                  #121414;
-  --surface-bright:               #393a39;
-  --surface-container-lowest:     #0f1110;
-  --surface-container-low:        #1f2120;
-  --surface-container:            #252726;
-  --surface-container-high:       #2f3130;
-  --surface-container-highest:    #393a39;
-  --surface-variant:              #424845;
-  --on-surface:                   #f1f1ef;
-  --on-surface-variant:           #c2c8c4;
-  --inverse-surface:              #e3e2e0;
-  --inverse-on-surface:           #2f3130;
-  --outline:                      #8c918e;
-  --outline-variant:              #424845;
-  --surface-tint:                 #b5ccc1;
-  --primary:                      #b5ccc1;
-  --on-primary:                   #1f3530;
-  --primary-container:            #F16F26;
-  --primary-container-hover:      #f88346;
-  --primary-container-pressed:    #d4581a;
-  --on-primary-container:         #FFDBC9;
-  --inverse-primary:              #4e635a;
-  --secondary:                    #C2A492;
-  --on-secondary:                 #2A1F18;
-  --secondary-container:          #3D352E;
-  --on-secondary-container:       #D9D6D2;
-  --tertiary:                     #B99693;
-  --on-tertiary:                  #2B1614;
-  --tertiary-container:           #5B403E;
-  --on-tertiary-container:        #FFDAD7;
-  --error:                        #FFB4AB;
-  --on-error:                     #690005;
-  --error-container:              #93000a;
-  --on-error-container:           #FFDAD6;
-  --shadow-xs:  0 1px 1px rgba(0, 0, 0, 0.4);
-  --shadow-sm:  0 1px 2px rgba(0, 0, 0, 0.45);
-  --shadow-md:  0 4px 12px rgba(0, 0, 0, 0.5);
-  --shadow-lg:  0 8px 24px rgba(0, 0, 0, 0.55);
-  --shadow-xl:  0 16px 40px rgba(0, 0, 0, 0.65);
-  --border-color:   rgba(255, 255, 255, 0.08);
-  --border-strong:  rgba(255, 255, 255, 0.16);
+  /* brand */
+  --primary-container-hover:    var(--primary-hover);
+  --primary-container-pressed:  var(--primary-strong);
+  --inverse-primary:            var(--ink-300);
+  --surface-tint:               var(--primary);
+
+  /* inverse */
+  --inverse-surface:            var(--ink);
+  --inverse-on-surface:         #ffffff;
+
+  /* secondary / tertiary (collapsed to slate) */
+  --secondary:                  var(--ink-600);
+  --on-secondary:               #ffffff;
+  --secondary-container:        var(--surface-muted);
+  --on-secondary-container:     var(--ink-600);
+  --tertiary:                   var(--ink-700);
+  --on-tertiary:                #ffffff;
+  --tertiary-container:         var(--surface-muted);
+  --on-tertiary-container:      var(--ink-700);
+
+  /* semantic legacy names */
+  --error:                      var(--danger);
+  --on-error:                   var(--on-danger);
+  --error-container:            var(--danger-soft);
+  --on-error-container:         var(--on-danger-soft);
+  --success-container:          var(--success-soft);
+  --on-success-container:       var(--on-success-soft);
+  --success-green:              var(--success);
+  --on-success-green:           #ffffff;
+  --success-green-container:    var(--success-soft);
+  --on-success-green-container: var(--on-success-soft);
+  --warning-container:          var(--warning-soft);
+  --on-warning-container:       var(--on-warning-soft);
+  --info-container:             var(--info-soft);
+  --on-info-container:          var(--on-info-soft);
+
+  /* lines */
+  --hairline:                   var(--border);
+  --hairline-strong:            var(--border-strong);
+
+  /* radius legacy aliases */
+  --radius-card:                var(--radius-xl);
+  --radius-card-lg:             var(--radius-2xl);
+  --radius-input:               var(--radius-md);
+  --radius-pill:                var(--radius-full);
+  --radius-panel:               var(--radius-3xl);
+  --radius-shell:               var(--radius-3xl);
+  --radius-shell-lg:            28px;
+
+  /* text legacy aliases */
+  --text-base:                  var(--text-primary);
+  --text-strong:                var(--ink);
+  --text-subtle:                var(--ink-600);
+  --text-muted:                 var(--ink-500);
+  --text-faint:                 var(--ink-400);
+
+  /* app sidebar (feed shell) — also used by legacy home/dashboard */
+  --sidebar-w:                  285px;
+  --sidebar-bg:                 var(--surface);
+  --sidebar-bg-card:            var(--surface);
+  --sidebar-border:             var(--border);
+  --sidebar-fg:                 var(--ink-700);
+  --sidebar-fg-dim:             var(--ink-500);
+  --sidebar-fg-muted:           var(--ink-400);
+  --sidebar-active-bg:          var(--pill-dark);
 }
 
 /* ============================================================
-   ACCESSIBILITY — reduced motion / forced colors
+   ACCESSIBILITY — reduced motion
    ============================================================ */
-
 @media (prefers-reduced-motion: reduce) {
   :root {
     --duration-instant:  0ms;
     --duration-fast:     0ms;
     --duration-base:     0ms;
     --duration-slow:     0ms;
-    --duration-slower:   0ms;
   }
 }
