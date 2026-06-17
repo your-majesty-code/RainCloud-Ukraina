@@ -78,6 +78,12 @@ archive/prototype/        the original static-HTML prototype (design reference)
    2. `supabase/migrations/0002_network.sql` — Network member attributes
    3. `supabase/seed.sql` — loads the launch content (safe to re-run)
 
+   Alternatively, seed over the Data API with the service role (no DB password):
+
+   ```bash
+   SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... node scripts/seed.mjs
+   ```
+
 4. **Run**
 
    ```bash
