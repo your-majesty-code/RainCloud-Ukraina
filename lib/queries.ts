@@ -20,7 +20,7 @@ const DEFAULT_STATS: PlatformStats = {
 };
 
 /** Caps any single Supabase round-trip so a hang can never stall a page. */
-function withTimeout<T>(p: PromiseLike<T>, ms = 2500): Promise<T> {
+function withTimeout<T>(p: PromiseLike<T>, ms = 8000): Promise<T> {
   return Promise.race([
     Promise.resolve(p),
     new Promise<T>((_, reject) =>
