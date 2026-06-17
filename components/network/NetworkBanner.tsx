@@ -18,14 +18,10 @@ export function NetworkBanner({ title = 'Network' }: { title?: string }) {
         <span className="net-banner__tagline">
           Powering global business to build the new Ukraine
         </span>
-        <Image
-          className="net-banner__logo"
-          src="/brand/logo-raincloud-dark.png"
-          alt="RainCloud Ukraina"
-          width={435}
-          height={40}
-          priority
-        />
+        {/* Plain <img>: fixed height + width:auto keeps the wordmark's true
+            aspect ratio (next/image in a flex column stretched it full-width).
+            eslint-disable-next-line @next/next/no-img-element */}
+        <img className="net-banner__logo" src="/brand/logo-raincloud-dark.png" alt="RainCloud Ukraina" />
         <h1 className="net-banner__title">{title}</h1>
       </div>
     </section>
