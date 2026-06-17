@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import type { Member } from '@/lib/database.types';
 
 function initials(name: string): string {
@@ -11,7 +10,10 @@ export function MemberCard({ member }: { member: Member }) {
     <article className="nm-card">
       <div className="nm-card__head">
         {member.avatar_url ? (
-          <Image className="nm-card__av" src={member.avatar_url} alt="" width={40} height={40} />
+          // Plain <img>: avatars are external placeholder URLs; skip next/image
+          // optimisation (cost/limits) for a directory of many small avatars.
+          // eslint-disable-next-line @next/next/no-img-element
+          <img className="nm-card__av" src={member.avatar_url} alt="" width={40} height={40} loading="lazy" decoding="async" />
         ) : (
           <span className="nm-card__av rcard__av--logo" aria-hidden>
             {initials(member.name)}

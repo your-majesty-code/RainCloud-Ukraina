@@ -32,6 +32,13 @@ export interface Company {
   members_count: number;
   verified: boolean;
   created_at: string;
+  // Added in migration 0003 (optional until applied + backfilled).
+  description?: string;
+  logo_url?: string | null;
+  website?: string;
+  city?: string;
+  latitude?: number | null;
+  longitude?: number | null;
 }
 
 export interface Member {
@@ -51,6 +58,9 @@ export interface Member {
   availability: string[]; // "Open to contact", "Investor meetings" …
   company_id: string | null;
   created_at: string;
+  // Added in migration 0003 (optional until applied + backfilled).
+  latitude?: number | null;
+  longitude?: number | null;
 }
 
 export interface Product {

@@ -88,7 +88,8 @@ export function MemberRow({ member }: { member: Member }) {
     <article className="rcard">
       <div className="rcard__main">
         {member.avatar_url ? (
-          <Image className="rcard__av" src={member.avatar_url} alt="" width={48} height={48} />
+          // eslint-disable-next-line @next/next/no-img-element
+          <img className="rcard__av" src={member.avatar_url} alt="" width={48} height={48} loading="lazy" decoding="async" />
         ) : (
           <span className="rcard__av rcard__av--logo">
             {member.name.split(' ').map((p) => p[0]).join('').slice(0, 2)}
