@@ -2,7 +2,8 @@ import { NetworkBanner } from '@/components/network/NetworkBanner';
 import { NetworkDirectory } from '@/components/network/NetworkDirectory';
 import { getNetworkMembers } from '@/lib/queries';
 
-export const dynamic = 'force-dynamic';
+// ISR: cached HTML + data, refreshed every 5 min; instant repeat navigations.
+export const revalidate = 300;
 
 export default async function NetworkPage() {
   const members = await getNetworkMembers();

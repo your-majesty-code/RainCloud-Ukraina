@@ -11,8 +11,9 @@ import {
 } from '@/components/feed/Cards';
 import { getFeedData } from '@/lib/queries';
 
-// Live data — render on each request (also implied by the cookie-bound client).
-export const dynamic = 'force-dynamic';
+// Cached HTML + data, refreshed every 5 min (ISR). Repeat navigations are
+// served from the edge cache instead of re-running SSR + Supabase each time.
+export const revalidate = 300;
 
 const icons = {
   products: (
