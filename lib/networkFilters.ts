@@ -13,7 +13,7 @@ export type FilterGroupId =
   | 'availability';
 
 export interface FilterGroup {
-  id: FilterGroupId;
+  id: string;
   buttonLabel: string;
   searchPlaceholder: string;
   allLabel: string;

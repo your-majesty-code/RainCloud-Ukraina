@@ -1,8 +1,9 @@
 import Image from 'next/image';
 
-/** "RAIN CLOUD UKRAINA — NETWORK" banner (Figma). Dark wordmark on a light
- * glass card with the global-connections globe bleeding off the right edge. */
-export function NetworkBanner() {
+/** "RAIN CLOUD UKRAINA — <title>" banner (Figma). Dark wordmark on a light
+ * glass card with the global-connections globe bleeding off the right edge.
+ * Reused across directory pages (Network, Companies, …). */
+export function NetworkBanner({ title = 'Network' }: { title?: string }) {
   return (
     <section className="net-banner">
       <Image
@@ -25,7 +26,7 @@ export function NetworkBanner() {
           height={40}
           priority
         />
-        <h1 className="net-banner__title">Network</h1>
+        <h1 className="net-banner__title">{title}</h1>
       </div>
     </section>
   );

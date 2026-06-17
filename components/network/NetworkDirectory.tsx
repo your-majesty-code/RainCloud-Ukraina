@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import type { Member } from '@/lib/database.types';
 import {
   EMPTY_FILTERS,
+  FILTER_GROUPS,
   memberMatches,
   type FilterGroupId,
   type FilterState,
@@ -24,11 +25,12 @@ export function NetworkDirectory({ members }: { members: Member[] }) {
     [members, filters, query],
   );
 
-  function toggle(group: FilterGroupId, value: string) {
+  function toggle(group: string, value: string) {
+    const g = group as FilterGroupId;
     setFilters((prev) => {
-      const set = prev[group];
+      const set = prev[g];
       const next = set.includes(value) ? set.filter((v) => v !== value) : [...set, value];
-      return { ...prev, [group]: next };
+      return { ...prev, [g]: next };
     });
   }
 
@@ -61,7 +63,7 @@ export function NetworkDirectory({ members }: { members: Member[] }) {
             Search
           </button>
         </div>
-        <FilterBar filters={filters} onToggle={toggle} onClearAll={() => setFilters(EMPTY_FILTERS)} />
+        <FilterBar groups={FILTER_GROUPS} filters={filters} onToggle={toggle} onClearAll={() => setFilters(EMPTY_FILTERS)} />
       </section>
 
       {/* Heading + view toggle */}

@@ -1,12 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import {
-  FILTER_GROUPS,
-  countActive,
-  type FilterGroupId,
-  type FilterState,
-} from '@/lib/networkFilters';
+import type { FilterGroup } from '@/lib/networkFilters';
 
 const ChevronDown = (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
@@ -15,20 +10,22 @@ const ChevronDown = (
 );
 
 /**
- * Pinterest-style filter bar: each group is a dropdown of searchable
- * multi-select checkboxes. Toggling any option calls onToggle immediately —
- * the directory re-filters live, with no Apply step.
+ * Pinterest-style filter bar (shared by Network + Companies): each group is a
+ * dropdown of searchable multi-select checkboxes. Toggling any option calls
+ * onToggle immediately — the directory re-filters live, with no Apply step.
  */
 export function FilterBar({
+  groups,
   filters,
   onToggle,
   onClearAll,
 }: {
-  filters: FilterState;
-  onToggle: (group: FilterGroupId, value: string) => void;
+  groups: FilterGroup[];
+  filters: Record<string, string[]>;
+  onToggle: (group: string, value: string) => void;
   onClearAll: () => void;
 }) {
-  const [openId, setOpenId] = useState<FilterGroupId | null>(null);
+  const [openId, setOpenId] = useState<string | null>(null);
   const [queries, setQueries] = useState<Record<string, string>>({});
   const barRef = useRef<HTMLDivElement>(null);
 
@@ -47,14 +44,14 @@ export function FilterBar({
     };
   }, []);
 
-  const total = countActive(filters);
+  const total = Object.values(filters).reduce((n, arr) => n + arr.length, 0);
 
   return (
     <div className="net-filterbar" ref={barRef}>
       <span className="net-scope">All</span>
 
-      {FILTER_GROUPS.map((group) => {
-        const selected = filters[group.id];
+      {groups.map((group) => {
+        const selected = filters[group.id] ?? [];
         const isOpen = openId === group.id;
         const q = (queries[group.id] ?? '').toLowerCase();
         const visible = group.options.filter((o) => o.toLowerCase().includes(q));

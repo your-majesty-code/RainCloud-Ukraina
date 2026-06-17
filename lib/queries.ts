@@ -78,6 +78,29 @@ export async function getNetworkMembers(): Promise<Member[]> {
   }
 }
 
+/** All companies for the Companies & Organisations directory. */
+const companiesCached = unstable_cache(
+  async (): Promise<Company[]> => {
+    const sb = getPublicSupabase();
+    if (!sb) throw new Error('supabase not configured');
+    const { data, error } = await withTimeout(
+      sb.from('companies').select('*').order('name', { ascending: true }).limit(500),
+    );
+    if (error) throw error;
+    return data ?? [];
+  },
+  ['companies-directory'],
+  { revalidate: REVALIDATE, tags: ['companies'] },
+);
+
+export async function getCompanies(): Promise<Company[]> {
+  try {
+    return await companiesCached();
+  } catch {
+    return [];
+  }
+}
+
 export interface FeedData {
   stats: PlatformStats;
   products: Product[];
