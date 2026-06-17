@@ -4,7 +4,8 @@
    Depends on tokens.css (must be imported first).
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+/* Montserrat is loaded via <link> in app/layout.tsx (keeps @import ordering
+   valid once this file is bundled by Next after tokens.css). */
 
 /* --- Reset ---------------------------------------------------- */
 *,

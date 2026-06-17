@@ -13,9 +13,11 @@ every authenticated app page** (Feed, Network, Companies & Organisations,
 Virtual Trade Show, Business Pavilions, Opportunities, Thought Leadership,
 Events, News).
 
-- **Top panel** — the white glass header (`.feed-header`): logo + tagline ·
-  "Hello, Mike" greeting · live-stats pill (Members · Companies · Products) ·
-  action icons (search, messages, notifications, Storm AI) · user avatar.
+- **Top panel** — the dark-navy header (`.feed-header`, `--ink #0f172a`, v4):
+  image logo + tagline · "Hello, Mike" greeting (white) · light live-stats pill
+  (Members · Companies · Products) · light action icons (search, messages,
+  notifications, Storm AI) · Storm-Orange user avatar. (Replaced the v3
+  white-glass header; the dark chrome is defined once in `components/chrome/`.)
 - **Side panel** — the icon-nav rail (`.feed-sidebar`): the same item set, in the
   same order, with the same icons; only the **active** item differs per page;
   "Close sidebar" pinned at the bottom.

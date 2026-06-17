@@ -1,0 +1,119 @@
+/* ============================================================
+   RainCloud Ukraina — global stylesheet entry (Next.js App Router)
+   Reuses the prototype design system verbatim, then layers the new
+   dark-navy header chrome on top. Token/component source of truth:
+   styles/tokens.css · styles/base.css · styles/components.css
+   ============================================================ */
+@import '../styles/tokens.css';
+@import '../styles/base.css';
+@import '../styles/components.css';
+@import '../styles/network.css';
+
+/* Montserrat is self-hosted via next/font (app/layout.tsx) and exposed as
+   --font-montserrat; point the design-system font tokens at it. */
+:root {
+  --font-display: var(--font-montserrat), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-body: var(--font-montserrat), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ============================================================
+   HEADER — v4 dark-navy chrome (Figma "RC Ukraina Concept NEW")
+   Overrides the prototype's white-glass header. Sidebar + content
+   stay as-is so the rest of the system remains consistent.
+   ============================================================ */
+.feed-header {
+  background: var(--ink); /* navy-900 #0f172a */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+/* Logo is now a single image asset (no masks). */
+.feed-header__brand {
+  gap: 4px;
+}
+.feed-header__brand img {
+  height: 27px;
+  width: auto;
+}
+.feed-header__tagline {
+  color: var(--ink-400); /* slate-400 #94a3b8 on navy */
+  font-size: 7.2px;
+}
+.feed-header__divider {
+  background: rgba(255, 255, 255, 0.15);
+}
+.feed-header__greeting {
+  color: #fff;
+}
+
+/* Action icons read light on the dark bar. */
+.feed-icon-btn {
+  color: var(--ink-300);
+}
+.feed-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+.feed-icon-btn__dot {
+  border-color: var(--ink);
+}
+
+/* Storm-Orange user avatar (Figma). */
+.feed-avatar {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* The live-stats pill stays a light pill floating on the navy bar. */
+.stats-pill {
+  background: var(--page);
+  border-color: var(--border);
+}
+
+/* Sidebar sticks below the 80px header (unchanged height math). */
+.feed-sidebar {
+  top: 80px;
+  height: calc(100vh - 80px);
+}
+
+/* Hidden sidebar toggle support: collapse the rail to icon-less zero width
+   when the user closes it (the toggle lives in the sidebar foot). */
+.feed-layout.is-sidebar-collapsed .feed-sidebar {
+  display: none;
+}
+
+/* Floating button to reopen a collapsed sidebar. */
+.sidebar-reopen {
+  position: sticky;
+  top: 96px;
+  align-self: flex-start;
+  flex: none;
+  margin: 16px 0 0 16px;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
+  color: var(--ink-600);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-overlay);
+}
+.sidebar-reopen:hover {
+  background: var(--surface-muted);
+  color: var(--ink);
+}
+.sidebar-reopen svg {
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 600px) {
+  .feed-header__brand img {
+    height: 22px;
+  }
+}

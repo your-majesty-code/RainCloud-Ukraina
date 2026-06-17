@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upgrade to Storm AI Pro — RainCloud</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="styles/tokens.css" />
+  <link rel="stylesheet" href="styles/base.css" />
+  <style>
+    /* ============================================================
+       PAGE SHELL
+       ============================================================ */
+    .shell {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--surface);
+    }
+
+    /* --- Top bar (back nav + brand) --- */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-6) var(--space-8);
+      border-bottom: var(--border-width) solid var(--border-color);
+    }
+    .topbar .brand {
+      display: inline-flex;
+      align-items: baseline;
+      gap: var(--space-2);
+      font-family: var(--font-display);
+      font-weight: var(--font-weight-semibold);
+      color: var(--on-surface);
+    }
+    .topbar .brand .brand-rain { font-size: 18px; letter-spacing: 0.04em; }
+    .topbar .brand .brand-cloud { color: var(--outline-variant); letter-spacing: 0.16em; }
+    .topbar .brand .brand-ukraina {
+      font-size: 13px; letter-spacing: 0.2em;
+      padding-left: var(--space-2);
+      border-left: 1px solid var(--border-color);
+    }
+    .topbar .back {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      color: var(--on-surface-variant);
+      transition: color var(--transition-fast);
+    }
+    .topbar .back:hover { color: var(--on-surface); }
+    .topbar .back svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+    /* --- Progress stepper --- */
+    .stepper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-6);
+      padding: var(--space-8) var(--space-6) var(--space-6);
+      flex-wrap: wrap;
+    }
+    .step {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-3);
+      color: var(--on-surface-variant);
+    }
+    .step .num {
+      width: 28px; height: 28px;
+      border-radius: var(--radius-full);
+      background-color: var(--surface-container);
+      color: var(--on-surface-variant);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: var(--font-weight-semibold);
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+    .step.active { color: var(--on-surface); }
+    .step.active .num {
+      background-color: var(--primary-container);
+      color: var(--on-primary);
+    }
+    .step.done .num {
+      background-color: var(--surface-container-high);
+      color: var(--on-surface);
+    }
+    .step.done .num::before {
+      content: '✓';
+    }
+    .step.done .num .real-num { display: none; }
+    .step-line {
+      flex: 0 0 40px;
+      height: 1px;
+      background-color: var(--border-color);
+    }
+
+    /* ============================================================
+       HEADER
+       ============================================================ */
+    .page-header {
+      text-align: center;
+      padding: var(--space-6) var(--space-6) var(--space-8);
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .page-header .eyebrow {
+      color: var(--primary-container);
+      margin-bottom: var(--space-3);
+    }
+    .page-header h1 {
+      margin: 0 0 var(--space-3);
+      color: var(--on-surface);
+    }
+    .page-header .lede {
+      color: var(--on-surface-variant);
+      max-width: 540px;
+      margin: 0 auto;
+    }
+
+    /* ============================================================
+       BILLING TOGGLE
+       ============================================================ */
+    .billing-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin: 0 auto var(--space-10);
+      padding: var(--space-1);
+      background-color: var(--surface-container);
+      border-radius: var(--radius-full);
+      position: relative;
+      isolation: isolate;
+    }
+    .billing-toggle-wrap {
+      display: flex;
+      justify-content: center;
+    }
+    .billing-toggle input { display: none; }
+    .billing-toggle label {
+      position: relative;
+      padding: var(--space-2) var(--space-5);
+      color: var(--on-surface-variant);
+      cursor: pointer;
+      border-radius: var(--radius-full);
+      font-weight: var(--font-weight-semibold);
+      transition: color var(--transition-fast);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      z-index: 1;
+    }
+    .billing-toggle label:hover { color: var(--on-surface); }
+    .billing-toggle input:checked + label {
+      color: var(--on-surface);
+    }
+    .billing-toggle input:checked + label::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-color: var(--surface-container-lowest);
+      border-radius: var(--radius-full);
+      box-shadow: var(--shadow-sm);
+      z-index: -1;
+    }
+    .billing-toggle .save-badge {
+      padding: 2px 8px;
+      background-color: var(--success-green-container);
+      color: var(--on-success-green-container);
+      font-size: 10px;
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border-radius: var(--radius-full);
+    }
+
+    /* ============================================================
+       PRICING GRID
+       ============================================================ */
+    .plans {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-8);   /* ≥ card padding for proper breathing room */
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 var(--space-8) var(--space-16);
+      width: 100%;
+    }
+
+    .plan {
+      position: relative;
+      background-color: var(--surface-container-lowest);
+      border: var(--border-width) solid var(--border-color);
+      border-radius: var(--radius-2xl);
+      padding: var(--space-8);
+      display: flex;
+      flex-direction: column;
+      transition: border-color var(--transition-fast),
+                  transform var(--transition-fast),
+                  box-shadow var(--transition-fast);
+    }
+    .plan:hover {
+      border-color: var(--outline);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .plan.featured {
+      border-color: var(--primary-container);
+      border-width: var(--border-width-2);
+      box-shadow: var(--shadow-primary);
+    }
+    .plan.featured:hover {
+      border-color: var(--primary-container);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-primary), var(--shadow-lg);
+    }
+
+    .plan-badge {
+      position: absolute;
+      top: calc(var(--space-3) * -1);
+      left: 50%;
+      transform: translateX(-50%);
+      padding: var(--space-1) var(--space-3);
+      background-color: var(--primary-container);
+      color: var(--on-primary);
+      border-radius: var(--radius-full);
+      font-size: 11px;
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .plan-name {
+      color: var(--on-surface);
+      margin: 0 0 var(--space-2);
+    }
+    .plan-tagline {
+      color: var(--on-surface-variant);
+      margin: 0 0 var(--space-6);
+    }
+
+    .plan-price {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-2);
+      margin-bottom: var(--space-1);
+    }
+    .plan-price .amount {
+      font-family: var(--font-display);
+      font-weight: var(--font-weight-semibold);
+      font-size: var(--font-size-display);
+      line-height: 1;
+      letter-spacing: var(--letter-spacing-display);
+      color: var(--on-surface);
+    }
+    .plan-price .currency {
+      font-family: var(--font-display);
+      font-weight: var(--font-weight-semibold);
+      font-size: 28px;
+      color: var(--on-surface-variant);
+    }
+    .plan-price .period {
+      color: var(--on-surface-variant);
+    }
+    .plan-price .free {
+      font-family: var(--font-display);
+      font-weight: var(--font-weight-semibold);
+      font-size: var(--font-size-display);
+      line-height: 1;
+      letter-spacing: var(--letter-spacing-display);
+      color: var(--on-surface);
+    }
+    .plan-billed {
+      color: var(--on-surface-variant);
+      margin: 0 0 var(--space-8);
+    }
+
+    .plan-cta {
+      width: 100%;
+      height: var(--control-height-lg);
+      padding: 0 var(--space-4);
+      font-weight: var(--font-weight-semibold);
+      border-radius: var(--radius);
+      border: var(--border-width) solid transparent;
+      cursor: pointer;
+      transition: background-color var(--transition-fast),
+                  border-color var(--transition-fast),
+                  box-shadow var(--transition-fast),
+                  transform var(--transition-fast);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      text-decoration: none;
+    }
+    .plan-cta.primary {
+      color: var(--on-primary);
+      background-color: var(--primary-container);
+      border-color: var(--primary-container);
+    }
+    .plan-cta.primary:hover {
+      background-color: var(--primary-container-hover);
+      border-color: var(--primary-container-hover);
+      box-shadow: var(--shadow-primary);
+    }
+    .plan-cta.primary:active {
+      background-color: var(--primary-container-pressed);
+      transform: translateY(1px);
+    }
+    .plan-cta.secondary {
+      color: var(--on-surface);
+      background-color: var(--surface-container-lowest);
+      border-color: var(--border-color);
+    }
+    .plan-cta.secondary:hover {
+      background-color: var(--surface-container-low);
+      border-color: var(--outline);
+    }
+    .plan-cta:focus-visible {
+      outline: none;
+      box-shadow: var(--focus-ring);
+    }
+
+    .plan-divider {
+      margin: var(--space-8) 0 var(--space-6);
+      height: 1px;
+      background-color: var(--border-color);
+    }
+
+    .plan-features {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+    .plan-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      color: var(--on-surface);
+    }
+    .plan-features li.muted { color: var(--on-surface-variant); }
+    .plan-features .check {
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      border-radius: var(--radius-full);
+      background-color: var(--success-container);
+      color: var(--primary-container);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+    }
+    .plan-features .check svg { width: 10px; height: 10px; stroke: currentColor; fill: none; stroke-width: 3; }
+    .plan-features .x {
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      border-radius: var(--radius-full);
+      background-color: var(--surface-container);
+      color: var(--on-surface-variant);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+    }
+    .plan-features .x svg { width: 10px; height: 10px; stroke: currentColor; fill: none; stroke-width: 2.5; }
+
+    .plan-features-eyebrow {
+      color: var(--on-surface-variant);
+      margin: 0 0 var(--space-4);
+    }
+
+    /* ============================================================
+       FOOTER REASSURANCE
+       ============================================================ */
+    .reassure {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 var(--space-8) var(--space-16);
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-6);
+    }
+    .reassure-item {
+      display: flex;
+      gap: var(--space-3);
+      align-items: flex-start;
+    }
+    .reassure-item .icon {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-lg);
+      background-color: var(--surface-container);
+      color: var(--on-surface);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .reassure-item .icon svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+    .reassure-item .title { color: var(--on-surface); margin: 0 0 var(--space-1); }
+    .reassure-item .desc { color: var(--on-surface-variant); margin: 0; }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 1024px) {
+      .plans { grid-template-columns: 1fr; max-width: 480px; }
+      .plan.featured { order: -1; }
+      .reassure { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .topbar { padding: var(--space-4) var(--space-5); }
+      .topbar .brand .brand-ukraina { display: none; }
+      .stepper { gap: var(--space-3); padding-top: var(--space-6); }
+      .step-line { flex-basis: 24px; }
+      .step span:not(.num) { display: none; }
+      .plans { padding: 0 var(--space-5) var(--space-10); }
+      .plan { padding: var(--space-6); }
+      .page-header { padding: var(--space-4) var(--space-5) var(--space-8); }
+      .reassure { padding: 0 var(--space-5) var(--space-10); }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <!-- Top bar -->
+    <header class="topbar">
+      <a class="brand" href="home.html">
+        <span class="brand-rain">RAIN<span class="brand-cloud">CLOUD</span></span>
+        <span class="brand-ukraina">UKRAINA</span>
+      </a>
+      <a class="back t-body-sm" href="home.html">
+        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Back to feed
+      </a>
+    </header>
+
+    <!-- Progress -->
+    <nav class="stepper" aria-label="Checkout progress">
+      <div class="step active" aria-current="step">
+        <span class="num"><span class="real-num">1</span></span>
+        <span class="t-body-sm">Choose plan</span>
+      </div>
+      <div class="step-line" aria-hidden="true"></div>
+      <div class="step">
+        <span class="num">2</span>
+        <span class="t-body-sm">Payment</span>
+      </div>
+      <div class="step-line" aria-hidden="true"></div>
+      <div class="step">
+        <span class="num">3</span>
+        <span class="t-body-sm">Confirmation</span>
+      </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="page-header">
+      <p class="eyebrow t-label-caps">Storm AI Pro</p>
+      <h1 class="t-headline-lg">Quiet discovery, working harder for you.</h1>
+      <p class="lede t-body-lg">Unlock unlimited Storm AI queries, deeper opportunity tracking, and direct messaging across the reconstruction ecosystem.</p>
+    </section>
+
+    <!-- Billing toggle -->
+    <div class="billing-toggle-wrap">
+      <div class="billing-toggle" role="radiogroup" aria-label="Billing period">
+        <input type="radio" id="bill-monthly" name="billing" value="monthly">
+        <label for="bill-monthly" class="t-body-sm">Monthly</label>
+        <input type="radio" id="bill-annual" name="billing" value="annual" checked>
+        <label for="bill-annual" class="t-body-sm">
+          Annual
+          <span class="save-badge">Save 20%</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Plans -->
+    <section class="plans" aria-label="Subscription tiers">
+
+      <!-- FREE -->
+      <article class="plan">
+        <h2 class="plan-name t-headline-md">Free</h2>
+        <p class="plan-tagline t-body-md">Browse the network and start a few conversations.</p>
+        <div class="plan-price">
+          <span class="free">€0</span>
+          <span class="period t-body-md">/ month</span>
+        </div>
+        <p class="plan-billed t-body-sm">Forever free, no card required.</p>
+        <a class="plan-cta secondary t-body-sm" href="home.html">Continue free</a>
+        <div class="plan-divider"></div>
+        <p class="plan-features-eyebrow t-label-caps">What's included</p>
+        <ul class="plan-features t-body-sm">
+          <li>
+            <span class="check"><svg viewBox="0 0 16 16" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg></span>
+            <span>50 Storm AI queries / month</span>
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 16 16" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg></span>
+            <span>Browse all members &amp; companies</span>
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 16 16" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg></span>
+            <span>Track 1 active opportunity</span>
+          </li>
+          <li class="muted">
+            <span class="x"><svg viewBox="0 0 16 16" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l8 8M12 4l-8 8"/></svg></span>
+            <span>Advanced filters</span>
+          </li>
+          <li class="muted">
+            <span class="x"><svg viewBox="0 0 16 16" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l8 8M12 4l-8 8"/></svg></span>
+            <span>Direct messaging</span>
+          </li>
+          <li class="muted">
+            <span class="x"><svg viewBox="0 0 16 16" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l8 8M12 4l-8 8"/></svg></span>
+            <span>CSV export</span>
+          </li>
+        </ul>
+      </article>
+
+      <!-- PRO (featured) -->
+      <article class="plan featured" aria-label="Pro plan, recommended">
+        <span class="plan-badge">Most popular</span>
+        <h2 class="plan-name t-headline-md">Pro</h2>
+        <p class="plan-tagline t-body-md">For consultants and small teams building real deal flow.</p>
+        <div class="plan-price">
+          <span class="currency">€</span>
+          <span class="amount" id="pro-price">15</span>
+          <span class="period t-body-md">/ month</span>
+        </div>
+        <p class="plan-billed t-body-sm" id="pro-billing">Billed €180/year. Cancel anytime.</p>
+        <a class="plan-cta primary t-body-sm" href="checkout.html?plan=pro&amp;cycle=annual">
+          Upgrade to Pro
+          <svg viewBox="0 0 16 16" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </a>
+        <div class="plan-divider"></div>
+        <p class="plan-features-eyebrow t-label-caps">Everything in Free, plus</p>
+        <ul class="plan-features t-body-sm">
+          <li>
+            <span class="check"><svg viewBox="0 0 16 16" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg></span>
+            <span><strong>Unlimited</strong> Storm AI queries</span>
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 16 16" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg></span>
+            <span>Unlimited opportunity tracking</span>
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 16 16" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg></span>
+            <span>Advanced filters &amp; saved searches</span>
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 16 16" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg></span>
+            <span>Direct messaging &amp; intro requests</span>
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 16 16" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg></span>
+            <span>CSV / Sheets export</span>
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 16 16" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg></span>
+            <span>Priority member access</span>
+          </li>
+        </ul>
+      </article>
+
+      <!-- ENTERPRISE -->
+      <article class="plan">
+        <h2 class="plan-name t-headline-md">Enterprise</h2>
+        <p class="plan-tagline t-body-md">For organisations coordinating reconstruction at scale.</p>
+        <div class="plan-price">
+          <span class="free">Custom</span>
+        </div>
+        <p class="plan-billed t-body-sm">Annual contract, billed by invoice.</p>
+        <a class="plan-cta secondary t-body-sm" href="mailto:sales@raincloud.example?subject=Enterprise%20inquiry">Contact sales</a>
+        <div class="plan-divider"></div>
+        <p class="plan-features-eyebrow t-label-caps">Everything in Pro, plus</p>
+        <ul class="plan-features t-body-sm">
+          <li>
+            <span class="check"><svg viewBox="0 0 16 16" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg></span>
+            <span>SSO &amp; SCIM provisioning</span>
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 16 16" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg></span>
+            <span>Dedicated customer success manager</span>
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 16 16" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg></span>
+            <span>99.9% uptime SLA</span>
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 16 16" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg></span>
+            <span>Custom integrations &amp; API access</span>
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 16 16" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg></span>
+            <span>Custom DPA &amp; security review</span>
+          </li>
+          <li>
+            <span class="check"><svg viewBox="0 0 16 16" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg></span>
+            <span>Onboarding workshops</span>
+          </li>
+        </ul>
+      </article>
+    </section>
+
+    <!-- Reassurance row -->
+    <section class="reassure" aria-label="Why upgrade with peace of mind">
+      <div class="reassure-item">
+        <span class="icon">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </span>
+        <div>
+          <h3 class="title t-body-md">Secured payments</h3>
+          <p class="desc t-body-sm">PCI-compliant checkout. We never see your card details.</p>
+        </div>
+      </div>
+      <div class="reassure-item">
+        <span class="icon">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        </span>
+        <div>
+          <h3 class="title t-body-md">Cancel anytime</h3>
+          <p class="desc t-body-sm">One-click downgrade. No phone calls, no retention emails.</p>
+        </div>
+      </div>
+      <div class="reassure-item">
+        <span class="icon">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L3 6v6c0 5 4 9 9 10 5-1 9-5 9-10V6l-9-4Z"/><path d="m9 12 2 2 4-4"/></svg>
+        </span>
+        <div>
+          <h3 class="title t-body-md">GDPR &amp; SOC 2</h3>
+          <p class="desc t-body-sm">EU-hosted data, annual audits, full DPA available on request.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Billing toggle — swap Pro price between annual (€15/mo, billed €180) and monthly (€19)
+    const monthly = document.getElementById('bill-monthly');
+    const annual = document.getElementById('bill-annual');
+    const priceEl = document.getElementById('pro-price');
+    const billingEl = document.getElementById('pro-billing');
+    const proCta = document.querySelector('.plan.featured .plan-cta');
+
+    function updateProPrice() {
+      if (annual.checked) {
+        priceEl.textContent = '15';
+        billingEl.textContent = 'Billed €180/year. Cancel anytime.';
+        proCta.href = 'checkout.html?plan=pro&cycle=annual';
+      } else {
+        priceEl.textContent = '19';
+        billingEl.textContent = 'Billed monthly. Cancel anytime.';
+        proCta.href = 'checkout.html?plan=pro&cycle=monthly';
+      }
+    }
+    monthly.addEventListener('change', updateProPrice);
+    annual.addEventListener('change', updateProPrice);
+  </script>
+</body>
+</html>

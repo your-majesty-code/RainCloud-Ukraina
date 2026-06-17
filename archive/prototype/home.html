@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hello Valeriia — RainCloud</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      /* v3 slate/storm tokens */
+      --surface: #ffffff;
+      --surface-container-lowest: #ffffff;
+      --surface-container-low: #f1f5f9;
+      --surface-container: #f1f5f9;
+      --on-surface: #111827;
+      --on-surface-variant: #64748b;
+      --outline: #cbd5e1;
+      --outline-variant: #e5e7eb;
+      --primary-container: #f05c26;
+      --primary-container-hover: #ea580c;
+      --on-primary: #ffffff;
+      --on-primary-container: #ea580c;
+      --error: #dc2626;
+      --success: #16a34a;
+
+      /* Figma-source colors (preserved for fidelity) */
+      --sidebar-bg: #1a1a1a;
+      --sidebar-bg-card: #232323;
+      --sidebar-fg: #ffffff;
+      --sidebar-fg-muted: rgba(255, 255, 255, 0.65);
+      --sidebar-fg-dim: rgba(255, 255, 255, 0.35);
+      --sidebar-border: rgba(255, 255, 255, 0.08);
+      --sidebar-active-bg: rgba(255, 255, 255, 0.06);
+      --content-bg: #f8fafc;
+      --text-strong: #0f172a;
+      --text-base: #111827;
+      --text-muted: #475569;
+      --text-subtle: #64748b;
+      --text-faint: #94a3b8;
+      --hairline: #f1f5f9;
+      --hairline-strong: #e5e7eb;
+
+      --radius-input: 0.25rem;
+      --radius-card: 0.5rem;
+      --radius-pill: 9999px;
+      --radius-card-lg: 24px;
+      --radius-shell: 32px;
+      --radius-shell-lg: 40px;
+
+      --space-xs: 8px;
+      --space-sm: 16px;
+      --space-md: 24px;
+      --space-lg: 40px;
+      --space-xl: 64px;
+
+      --font-display: 'Montserrat', system-ui, sans-serif;
+      --font-body: 'Montserrat', system-ui, sans-serif;
+
+      --radius-card: 16px;
+      --sidebar-w: 240px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      background-color: var(--sidebar-bg);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 20px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; background: none; border: none; }
+
+    /* ============== APP SHELL ============== */
+    .app {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) 1fr;
+      min-height: 100vh;
+      max-width: 1500px;
+      margin: 0 auto;
+    }
+
+    /* ============== SIDEBAR ============== */
+    .sidebar {
+      background-color: var(--sidebar-bg);
+      color: var(--sidebar-fg);
+      padding: var(--space-lg) 24px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 56px;
+      position: relative;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-family: var(--font-display);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      line-height: 1;
+      padding: 0 8px;
+    }
+    .brand .brand-rain {
+      font-size: 22px;
+      color: #ffffff;
+    }
+    .brand .brand-rain .brand-cloud {
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.15em;
+    }
+    .brand .brand-ukraina {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 4px;
+      font-size: 18px;
+      letter-spacing: 0.2em;
+      margin-top: 2px;
+    }
+    .brand .brand-ukraina sup {
+      font-size: 7px;
+      letter-spacing: 0;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 12px;
+      border-radius: 10px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--sidebar-fg-muted);
+      cursor: pointer;
+      position: relative;
+      transition: color 120ms ease, background-color 120ms ease;
+    }
+    .nav-item svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.6;
+    }
+    .nav-item:hover { color: #fff; }
+    .nav-item.active {
+      background-color: var(--sidebar-active-bg);
+      color: #ffffff;
+    }
+    .nav-item.active::before {
+      content: '';
+      position: absolute;
+      left: -24px;
+      top: 8px;
+      bottom: 8px;
+      width: 4px;
+      background-color: var(--primary-container);
+      border-top-right-radius: var(--radius-pill);
+      border-bottom-right-radius: var(--radius-pill);
+    }
+
+    /* Storm AI Assistant card */
+    .storm-card {
+      position: relative;
+      border: 1px solid var(--sidebar-border);
+      border-radius: 24px;
+      padding: 22px 16px;
+      text-align: center;
+      background: linear-gradient(160deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0) 100%);
+      overflow: hidden;
+    }
+    .storm-card::before {
+      content: '';
+      position: absolute;
+      left: -32px;
+      top: -32px;
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: rgba(241, 111, 38, 0.22);
+      filter: blur(18px);
+    }
+    .storm-card-icon {
+      position: relative;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background-color: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.06);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-container);
+      margin-bottom: 12px;
+    }
+    .storm-card-icon svg { width: 20px; height: 20px; fill: currentColor; }
+    .storm-card-title {
+      position: relative;
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: #ffffff;
+    }
+    .storm-card-sub {
+      position: relative;
+      margin-top: 2px;
+      font-family: var(--font-display);
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      color: var(--sidebar-fg-dim);
+    }
+
+    /* ============== MAIN ============== */
+    .main {
+      padding: 8px 8px 8px 0;
+      min-width: 0;
+    }
+    .main-content {
+      background-color: var(--content-bg);
+      border-top-left-radius: var(--radius-shell-lg);
+      border-bottom-left-radius: var(--radius-shell-lg);
+      min-height: calc(100vh - 16px);
+      padding: 32px 32px 64px;
+    }
+
+    /* ============== HEADER ============== */
+    .page-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-md);
+      padding-bottom: var(--space-md);
+    }
+    .greeting h1 {
+      font-family: var(--font-display);
+      font-size: 36px;
+      font-weight: 600;
+      line-height: 40px;
+      letter-spacing: -0.025em;
+      color: var(--text-base);
+      margin: 0;
+      text-transform: uppercase;
+    }
+    .greeting .sub {
+      margin-top: 6px;
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .stats-pills { display: flex; gap: 10px; }
+    .stat-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 16px;
+      background-color: #fff;
+      border: 1px solid rgba(243, 244, 246, 0.5);
+      border-radius: var(--radius-pill);
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    }
+    .stat-pill .stat-icon { width: 14px; height: 14px; color: var(--text-base); }
+    .stat-pill .stat-value {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-base);
+    }
+    .stat-pill .stat-label {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    .action-icons { display: flex; gap: 10px; align-items: center; }
+    .icon-button {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background-color: #fff;
+      border: 1px solid rgba(243, 244, 246, 0.5);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+      position: relative;
+      transition: background-color 120ms ease;
+    }
+    .icon-button:hover { background-color: var(--surface-container-low); }
+    .icon-button svg { width: 18px; height: 18px; stroke: var(--text-base); fill: none; stroke-width: 1.7; }
+    .icon-button .notification-dot {
+      position: absolute;
+      top: 11px;
+      right: 11px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--primary-container);
+      border: 2px solid #fff;
+    }
+    .avatar-button {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background-color: var(--text-base);
+      color: #fff;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 6px;
+    }
+
+    /* ============== MAIN GRID ============== */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    /* ============== STORM HERO ============== */
+    .storm-hero {
+      position: relative;
+      border-radius: var(--radius-shell);
+      padding: 36px 40px;
+      color: #fff;
+      overflow: hidden;
+      min-height: 240px;
+      background:
+        radial-gradient(circle at 85% 35%, rgba(241, 111, 38, 0.45) 0%, transparent 55%),
+        radial-gradient(circle at 95% 95%, rgba(241, 111, 38, 0.22) 0%, transparent 50%),
+        linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
+    }
+    .storm-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      background-color: rgba(241, 111, 38, 0.12);
+      color: var(--primary-container);
+      border: 1px solid rgba(241, 111, 38, 0.22);
+      border-radius: var(--radius-pill);
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      position: relative;
+    }
+    .storm-badge svg { width: 11px; height: 11px; fill: currentColor; }
+
+    .storm-title {
+      margin: 16px 0 24px;
+      font-family: var(--font-display);
+      font-size: 32px;
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: #fff;
+      max-width: 560px;
+      position: relative;
+    }
+
+    .storm-search {
+      position: relative;
+      display: flex;
+      gap: 8px;
+      max-width: 640px;
+      padding: 6px;
+      background-color: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-pill);
+      backdrop-filter: blur(20px);
+    }
+    .storm-search-icon {
+      width: 36px;
+      height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--primary-container);
+    }
+    .storm-search-icon svg { width: 16px; height: 16px; fill: currentColor; }
+    .storm-search input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 14px;
+      padding: 8px 0;
+    }
+    .storm-search input::placeholder { color: rgba(255, 255, 255, 0.45); }
+    .storm-search button {
+      display: inline-flex;
+      align-items: center;
+      background: linear-gradient(135deg, #F89060, #F16F26);
+      color: #fff;
+      border-radius: var(--radius-pill);
+      padding: 8px 18px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      transition: filter 120ms ease;
+    }
+    .storm-search button:hover { filter: brightness(1.08); }
+
+    .storm-chips {
+      display: flex;
+      gap: 8px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+      position: relative;
+    }
+    .storm-chip {
+      padding: 6px 14px;
+      background-color: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-pill);
+      color: rgba(255, 255, 255, 0.7);
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 400;
+      transition: background-color 120ms ease;
+    }
+    .storm-chip:hover { background-color: rgba(255, 255, 255, 0.08); }
+
+    /* Lightning bolt graphic */
+    .storm-bolts {
+      position: absolute;
+      right: 24px;
+      top: 0;
+      bottom: 0;
+      width: 280px;
+      pointer-events: none;
+    }
+    .storm-bolts img { position: absolute; }
+    .storm-bolts .bolt-back  { right: 80px; top: 25px; width: 140px; opacity: 0.4; }
+    .storm-bolts .bolt-mid   { right: 50px; top: 5px;  width: 170px; opacity: 0.6; }
+    .storm-bolts .bolt-front { right: 10px; top: -5px; width: 168px; filter: drop-shadow(0 6px 25px rgba(241,111,38,0.5)); }
+    .storm-orb {
+      position: absolute;
+      right: 40px;
+      top: 30px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #ffcfa8, #c46b39);
+      box-shadow: 0 0 24px rgba(241, 111, 38, 0.5);
+    }
+
+    /* ============== FEED CONTROLS ============== */
+    .feed-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      margin-top: var(--space-md);
+      padding: 5px;
+      background-color: #fff;
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius-pill);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    }
+    .tabs { display: flex; gap: 2px; }
+    .tab {
+      padding: 10px 18px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-subtle);
+      border-radius: var(--radius-pill);
+      transition: background-color 120ms ease, color 120ms ease;
+    }
+    .tab:hover { background-color: var(--surface-container-low); color: var(--text-strong); }
+    .tab.active {
+      background-color: var(--text-base);
+      color: #fff;
+      font-weight: 600;
+    }
+    .sort {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding-right: 16px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--text-subtle);
+    }
+    .sort strong { color: var(--text-strong); font-weight: 600; }
+    .sort svg { width: 12px; height: 12px; stroke: var(--text-subtle); fill: none; stroke-width: 2; }
+
+    /* ============== FEED CARDS ============== */
+    .feed-list { display: flex; flex-direction: column; gap: 16px; margin-top: 16px; }
+    .post {
+      background-color: #fff;
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius-card-lg);
+      padding: 24px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+      transition: box-shadow 160ms ease, transform 160ms ease;
+    }
+    .post:hover {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+      transform: translateY(-1px);
+    }
+
+    .post-tags { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border: 1px solid transparent;
+    }
+    /* Article type chip (outlined neutral) */
+    .tag-type {
+      padding: 4px 10px;
+      background: transparent;
+      border-color: var(--hairline-strong);
+      color: var(--text-muted);
+      text-transform: none;
+      letter-spacing: 0.01em;
+      font-weight: 500;
+      font-size: 12px;
+    }
+    .tag-type svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+    /* Topic chips — outlined colored */
+    .tag-energy   { color: #166534; border-color: #bbf7d0; background-color: #f0fdf4; }
+    .tag-smart    { color: #1e40af; border-color: #bfdbfe; background-color: #eff6ff; }
+    .tag-renew    { color: #166534; border-color: #bbf7d0; background-color: #f0fdf4; }
+    .tag-infra    { color: #5b21b6; border-color: #ddd6fe; background-color: #f5f3ff; }
+    .tag-housing  { color: #9a3412; border-color: #fed7aa; background-color: #fff7ed; }
+
+    .post-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .post-author .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-position: center;
+      background-size: cover;
+      flex-shrink: 0;
+    }
+    .post-author .avatar-mono {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--text-base);
+      color: #fff;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .post-author .name-line { display: flex; align-items: center; gap: 8px; }
+    .post-author .author-name {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-strong);
+    }
+    .post-author .author-action {
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--text-subtle);
+    }
+    .post-author .author-time {
+      font-family: var(--font-body);
+      font-size: 12px;
+      color: var(--text-faint);
+      margin-top: 2px;
+    }
+
+    .post-body { display: grid; grid-template-columns: 1fr 300px; gap: 24px; align-items: start; }
+    .post-body.no-image { grid-template-columns: 1fr; }
+    .post-title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 600;
+      line-height: 28px;
+      letter-spacing: -0.015em;
+      color: var(--text-strong);
+      margin: 0 0 8px;
+    }
+    .post-desc {
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 22px;
+      color: var(--text-muted);
+      margin: 0;
+    }
+    .post-image {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 16px;
+    }
+    .post-meta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--hairline);
+    }
+    .post-meta .item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      color: var(--text-subtle);
+    }
+    .post-meta .item svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+    .post-meta .item.budget {
+      color: var(--primary-container);
+      font-weight: 700;
+    }
+
+    /* ============== RIGHT SIDEBAR ============== */
+    .sidebar-right { display: flex; flex-direction: column; gap: 16px; }
+    .panel {
+      background-color: #fff;
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius-card-lg);
+      padding: 22px 20px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+    }
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .panel-title-group { display: inline-flex; align-items: center; gap: 10px; }
+    .panel-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #fff3ec;
+      color: var(--primary-container);
+    }
+    .panel-icon svg { width: 14px; height: 14px; fill: currentColor; }
+    .panel-icon.muted {
+      background-color: var(--surface-container-low);
+      color: var(--text-subtle);
+    }
+    .panel-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text-strong);
+    }
+    .panel-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-subtle);
+    }
+    .panel-link svg { width: 10px; height: 10px; stroke: currentColor; fill: none; stroke-width: 2; }
+    .panel-link:hover { color: var(--primary-container); }
+
+    /* Suggestion items */
+    .suggest-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px 0;
+      border-top: 1px solid var(--hairline);
+      align-items: center;
+    }
+    .suggest-item:first-of-type { border-top: none; padding-top: 0; }
+    .suggest-item:last-of-type { padding-bottom: 0; }
+    .suggest-thumb {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .suggest-body { flex: 1; min-width: 0; }
+    .suggest-kicker {
+      font-family: var(--font-body);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--primary-container);
+    }
+    .suggest-title {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 18px;
+      color: var(--text-strong);
+      margin-top: 4px;
+    }
+    .suggest-arrow {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background-color: #fff;
+      border: 1px solid var(--hairline-strong);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-subtle);
+      flex-shrink: 0;
+    }
+    .suggest-arrow svg { width: 11px; height: 11px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+    /* Member rows */
+    .member-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 0;
+      border-top: 1px solid var(--hairline);
+    }
+    .member-row:first-of-type { border-top: none; padding-top: 0; }
+    .member-row:last-of-type { padding-bottom: 0; }
+    .member-row .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-position: center;
+      background-size: cover;
+      flex-shrink: 0;
+    }
+    .member-row .body { flex: 1; min-width: 0; }
+    .member-row .name {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-strong);
+      line-height: 16px;
+    }
+    .member-row .role {
+      font-family: var(--font-body);
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 18px;
+    }
+    .member-row .loc {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: var(--text-subtle);
+    }
+    .member-row .loc svg { width: 10px; height: 10px; stroke: currentColor; fill: none; stroke-width: 2; }
+    .member-action {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: #fff;
+      border: 1px solid var(--hairline-strong);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-subtle);
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: background-color 120ms ease;
+    }
+    .member-action:hover { background-color: var(--surface-container-low); }
+    .member-action svg { width: 12px; height: 12px; fill: currentColor; }
+
+    /* ============== RESPONSIVE ============== */
+    @media (max-width: 1280px) {
+      .grid { grid-template-columns: 1fr 300px; gap: 20px; }
+    }
+    @media (max-width: 1080px) {
+      .app { grid-template-columns: 72px 1fr; }
+      .sidebar { padding: 24px 12px; gap: 32px; }
+      .brand, .nav-item span, .storm-card-title, .storm-card-sub { display: none; }
+      .nav-item { justify-content: center; padding: 12px 0; }
+      .nav-item.active::before { left: -12px; }
+      .storm-card { padding: 12px; }
+      .greeting h1 { font-size: 26px; line-height: 32px; }
+      .stats-pills { display: none; }
+      .grid { grid-template-columns: 1fr; }
+      .post-body { grid-template-columns: 1fr; }
+      .post-image { height: 200px; }
+    }
+    @media (max-width: 640px) {
+      .main { padding: 0; }
+      .main-content { border-radius: 0; padding: 20px; }
+      .feed-controls { overflow-x: auto; padding: 3px; }
+      .storm-bolts, .storm-orb { display: none; }
+      .storm-hero { padding: 28px 22px; }
+      .storm-title { font-size: 24px; }
+      .header-actions { gap: 6px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- ============== LEFT SIDEBAR ============== -->
+    <aside class="sidebar" aria-label="Primary navigation">
+      <a class="brand" href="home.html">
+        <span class="brand-rain">RAIN<span class="brand-cloud">CLOUD</span></span>
+        <span class="brand-ukraina">UKRAINA<sup>TM</sup></span>
+      </a>
+
+      <nav class="nav">
+        <a class="nav-item active" href="home.html" aria-current="page">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+          <span>Feed</span>
+        </a>
+        <a class="nav-item" href="dashboard.html">
+          <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c.7-3.5 3.4-5.5 6.5-5.5s5.8 2 6.5 5.5"/><circle cx="17" cy="6.5" r="2.4" stroke-linecap="round"/><path d="M14.5 14c2.5 0 4.7 1.3 5.5 4"/></svg>
+          <span>Network</span>
+        </a>
+        <a class="nav-item" href="#">
+          <svg viewBox="0 0 24 24"><path d="M3 21V8l4-4h6l4 4v13"/><path d="M3 21h18"/><path d="M21 21V12h-4"/><path d="M9 21v-5h4v5"/></svg>
+          <span>Companies</span>
+        </a>
+        <a class="nav-item" href="#">
+          <svg viewBox="0 0 24 24"><path d="M3 7h18l-2 13H5L3 7Z"/><path d="M8 7V5a4 4 0 0 1 8 0v2"/></svg>
+          <span>Trade Show</span>
+        </a>
+        <a class="nav-item" href="#">
+          <svg viewBox="0 0 24 24"><path d="M4 21V10l8-6 8 6v11"/><path d="M9 21v-7h6v7"/></svg>
+          <span>Pavilions</span>
+        </a>
+        <a class="nav-item" href="#">
+          <svg viewBox="0 0 24 24"><path d="M12 3v3"/><circle cx="12" cy="12" r="8"/><path d="M12 8a4 4 0 0 1 4 4"/></svg>
+          <span>Opportunities</span>
+        </a>
+        <a class="nav-item" href="#">
+          <svg viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10.5L9 15v3h6v-3l1-1.5A6 6 0 0 0 12 3Z"/></svg>
+          <span>Insights</span>
+        </a>
+        <a class="nav-item" href="events.html">
+          <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M8 3v4M16 3v4"/></svg>
+          <span>Events</span>
+        </a>
+      </nav>
+
+      <a class="storm-card" href="pricing.html" style="text-decoration:none;display:block;">
+        <div class="storm-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>
+        </div>
+        <div class="storm-card-title">STORM AI</div>
+        <div class="storm-card-sub">ASSISTANT</div>
+      </a>
+    </aside>
+
+    <!-- ============== MAIN ============== -->
+    <div class="main">
+      <main class="main-content">
+        <!-- Header -->
+        <header class="page-header">
+          <div class="greeting">
+            <h1>Hello Valeriia</h1>
+            <div class="sub">Powering global business to build the new Ukraine</div>
+          </div>
+          <div class="header-actions">
+            <div class="stats-pills">
+              <div class="stat-pill">
+                <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.7-3.5 3.4-5.5 6.5-5.5s5.8 2 6.5 5.5"/><circle cx="17" cy="6.5" r="2.5"/><path d="M14.5 14c2.5 0 4.7 1.3 5.5 4"/></svg>
+                <span class="stat-value">4,280</span>
+                <span class="stat-label">Members</span>
+              </div>
+              <div class="stat-pill">
+                <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l4-4h6l4 4v13"/><path d="M3 21h18"/></svg>
+                <span class="stat-value">1,140</span>
+                <span class="stat-label">Companies</span>
+              </div>
+            </div>
+            <div class="action-icons">
+              <button class="icon-button" aria-label="Search">
+                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              </button>
+              <button class="icon-button" aria-label="Messages">
+                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              </button>
+              <button class="icon-button" aria-label="Notifications">
+                <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                <span class="notification-dot"></span>
+              </button>
+              <a href="index.html" class="avatar-button" title="Sign out" aria-label="Sign out">VB</a>
+            </div>
+          </div>
+        </header>
+
+        <!-- Two-column grid -->
+        <div class="grid">
+          <!-- Left column: hero + tabs + feed -->
+          <div>
+            <!-- Storm Hero -->
+            <section class="storm-hero">
+              <span class="storm-badge">
+                <svg viewBox="0 0 20 20"><path d="M10 1 12 7l6 1-4.5 4 1 6L10 15l-4.5 3 1-6L2 8l6-1Z"/></svg>
+                Try Asking Storm AI
+              </span>
+              <h2 class="storm-title">Intelligent discovery for the<br>reconstruction ecosystem.</h2>
+              <form class="storm-search" onsubmit="event.preventDefault();">
+                <div class="storm-search-icon">
+                  <svg viewBox="0 0 20 20"><path d="M10 1 12 7l6 1-4.5 4 1 6L10 15l-4.5 3 1-6L2 8l6-1Z"/></svg>
+                </div>
+                <input type="text" placeholder="Show companies specializing in modular housing..." aria-label="Ask Storm AI">
+                <button type="submit">Ask Storm</button>
+              </form>
+              <div class="storm-chips">
+                <button class="storm-chip">Modular housing suppliers in EU</button>
+                <button class="storm-chip">Infrastructure projects in Kyiv region</button>
+              </div>
+              <div class="storm-orb" aria-hidden="true"></div>
+              <div class="storm-bolts" aria-hidden="true">
+                <img src="assets/v2_imgVector2.svg" alt="" class="bolt-back">
+                <img src="assets/v2_imgVector3.svg" alt="" class="bolt-mid">
+                <img src="assets/v2_imgVector1.svg" alt="" class="bolt-front">
+              </div>
+            </section>
+
+            <!-- Feed Controls -->
+            <div class="feed-controls">
+              <div class="tabs" role="tablist">
+                <button class="tab active" role="tab" aria-selected="true">All</button>
+                <button class="tab" role="tab">Products</button>
+                <button class="tab" role="tab">Opportunities</button>
+                <button class="tab" role="tab">Events</button>
+                <button class="tab" role="tab">Articles</button>
+                <button class="tab" role="tab">News</button>
+              </div>
+              <div class="sort">
+                Sort By: <strong>Latest</strong>
+                <svg viewBox="0 0 16 16" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6L8 10L12 6"/></svg>
+              </div>
+            </div>
+
+            <!-- Feed cards -->
+            <div class="feed-list">
+              <!-- Article — Olena -->
+              <article class="post">
+                <div class="post-tags">
+                  <span class="tag tag-type">
+                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v5h5"/><path d="M19 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z"/></svg>
+                    Article
+                  </span>
+                  <span class="tag tag-energy">Energy</span>
+                  <span class="tag tag-smart">Smart Grid</span>
+                </div>
+                <div class="post-author">
+                  <span class="avatar" style="background-image:url('assets/v2_imgOlena.jpg')"></span>
+                  <div>
+                    <div class="name-line">
+                      <span class="author-name">Olena Kovalenko</span>
+                      <span class="author-action">published an article</span>
+                    </div>
+                    <div class="author-time">2h ago</div>
+                  </div>
+                </div>
+                <div class="post-body">
+                  <div>
+                    <h2 class="post-title">Ukraine's Green Rebirth: A New Energy Grid for a New Nation</h2>
+                    <p class="post-desc">How innovation and resilience are shaping Ukraine's energy future.</p>
+                  </div>
+                  <img class="post-image" src="assets/v2_imgSolarPanels.jpg" alt="Solar panels in a field">
+                </div>
+              </article>
+
+              <!-- Event — RainCloud Ukraina -->
+              <article class="post">
+                <div class="post-tags">
+                  <span class="tag tag-type">
+                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M8 3v4M16 3v4"/></svg>
+                    Event
+                  </span>
+                  <span class="tag tag-renew">Renewable Energy</span>
+                  <span class="tag tag-smart">Smart Grid</span>
+                </div>
+                <div class="post-author">
+                  <span class="avatar-mono">RC</span>
+                  <div>
+                    <div class="name-line">
+                      <span class="author-name">RainCloud Ukraina</span>
+                      <span class="author-action">announced an event</span>
+                    </div>
+                    <div class="author-time">1d ago</div>
+                  </div>
+                </div>
+                <div class="post-body">
+                  <div>
+                    <h2 class="post-title">Rebuild Roundtable: Public-Private Partnerships Driving Recovery</h2>
+                    <p class="post-desc">Bringing leaders together to accelerate Ukraine's reconstruction.</p>
+                  </div>
+                  <img class="post-image" src="assets/v2_imgSolarPanels1.jpg" alt="Power lines at sunset">
+                </div>
+                <div class="post-meta">
+                  <span class="item">
+                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    Kyiv, Ukraine
+                  </span>
+                  <span class="item">
+                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+                    May 25, 2026 · 1:00 PM UTC
+                  </span>
+                </div>
+              </article>
+
+              <!-- Product — NovaTech -->
+              <article class="post">
+                <div class="post-tags">
+                  <span class="tag tag-type">
+                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                    Product
+                  </span>
+                  <span class="tag tag-energy">Energy</span>
+                  <span class="tag tag-infra">Infrastructure</span>
+                </div>
+                <div class="post-author">
+                  <span class="avatar-mono" style="background-color:#0ea5e9">NT</span>
+                  <div>
+                    <div class="name-line">
+                      <span class="author-name">NovaTech Solutions</span>
+                      <span class="author-action">added a new product</span>
+                    </div>
+                    <div class="author-time">5h ago</div>
+                  </div>
+                </div>
+                <div class="post-body">
+                  <div>
+                    <h2 class="post-title">Modular Substation for Fast Deployment</h2>
+                    <p class="post-desc">Compact, digital-ready substations for power distribution in rebuilding regions.</p>
+                  </div>
+                  <img class="post-image" src="assets/v2_imgBackground.png" alt="Modular substation">
+                </div>
+              </article>
+
+              <!-- News — RainCloud Ukraina -->
+              <article class="post">
+                <div class="post-tags">
+                  <span class="tag tag-type">
+                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h13v16H4z"/><path d="M17 8h3v12h-3"/><path d="M7 8h6M7 12h6M7 16h4"/></svg>
+                    News
+                  </span>
+                  <span class="tag tag-renew">Renewable Energy</span>
+                  <span class="tag tag-housing">Housing</span>
+                </div>
+                <div class="post-author">
+                  <span class="avatar-mono">RC</span>
+                  <div>
+                    <div class="name-line">
+                      <span class="author-name">RainCloud Ukraina</span>
+                      <span class="author-action">posted news</span>
+                    </div>
+                    <div class="author-time">1d ago</div>
+                  </div>
+                </div>
+                <div class="post-body">
+                  <div>
+                    <h2 class="post-title">Recovery and reconstruction of Ukraine — European Commission</h2>
+                    <p class="post-desc">EU has launched a new support mechanism for the years 2026-2030.</p>
+                  </div>
+                  <img class="post-image" src="assets/v2_imgIndustry.png" alt="European Commission delegation">
+                </div>
+              </article>
+
+              <!-- Opportunity — GreenBuild -->
+              <article class="post">
+                <div class="post-tags">
+                  <span class="tag tag-type">
+                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3"/><circle cx="12" cy="12" r="8"/><path d="M12 8a4 4 0 0 1 4 4"/></svg>
+                    Opportunity
+                  </span>
+                  <span class="tag tag-renew">Renewable Energy</span>
+                  <span class="tag tag-smart">Smart Grid</span>
+                </div>
+                <div class="post-author">
+                  <span class="avatar-mono" style="background-color:#16a34a">GB</span>
+                  <div>
+                    <div class="name-line">
+                      <span class="author-name">GreenBuild Corp.</span>
+                      <span class="author-action">posted an opportunity</span>
+                    </div>
+                    <div class="author-time">2d ago</div>
+                  </div>
+                </div>
+                <div class="post-body">
+                  <div>
+                    <h2 class="post-title">Looking for Solar EPC Partner</h2>
+                    <p class="post-desc">Municipality in Western Ukraine seeking an EPC partner for a 15MW solar project.</p>
+                  </div>
+                  <img class="post-image" src="assets/v2_imgBackground1.png" alt="Solar EPC partnership">
+                </div>
+                <div class="post-meta">
+                  <span class="item">
+                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    Kyiv, Ukraine
+                  </span>
+                  <span class="item">
+                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+                    Deadline: Jul 30, 2025
+                  </span>
+                  <span class="item budget">€2.4M – €3.8M</span>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <!-- Right sidebar -->
+          <aside class="sidebar-right">
+            <!-- Storm Suggestions -->
+            <section class="panel">
+              <header class="panel-header">
+                <div class="panel-title-group">
+                  <span class="panel-icon">
+                    <svg viewBox="0 0 20 20"><path d="M10 1 12 7l6 1-4.5 4 1 6L10 15l-4.5 3 1-6L2 8l6-1Z"/></svg>
+                  </span>
+                  <span class="panel-title">Storm Suggestions</span>
+                </div>
+              </header>
+              <div class="suggest-item">
+                <img class="suggest-thumb" src="assets/v2_imgPhoto1486406146926C627A92Ad1Ab.jpg" alt="">
+                <div class="suggest-body">
+                  <div class="suggest-kicker">Find Companies</div>
+                  <div class="suggest-title">Preferable Housing manufactures in…</div>
+                </div>
+                <button class="suggest-arrow" aria-label="Open">
+                  <svg viewBox="0 0 16 16" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l7 5-7 5"/></svg>
+                </button>
+              </div>
+              <div class="suggest-item">
+                <img class="suggest-thumb" src="assets/v2_imgPhoto1454165804606C3D57Bc86B40.jpg" alt="">
+                <div class="suggest-body">
+                  <div class="suggest-kicker">Read Insight</div>
+                  <div class="suggest-title">How Denmark Supports Ukraine…</div>
+                </div>
+                <button class="suggest-arrow" aria-label="Open">
+                  <svg viewBox="0 0 16 16" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l7 5-7 5"/></svg>
+                </button>
+              </div>
+              <div class="suggest-item">
+                <img class="suggest-thumb" src="assets/v2_imgPhoto1540575467063178A50C2Df87.jpg" alt="">
+                <div class="suggest-body">
+                  <div class="suggest-kicker">Attend Event</div>
+                  <div class="suggest-title">Ukraine Recovery Conference 2026…</div>
+                </div>
+                <button class="suggest-arrow" aria-label="Open">
+                  <svg viewBox="0 0 16 16" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l7 5-7 5"/></svg>
+                </button>
+              </div>
+            </section>
+
+            <!-- Members -->
+            <section class="panel">
+              <header class="panel-header">
+                <div class="panel-title-group">
+                  <span class="panel-icon muted">
+                    <svg viewBox="0 0 20 20" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="7" r="3"/><path d="M2 17c.7-3 3-5 6-5s5.3 2 6 5"/><circle cx="14" cy="6" r="2"/><path d="M12 12c2 0 4 1 4.5 3.5"/></svg>
+                  </span>
+                  <span class="panel-title">Members</span>
+                </div>
+                <a href="dashboard.html" class="panel-link">
+                  View All
+                  <svg viewBox="0 0 16 16" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l7 5-7 5"/></svg>
+                </a>
+              </header>
+              <div class="member-row">
+                <span class="avatar" style="background-image:url('assets/v2_imgOlena.jpg')"></span>
+                <div class="body">
+                  <div class="name">Olena Kovalenko</div>
+                  <div class="role">Energy Policy Manager</div>
+                  <div class="loc">
+                    <svg viewBox="0 0 16 16" stroke-linecap="round" stroke-linejoin="round"><path d="M14 7c0 4.5-6 9-6 9s-6-4.5-6-9a6 6 0 0 1 12 0z"/><circle cx="8" cy="7" r="2"/></svg>
+                    Kyiv, Ukraine
+                  </div>
+                </div>
+                <button class="member-action" aria-label="Message Olena">
+                  <svg viewBox="0 0 16 16"><path d="m15 1-5 13-2.5-6L1.5 5.5 15 1Z"/></svg>
+                </button>
+              </div>
+              <div class="member-row">
+                <span class="avatar" style="background-image:url('assets/v2_imgPhoto158048994476115A19D654956.jpg')"></span>
+                <div class="body">
+                  <div class="name">Anna Müller</div>
+                  <div class="role">Project Director at WeBuilt</div>
+                  <div class="loc">
+                    <svg viewBox="0 0 16 16" stroke-linecap="round" stroke-linejoin="round"><path d="M14 7c0 4.5-6 9-6 9s-6-4.5-6-9a6 6 0 0 1 12 0z"/><circle cx="8" cy="7" r="2"/></svg>
+                    Berlin, Germany
+                  </div>
+                </div>
+                <button class="member-action" aria-label="Message Anna">
+                  <svg viewBox="0 0 16 16"><path d="m15 1-5 13-2.5-6L1.5 5.5 15 1Z"/></svg>
+                </button>
+              </div>
+              <div class="member-row">
+                <span class="avatar" style="background-image:url('assets/v2_imgPhoto14720996457855658Abf4Ff4E.jpg')"></span>
+                <div class="body">
+                  <div class="name">Tomasz Jabłoński</div>
+                  <div class="role">Investment Advisor</div>
+                  <div class="loc">
+                    <svg viewBox="0 0 16 16" stroke-linecap="round" stroke-linejoin="round"><path d="M14 7c0 4.5-6 9-6 9s-6-4.5-6-9a6 6 0 0 1 12 0z"/><circle cx="8" cy="7" r="2"/></svg>
+                    Warsaw, Poland
+                  </div>
+                </div>
+                <button class="member-action" aria-label="Message Tomasz">
+                  <svg viewBox="0 0 16 16"><path d="m15 1-5 13-2.5-6L1.5 5.5 15 1Z"/></svg>
+                </button>
+              </div>
+            </section>
+          </aside>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

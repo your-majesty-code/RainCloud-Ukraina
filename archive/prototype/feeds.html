@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feed — RainCloud Ukraina</title>
+  <link rel="stylesheet" href="styles/tokens.css" />
+  <link rel="stylesheet" href="styles/base.css" />
+  <link rel="stylesheet" href="styles/components.css" />
+</head>
+<body>
+  <div class="app-canvas">
+
+    <!-- ============ HEADER ============ -->
+    <header class="feed-header">
+      <a class="feed-header__brand" href="feeds.html" aria-label="RainCloud Ukraina — home">
+        <img src="assets/feed-logo.png" alt="RainCloud Ukraina" />
+        <span class="feed-header__tagline">Powering global business to build the new Ukraine</span>
+      </a>
+      <span class="feed-header__divider"></span>
+      <span class="feed-header__greeting">Hello, Mike</span>
+      <span class="feed-header__spacer"></span>
+
+      <div class="stats-pill">
+        <span class="stats-pill__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="stats-pill__value">4,280</span><span class="stats-pill__label">Members</span></span>
+        <span class="stats-pill__sep"></span>
+        <span class="stats-pill__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-3"/><path d="M9 9v.01M9 12v.01M9 15v.01"/></svg><span class="stats-pill__value">1,140</span><span class="stats-pill__label">Companies</span></span>
+        <span class="stats-pill__sep"></span>
+        <span class="stats-pill__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg><span class="stats-pill__value">2,123</span><span class="stats-pill__label">Products</span></span>
+      </div>
+
+      <div class="feed-header__actions">
+        <button class="feed-icon-btn" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></button>
+        <button class="feed-icon-btn" aria-label="Messages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 9 9 0 0 1-3.9-.9L3 21l1.9-5.6a8.38 8.38 0 0 1-.9-3.9A8.5 8.5 0 0 1 12.5 3 8.38 8.38 0 0 1 21 11.5z"/></svg></button>
+        <button class="feed-icon-btn" aria-label="Notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="feed-icon-btn__dot"></span></button>
+        <button class="feed-icon-btn" aria-label="Storm AI"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></button>
+        <span class="feed-avatar">MK</span>
+      </div>
+    </header>
+
+    <div class="feed-layout">
+
+      <!-- ============ SIDEBAR ============ -->
+      <aside class="feed-sidebar">
+        <nav class="feed-nav" aria-label="Sections">
+          <a class="feed-nav__row is-active" href="feeds.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Feed</a>
+          <a class="feed-nav__row" href="network.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Network</a>
+          <a class="feed-nav__row" href="companies.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-3"/></svg>Companies &amp; Organisations</a>
+          <a class="feed-nav__row" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Virtual Trade Show</a>
+          <a class="feed-nav__row" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></svg>Business Pavilions</a>
+          <a class="feed-nav__row" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-9M14 17H5M17 3l3 4-3 4M7 13l-3 4 3 4"/></svg>Opportunities</a>
+          <a class="feed-nav__row" href="insights.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg>Thought Leadership</a>
+          <a class="feed-nav__row" href="events.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Events</a>
+          <a class="feed-nav__row" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9h4"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg>News</a>
+        </nav>
+        <div class="feed-sidebar__foot">
+          <button class="feed-nav__row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M14 9l-3 3 3 3"/></svg>Close sidebar</button>
+        </div>
+      </aside>
+
+      <!-- ============ MAIN ============ -->
+      <main class="feed-main">
+        <div class="feed-main__inner">
+
+          <!-- Storm AI hero -->
+          <section class="storm-hero">
+            <h1 class="storm-hero__title">Hello, Mike. What are you looking for today?</h1>
+            <p class="storm-hero__sub">You have <span class="hero-pill hero-pill--blue">12 new matches</span>, <span class="hero-pill hero-pill--amber">5 pending requests</span> and <span class="hero-pill hero-pill--purple">3 upcoming events</span>. Let's review them!</p>
+            <div class="ss-wrap">
+              <div class="hero-search">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+                <input type="search" placeholder="Search by industry, product type, or company..." aria-label="Search" autocomplete="off" />
+                <span class="hero-search__ask">Ask Storm <span class="key-chip">Tab</span></span>
+              </div>
+              <div class="supersearch" role="dialog" aria-label="Search suggestions"><div class="ss-body"></div></div>
+            </div>
+            <div class="hero-chips">
+              <button class="hero-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 12 0v1"/></svg><span><span class="hero-chip__title">Anna Muller</span><br><span class="hero-chip__sub">Project Director at WeBuild</span></span></button>
+              <button class="hero-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-3"/></svg><span><span class="hero-chip__title">UkrBuild Solutions</span><br><span class="hero-chip__sub">Construction</span></span></button>
+              <button class="hero-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg><span><span class="hero-chip__title">Modular Wall Panel</span><br><span class="hero-chip__sub">Housing</span></span></button>
+            </div>
+          </section>
+
+          <!-- Products -->
+          <section class="feed-section">
+            <div class="section-head">
+              <div class="section-head__left">
+                <span class="section-head__bubble"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></span>
+                <span class="section-head__title">Products</span>
+                <svg class="section-head__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+              </div>
+              <a class="view-all" href="#">View all products <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a>
+            </div>
+            <div class="grid-3">
+              <article class="fcard"><div class="fcard__media"><img src="assets/feed-product-1.gif" alt=""><span class="fcard__cat cat--housing">Housing</span></div><div class="fcard__body"><div class="fcard__toprow"><span class="fcard__company">UkrBuild Solutions</span><span class="fcard__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Kyiv</span></div><h3 class="fcard__title">Rapid Modular Housing Units</h3><p class="fcard__desc">Insulated prefabricated homes for displaced families, deployable in days.</p><div class="fcard__member"><span class="fcard__member-av">MW</span><div><div class="fcard__member-name">Mark Weber</div><div class="fcard__member-role">Business Development Lead</div></div></div></div></article>
+
+              <article class="fcard"><div class="fcard__media"><img src="assets/feed-product-2.png" alt=""><span class="fcard__cat cat--infra">Infrastructure</span></div><div class="fcard__body"><div class="fcard__toprow"><span class="fcard__company">DniproSteel Works</span><span class="fcard__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Dnipro</span></div><h3 class="fcard__title">Steel Bridge Repair Components</h3><p class="fcard__desc">Modular beams, decking plates and connectors for fast replacement of damaged spans.</p><div class="fcard__member"><span class="fcard__member-av">MW</span><div><div class="fcard__member-name">Mark Weber</div><div class="fcard__member-role">Business Development Lead</div></div></div></div></article>
+
+              <article class="fcard"><div class="fcard__media"><img src="assets/feed-product-3.jpg" alt=""><span class="fcard__cat cat--energy">Energy</span></div><div class="fcard__body"><div class="fcard__toprow"><span class="fcard__company">EcoGrid Power</span><span class="fcard__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Lviv</span></div><h3 class="fcard__title">Solar Microgrid Kits</h3><p class="fcard__desc">Containerised solar, battery and inverter systems for schools, clinics and community shelters.</p><div class="fcard__member"><span class="fcard__member-av">MW</span><div><div class="fcard__member-name">Mark Weber</div><div class="fcard__member-role">Business Development Lead</div></div></div></div></article>
+
+              <article class="fcard"><div class="fcard__media"><img src="assets/feed-product-4.jpg" alt=""><span class="fcard__cat cat--water">Water</span></div><div class="fcard__body"><div class="fcard__toprow"><span class="fcard__company">AquaTech UA</span><span class="fcard__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Kharkiv</span></div><h3 class="fcard__title">Mobile Water Purification Units</h3><p class="fcard__desc">Trailer-mounted treatment for emergency drinking water and temporary settlements.</p><div class="fcard__member"><span class="fcard__member-av">MW</span><div><div class="fcard__member-name">Mark Weber</div><div class="fcard__member-role">Business Development Lead</div></div></div></div></article>
+
+              <article class="fcard"><div class="fcard__media"><img src="assets/feed-product-5.jpg" alt=""><span class="fcard__cat cat--health">Healthcare</span></div><div class="fcard__body"><div class="fcard__toprow"><span class="fcard__company">MedUnit Systems</span><span class="fcard__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Warsaw</span></div><h3 class="fcard__title">Prefabricated Clinic Modules</h3><p class="fcard__desc">Ready-to-install medical rooms with HVAC, sanitary cores and medical-grade utilities.</p><div class="fcard__member"><span class="fcard__member-av">MW</span><div><div class="fcard__member-name">Mark Weber</div><div class="fcard__member-role">Business Development Lead</div></div></div></div></article>
+
+              <article class="fcard"><div class="fcard__media"><img src="assets/feed-product-6.jpg" alt=""><span class="fcard__cat cat--transport">Transport</span></div><div class="fcard__body"><div class="fcard__toprow"><span class="fcard__company">Autobahn Systems</span><span class="fcard__loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Berlin</span></div><h3 class="fcard__title">Cold-Mix Road Repair Material</h3><p class="fcard__desc">All-season asphalt repair for rapid resurfacing of damaged roads and logistics corridors.</p><div class="fcard__member"><span class="fcard__member-av">MW</span><div><div class="fcard__member-name">Mark Weber</div><div class="fcard__member-role">Business Development Lead</div></div></div></div></article>
+            </div>
+          </section>
+
+          <!-- Members -->
+          <section class="feed-section">
+            <div class="section-head">
+              <div class="section-head__left">
+                <span class="section-head__bubble"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+                <span class="section-head__title">Members</span>
+              </div>
+              <a class="view-all" href="network.html">View all members <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a>
+            </div>
+            <div class="grid-2">
+              <article class="rcard"><div class="rcard__main"><img class="rcard__av" src="assets/feed-avatar-1.jpg" alt=""><div><div class="rcard__name">Anna Müller</div><div class="rcard__sub"><span class="rcard__role-badge">Company Representative</span><span class="rcard__meta">Project Director at WeBuild · Berlin, Germany</span></div></div></div><button class="btn btn--secondary btn--pill">Connect</button></article>
+              <article class="rcard"><div class="rcard__main"><img class="rcard__av" src="assets/feed-avatar-2.jpg" alt=""><div><div class="rcard__name">Olena Kovalenko</div><div class="rcard__sub"><span class="rcard__role-badge">Industry Expert</span><span class="rcard__meta">Energy Policy Manager · Kyiv, Ukraine</span></div></div></div><button class="btn btn--secondary btn--pill">Connect</button></article>
+              <article class="rcard"><div class="rcard__main"><img class="rcard__av" src="assets/feed-avatar-3.jpg" alt=""><div><div class="rcard__name">Ivan Petrov</div><div class="rcard__sub"><span class="rcard__role-badge">Product Owner</span><span class="rcard__meta">Business Development Lead at Slava Modular · Kyiv</span></div></div></div><button class="btn btn--secondary btn--pill">Connect</button></article>
+              <article class="rcard"><div class="rcard__main"><img class="rcard__av" src="assets/feed-avatar-4.jpg" alt=""><div><div class="rcard__name">Tomasz Jabłoński</div><div class="rcard__sub"><span class="rcard__role-badge">Investor</span><span class="rcard__meta">Investment Advisor · Warsaw, Poland</span></div></div></div><button class="btn btn--secondary btn--pill">Connect</button></article>
+            </div>
+          </section>
+
+          <!-- Companies & Organisations -->
+          <section class="feed-section">
+            <div class="section-head">
+              <div class="section-head__left">
+                <span class="section-head__bubble"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-3"/></svg></span>
+                <span class="section-head__title">Companies &amp; Organisations</span>
+              </div>
+              <a class="view-all" href="#">View all companies <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a>
+            </div>
+            <div class="grid-2">
+              <article class="rcard"><div class="rcard__main"><span class="rcard__av rcard__av--logo">SG</span><div><div class="rcard__name">SafeGround Ukraine</div><div class="rcard__sub"><span class="rcard__meta">Technology Provider · Defense &amp; Demining · Ukraine · 6 products • 14 members</span></div></div></div><button class="btn btn--secondary btn--pill">Follow</button></article>
+              <article class="rcard"><div class="rcard__main"><span class="rcard__av rcard__av--logo">SF</span><div><div class="rcard__name">SteelFrame Ltd</div><div class="rcard__sub"><span class="rcard__meta">Supplier · Infrastructure · Denmark · 5 products • 17 members</span></div></div></div><button class="btn btn--secondary btn--pill">Follow</button></article>
+              <article class="rcard"><div class="rcard__main"><span class="rcard__av rcard__av--logo">EG</span><div><div class="rcard__name">EnerGreen Home</div><div class="rcard__sub"><span class="rcard__meta">Energy Provider · Renewable Energy · Poland · 8 products • 24 members</span></div></div></div><button class="btn btn--secondary btn--pill">Follow</button></article>
+              <article class="rcard"><div class="rcard__main"><span class="rcard__av rcard__av--logo">UB</span><div><div class="rcard__name">UkrBuild Solutions</div><div class="rcard__sub"><span class="rcard__meta">Manufacturer · Construction &amp; Housing · Ukraine · 12 products • 38 members</span></div></div></div><button class="btn btn--secondary btn--pill">Follow</button></article>
+            </div>
+          </section>
+
+          <!-- Thought Leadership -->
+          <section class="feed-section">
+            <div class="section-head">
+              <div class="section-head__left">
+                <span class="section-head__bubble"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg></span>
+                <span class="section-head__title">Thought Leadership</span>
+              </div>
+              <a class="view-all" href="insights.html">View all insights <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a>
+            </div>
+            <div class="grid-3">
+              <article class="tcard"><span class="tcard__cat tcard__cat--article">Article</span><span class="tcard__meta">Mar 12, 2025</span><h3 class="tcard__title">How modular housing can shorten recovery timelines</h3><p class="tcard__desc">Lessons from three pilot deployments on cutting time-to-shelter without cutting quality.</p><span class="tcard__foot">Olena Marchenko</span></article>
+              <article class="tcard"><span class="tcard__cat tcard__cat--article">PDF</span><span class="tcard__meta">Mar 8, 2025</span><h3 class="tcard__title">Microgrid procurement checklist for public facilities</h3><p class="tcard__desc">A practical checklist covering sizing, resilience and maintenance for municipal buyers.</p><span class="tcard__foot">Iryna Shevchenko</span></article>
+              <article class="tcard"><span class="tcard__cat tcard__cat--article">Article</span><span class="tcard__meta">Mar 8, 2025</span><h3 class="tcard__title">Choosing cold-mix materials for damaged corridors</h3><p class="tcard__desc">When cold-mix beats hot-mix for rapid, all-weather repair of critical logistics routes.</p><span class="tcard__foot">Dmytro Melnyk</span></article>
+            </div>
+          </section>
+
+          <!-- Events -->
+          <section class="feed-section">
+            <div class="section-head">
+              <div class="section-head__left">
+                <span class="section-head__bubble"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span>
+                <span class="section-head__title">Events</span>
+              </div>
+              <a class="view-all" href="events.html">View all events <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a>
+            </div>
+            <div class="grid-3">
+              <article class="tcard"><span class="tcard__cat tcard__cat--event">Forum</span><span class="tcard__meta">May 25, 2026</span><h3 class="tcard__title">Ukraine Recovery Infrastructure Forum</h3><p class="tcard__desc">Two days of matchmaking between municipalities, suppliers and financing partners.</p><span class="tcard__foot">Kyiv, Ukraine</span></article>
+              <article class="tcard"><span class="tcard__cat tcard__cat--event">Roundtable</span><span class="tcard__meta">June 4, 2026</span><h3 class="tcard__title">Modular Housing Roundtable</h3><p class="tcard__desc">Standards, logistics and financing for scaling modular housing across regions.</p><span class="tcard__foot">Warsaw, Poland</span></article>
+              <article class="tcard"><span class="tcard__cat tcard__cat--event">Conference</span><span class="tcard__meta">June 18, 2026</span><h3 class="tcard__title">Energy Resilience Summit</h3><p class="tcard__desc">Grid hardening, microgrids and distributed storage for critical facilities.</p><span class="tcard__foot">Berlin, Germany</span></article>
+            </div>
+          </section>
+
+          <!-- News -->
+          <section class="feed-section">
+            <div class="section-head">
+              <div class="section-head__left">
+                <span class="section-head__bubble"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9h4"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg></span>
+                <span class="section-head__title">News</span>
+              </div>
+              <a class="view-all" href="#">View all news <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a>
+            </div>
+            <div class="grid-3">
+              <article class="fcard"><div class="fcard__media"><img src="assets/feed-news-1.png" alt=""><span class="fcard__cat cat--energy">Energy</span></div><div class="fcard__body"><h3 class="fcard__title">New EU facility unlocks €2bn for grid repair</h3><p class="fcard__desc">Funding targets distribution networks in front-line regions over the next 18 months.</p><div class="fcard__member"><div><div class="fcard__member-role" style="margin:0">Reuters · Mar 14, 2025</div></div></div></div></article>
+              <article class="fcard"><div class="fcard__media"><img src="assets/feed-news-2.png" alt=""><span class="fcard__cat cat--housing">Housing</span></div><div class="fcard__body"><h3 class="fcard__title">First 500 modular homes handed over in Bucha</h3><p class="fcard__desc">A consortium of manufacturers completes the largest modular delivery to date.</p><div class="fcard__member"><div><div class="fcard__member-role" style="margin:0">Kyiv Independent · Mar 11, 2025</div></div></div></div></article>
+              <article class="fcard"><div class="fcard__media"><img src="assets/feed-news-3.png" alt=""><span class="fcard__cat cat--infra">Infrastructure</span></div><div class="fcard__body"><h3 class="fcard__title">Bridge rebuilding programme adds 40 new sites</h3><p class="fcard__desc">Standardised steel components cut average reconstruction time by a third.</p><div class="fcard__member"><div><div class="fcard__member-role" style="margin:0">UkrInform · Mar 9, 2025</div></div></div></div></article>
+            </div>
+          </section>
+
+          <!-- Opportunities -->
+          <section class="feed-section">
+            <div class="section-head">
+              <div class="section-head__left">
+                <span class="section-head__bubble"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-9M14 17H5M17 3l3 4-3 4M7 13l-3 4 3 4"/></svg></span>
+                <span class="section-head__title">Opportunities</span>
+              </div>
+              <a class="view-all" href="#">View all opportunities <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></a>
+            </div>
+            <div class="grid-3">
+              <article class="tcard"><div style="display:flex;align-items:center;justify-content:space-between"><span class="tcard__cat tcard__cat--opp">RFP</span><span class="tcard__value">£1.8M</span></div><h3 class="tcard__title">Prefab housing supplier</h3><p class="tcard__desc">Supply and install 300 modular housing units for a returning-residents programme.</p><span class="tcard__foot">Bucha, Ukraine · Deadline: Aug 12, 2026</span></article>
+              <article class="tcard"><div style="display:flex;align-items:center;justify-content:space-between"><span class="tcard__cat tcard__cat--opp">Tender</span><span class="tcard__value">£3.2M</span></div><h3 class="tcard__title">Solar panels, 2MW minimum</h3><p class="tcard__desc">Procurement of PV modules and inverters for municipal microgrid resilience.</p><span class="tcard__foot">Odesa, Ukraine · Deadline: Aug 20, 2026</span></article>
+              <article class="tcard"><div style="display:flex;align-items:center;justify-content:space-between"><span class="tcard__cat tcard__cat--opp">Procurement</span><span class="tcard__value">£940K</span></div><h3 class="tcard__title">Water treatment system — Kyiv</h3><p class="tcard__desc">Design-build of a containerised water treatment plant for a district of 40,000.</p><span class="tcard__foot">Kyiv, Ukraine · Deadline: Sep 5, 2026</span></article>
+            </div>
+          </section>
+
+        </div>
+      </main>
+    </div>
+  </div>
+  <script src="scripts/feed-nav.js" defer></script>
+  <script src="scripts/supersearch.js" defer></script>
+</body>
+</html>

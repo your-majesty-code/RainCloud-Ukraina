@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Events — RainCloud Ukraina</title>
+  <link rel="stylesheet" href="styles/tokens.css" />
+  <link rel="stylesheet" href="styles/base.css" />
+  <link rel="stylesheet" href="styles/components.css" />
+  <style>
+    /* ---- Events search / timing ---- */
+    .events-search input { height: 56px; }
+    .timing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .toggle-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      height: 38px; border-radius: var(--radius-full);
+      background: #fff; border: 1px solid var(--surface-200); color: var(--ink-600);
+      font-size: 14px; font-weight: 500; cursor: pointer;
+      transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+    }
+    .toggle-btn svg { width: 14px; height: 14px; }
+    .toggle-btn:hover { background: var(--surface-muted); }
+    .toggle-btn.is-active { background: var(--primary); color: #fff; border-color: transparent; }
+
+    /* ---- Locations rows (subtle filled) ---- */
+    .loc-row { background: var(--surface-subtle); }
+    .loc-row:hover { background: var(--surface-muted); }
+    .loc-row.is-active { background: var(--surface-muted); }
+
+    /* ---- Event tile card ---- */
+    .event-card .card__media { height: 176px; }
+    .event-card .card__badge { color: var(--pill-dark); }
+    .event-card .card__body { gap: 16px; }
+    .event-meta { display: flex; flex-direction: column; gap: 8px; }
+    .event-meta__row { display: flex; align-items: flex-start; gap: 8px; font-size: 14px; line-height: 20px; color: var(--ink-500); }
+    .event-meta__row svg { width: 16px; height: 16px; flex: none; margin-top: 2px; color: var(--ink-400); }
+    .status-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .status-chip {
+      display: inline-flex; align-items: center; height: 24px; padding: 0 12px;
+      border-radius: 6px; border: 1px solid; font-size: 12px; font-weight: 500;
+      line-height: 16px; letter-spacing: 0.6px; text-transform: uppercase;
+    }
+    .status-chip--energy { background: #f2faed; border-color: #d5ecc4; color: #3a7d18; }
+    .status-chip--grid   { background: #eef5ff; border-color: #d3e4ff; color: #1d5eca; }
+    .status-chip--cyber  { background: var(--info-soft); border-color: #bfdbfe; color: var(--on-info-soft); }
+
+    /* ---- View toggling ---- */
+    .view { display: none; }
+    .view.is-shown { display: flex; flex-direction: column; gap: 24px; }
+    .view-map__placeholder {
+      height: 560px; border-radius: var(--radius-3xl);
+      background: var(--surface-muted) url("assets/imgPanel1.jpg") center/cover;
+      border: 1px solid var(--border); display: grid; place-items: center;
+      color: #fff; font-weight: 600; font-size: 18px; text-shadow: 0 1px 6px rgba(0,0,0,0.4);
+    }
+
+    /* ---- Calendar ---- */
+    .cal-card {
+      background: #fff; border-radius: 28px; padding: 20px;
+      box-shadow: 0 24px 32px rgba(15,23,42,0.08); border: 1px solid var(--border);
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .cal-head { display: flex; align-items: center; justify-content: space-between; padding-bottom: 17px; border-bottom: 1px solid var(--surface-muted); }
+    .cal-head__kicker { font-size: 12px; font-weight: 500; letter-spacing: 0.3px; text-transform: uppercase; color: #ff6b1a; }
+    .cal-head__title { font-size: 20px; font-weight: 500; letter-spacing: -0.5px; color: var(--ink); margin-top: 4px; }
+    .cal-nav { display: flex; align-items: center; gap: 8px; }
+    .cal-nav__arrow { width: 36px; height: 36px; border-radius: var(--radius-full); border: 1px solid var(--surface-200); display: inline-flex; align-items: center; justify-content: center; color: var(--ink-600); }
+    .cal-nav__arrow:hover { background: var(--surface-muted); }
+    .cal-nav__arrow svg { width: 16px; height: 16px; }
+    .cal-nav__today { height: 36px; padding: 0 16px; border-radius: var(--radius-full); background: var(--surface-muted); color: var(--ink-600); font-size: 12px; font-weight: 500; }
+    .cal-weekdays, .cal-grid { display: grid; grid-template-columns: repeat(7, minmax(0,1fr)); gap: 8px; }
+    .cal-weekdays { padding-top: 4px; }
+    .cal-weekdays span { text-align: center; font-size: 12px; line-height: 16px; letter-spacing: 0.3px; text-transform: uppercase; color: var(--ink-400); }
+    .cal-cell {
+      position: relative; min-height: 102px; border-radius: var(--radius-xl);
+      border: 1px solid var(--surface-muted); padding: 9px;
+      font-size: 12px; line-height: 16px; color: var(--ink-500);
+    }
+    .cal-cell--out { background: rgba(248,250,252,0.7); border-color: transparent; color: var(--ink-300); }
+    .cal-cell--hl { background: #fff7ed; border-color: #ffedd5; color: var(--text-primary); font-weight: 500; }
+    .cal-event {
+      position: absolute; left: 9px; top: 30px; z-index: 2;
+      display: flex; align-items: center; gap: 10px;
+      padding: 6px 8px; border-radius: 12px; width: calc(200% + 8px);
+      background: linear-gradient(180deg, #ffa470 0%, #e8743b 77%);
+      box-shadow: 0 1px 1px rgba(0,0,0,0.05); color: #fff;
+    }
+    .cal-event img { width: 28px; height: 28px; border-radius: var(--radius-full); object-fit: cover; flex: none; }
+    .cal-event span { font-size: 13px; font-weight: 500; line-height: 16px; }
+    .cal-foot { margin-top: 8px; padding-top: 20px; border-top: 1px solid var(--surface-muted); display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; }
+    .cal-foot__item { background: var(--surface-subtle); border-radius: var(--radius-xl); padding: 16px; display: flex; flex-direction: column; gap: 4px; }
+    .cal-foot__date { font-size: 12px; font-weight: 500; letter-spacing: 0.3px; text-transform: uppercase; color: #ff6b1a; }
+    .cal-foot__title { font-size: 14px; font-weight: 500; line-height: 20px; color: var(--ink); }
+
+    @media (max-width: 640px) {
+      .cal-foot { grid-template-columns: 1fr; }
+      .cal-cell { min-height: 64px; }
+      .cal-event span { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-canvas">
+
+    <!-- ============ FEED-STYLE GLASS HEADER ============ -->
+    <header class="feed-header">
+      <a class="feed-header__brand" href="feeds.html" aria-label="RainCloud Ukraina — home">
+        <img src="assets/feed-logo.png" alt="RainCloud Ukraina" />
+        <span class="feed-header__tagline">Powering global business to build the new Ukraine</span>
+      </a>
+      <span class="feed-header__divider"></span>
+      <span class="feed-header__greeting">Hello, Mike</span>
+      <span class="feed-header__spacer"></span>
+      <div class="stats-pill">
+        <span class="stats-pill__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="stats-pill__value">4,280</span><span class="stats-pill__label">Members</span></span>
+        <span class="stats-pill__sep"></span>
+        <span class="stats-pill__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-3"/><path d="M9 9v.01M9 12v.01M9 15v.01"/></svg><span class="stats-pill__value">1,140</span><span class="stats-pill__label">Companies</span></span>
+        <span class="stats-pill__sep"></span>
+        <span class="stats-pill__item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg><span class="stats-pill__value">2,123</span><span class="stats-pill__label">Products</span></span>
+      </div>
+      <div class="feed-header__actions">
+        <button class="feed-icon-btn" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></button>
+        <button class="feed-icon-btn" aria-label="Messages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 9 9 0 0 1-3.9-.9L3 21l1.9-5.6a8.38 8.38 0 0 1-.9-3.9A8.5 8.5 0 0 1 12.5 3 8.38 8.38 0 0 1 21 11.5z"/></svg></button>
+        <button class="feed-icon-btn" aria-label="Notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="feed-icon-btn__dot"></span></button>
+        <button class="feed-icon-btn" aria-label="Storm AI"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></button>
+        <span class="feed-avatar">MK</span>
+      </div>
+    </header>
+
+    <!-- ============ FEED SHELL: icon sidebar + main ============ -->
+    <div class="feed-layout">
+      <aside class="feed-sidebar">
+        <nav class="feed-nav" aria-label="Sections">
+          <a class="feed-nav__row" href="feeds.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Feed</a>
+          <a class="feed-nav__row" href="network.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Network</a>
+          <a class="feed-nav__row" href="companies.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-3"/></svg>Companies &amp; Organisations</a>
+          <a class="feed-nav__row" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Virtual Trade Show</a>
+          <a class="feed-nav__row" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></svg>Business Pavilions</a>
+          <a class="feed-nav__row" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-9M14 17H5M17 3l3 4-3 4M7 13l-3 4 3 4"/></svg>Opportunities</a>
+          <a class="feed-nav__row" href="insights.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg>Thought Leadership</a>
+          <a class="feed-nav__row is-active" href="events.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Events</a>
+          <a class="feed-nav__row" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9h4"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg>News</a>
+        </nav>
+        <div class="feed-sidebar__foot">
+          <button class="feed-nav__row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M14 9l-3 3 3 3"/></svg>Close sidebar</button>
+        </div>
+      </aside>
+
+      <main class="feed-main feed-main--directory">
+        <div class="directory directory--embedded">
+      <aside class="directory__aside">
+        <section class="filter-card filter-card--search" style="padding:17px">
+          <div class="filter-card__head">
+            <h2 class="filter-card__title">Events</h2>
+            <span class="count-pill">142</span>
+          </div>
+          <div class="search events-search">
+            <svg class="search__icon search__icon--left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+            <input type="search" placeholder="Search events..." aria-label="Search events" />
+          </div>
+          <div class="filter-group" style="margin-top:16px">
+            <p class="filter-group__label">Event timing</p>
+            <div class="timing-grid">
+              <button class="toggle-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.7 9.7 0 0 0-6.7 2.8L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/></svg>Past</button>
+              <button class="toggle-btn is-active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Upcoming</button>
+              <button class="toggle-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Next 7 days</button>
+              <button class="toggle-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Next 30 days</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="filter-card">
+          <div class="filter-card__head"><h2 class="filter-card__title">Locations</h2></div>
+          <div class="filter-list">
+            <button class="filter-row loc-row is-active"><span class="filter-row__main"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></svg>Online</span><span class="filter-row__count">21</span></button>
+            <button class="filter-row loc-row"><span class="filter-row__main"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Kyiv, Ukraine</span><span class="filter-row__count">12</span></button>
+            <button class="filter-row loc-row"><span class="filter-row__main"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Detroit, USA</span><span class="filter-row__count">12</span></button>
+            <button class="filter-row loc-row"><span class="filter-row__main"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Warsaw, Poland</span><span class="filter-row__count">12</span></button>
+            <button class="filter-row loc-row"><span class="filter-row__main"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Brussels, Belgium</span><span class="filter-row__count">12</span></button>
+            <button class="filter-row loc-row"><span class="filter-row__main"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Kharkiv, Ukraine</span><span class="filter-row__count">12</span></button>
+          </div>
+        </section>
+      </aside>
+
+      <main class="directory__main">
+        <div class="directory__header">
+          <h1 class="page-title">Reconstruction Events</h1>
+          <div class="segment" role="tablist">
+            <button class="segment__btn is-active" data-view="tiles"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Tiles</button>
+            <button class="segment__btn" data-view="map"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3Z"/><path d="M9 3v15M15 6v15"/></svg>Map</button>
+            <button class="segment__btn" data-view="calendar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Calendar</button>
+          </div>
+        </div>
+
+        <!-- ===== TILES VIEW ===== -->
+        <section class="view is-shown" data-view-panel="tiles">
+          <div class="card-grid">
+            <article class="card event-card"><div class="card__media"><img src="assets/ev-t-imgModularHousingUnits2.png" alt=""><span class="card__badge">May 11</span></div><div class="card__body"><h3 class="card__title">Defense Procurement &amp; Supplier Matchmaking Forum</h3><div class="event-meta"><div class="event-meta__row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>May 11, 2026 · 1:00 PM</div><div class="event-meta__row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>1 Washington Blvd, Detroit, MI 48226, USA</div><div class="event-meta__row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></svg>Online event</div></div><div class="status-chips"><span class="status-chip status-chip--energy">Energy</span><span class="status-chip status-chip--grid">Smart Grid</span></div></div></article>
+
+            <article class="card event-card"><div class="card__media"><img src="assets/ev-t-imgModularHousingUnits3.png" alt=""><span class="card__badge">Jun 04</span></div><div class="card__body"><h3 class="card__title">Cyber Resilience for Critical Infrastructure</h3><div class="event-meta"><div class="event-meta__row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Jun 04, 2026 · 10:00 AM</div><div class="event-meta__row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Kyiv, Ukraine</div><div class="event-meta__row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></svg>Online event</div></div><div class="status-chips"><span class="status-chip status-chip--cyber">Cyber</span><span class="status-chip status-chip--grid">Smart Grid</span></div></div></article>
+
+            <article class="card event-card"><div class="card__media"><img src="assets/ev-t-imgModularHousingUnits4.png" alt=""><span class="card__badge">Jun 18</span></div><div class="card__body"><h3 class="card__title">Rebuild Ukraine Municipal Roundtable</h3><div class="event-meta"><div class="event-meta__row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Jun 18, 2026 · 9:00 AM</div><div class="event-meta__row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Warsaw, Poland</div><div class="event-meta__row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></svg>Online event</div></div><div class="status-chips"><span class="status-chip status-chip--energy">Housing</span><span class="status-chip status-chip--grid">Policy</span></div></div></article>
+
+            <article class="card event-card"><div class="card__media"><img src="assets/ev-t-imgModularHousingUnits5.png" alt=""><span class="card__badge">Jul 02</span></div><div class="card__body"><h3 class="card__title">Digital Reconstruction Data Workshop</h3><div class="event-meta"><div class="event-meta__row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Jul 02, 2026 · 2:00 PM</div><div class="event-meta__row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Brussels, Belgium</div><div class="event-meta__row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></svg>Online event</div></div><div class="status-chips"><span class="status-chip status-chip--cyber">Data</span><span class="status-chip status-chip--energy">Open</span></div></div></article>
+
+            <article class="card event-card"><div class="card__media"><img src="assets/ev-t-imgModularHousingUnits6.png" alt=""><span class="card__badge">Jul 16</span></div><div class="card__body"><h3 class="card__title">Energy Security Partner Briefing</h3><div class="event-meta"><div class="event-meta__row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Jul 16, 2026 · 11:00 AM</div><div class="event-meta__row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Kharkiv, Ukraine</div><div class="event-meta__row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></svg>Online event</div></div><div class="status-chips"><span class="status-chip status-chip--energy">Energy</span><span class="status-chip status-chip--grid">Smart Grid</span></div></div></article>
+
+            <article class="card event-card"><div class="card__media"><img src="assets/ev-t-imgModularHousingUnits2.png" alt=""><span class="card__badge">Aug 05</span></div><div class="card__body"><h3 class="card__title">AUVSI XPONENTIAL 2026 Conference</h3><div class="event-meta"><div class="event-meta__row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Aug 05, 2026 · 9:30 AM</div><div class="event-meta__row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Detroit, USA</div><div class="event-meta__row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></svg>Online event</div></div><div class="status-chips"><span class="status-chip status-chip--cyber">Robotics</span><span class="status-chip status-chip--energy">Expo</span></div></div></article>
+          </div>
+        </section>
+
+        <!-- ===== MAP VIEW ===== -->
+        <section class="view" data-view-panel="map">
+          <div class="view-map__placeholder">Map view</div>
+        </section>
+
+        <!-- ===== CALENDAR VIEW ===== -->
+        <section class="view" data-view-panel="calendar">
+          <div class="cal-card">
+            <div class="cal-head">
+              <div>
+                <div class="cal-head__kicker">June 2026</div>
+                <div class="cal-head__title">Events calendar</div>
+              </div>
+              <div class="cal-nav">
+                <button class="cal-nav__arrow" aria-label="Previous month"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+                <button class="cal-nav__today">Today</button>
+                <button class="cal-nav__arrow" aria-label="Next month"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+              </div>
+            </div>
+            <div class="cal-weekdays"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+            <div class="cal-grid">
+              <div class="cal-cell cal-cell--out">31</div>
+              <div class="cal-cell">1</div>
+              <div class="cal-cell">2</div>
+              <div class="cal-cell">3</div>
+              <div class="cal-cell cal-cell--hl">4
+                <div class="cal-event"><img src="assets/ev-c-imgMunicipalRecoveryOfficeLogo.png" alt=""><span>Cyber resilience webinar</span></div>
+              </div>
+              <div class="cal-cell cal-cell--hl">5</div>
+              <div class="cal-cell cal-cell--hl">6</div>
+              <div class="cal-cell">7</div><div class="cal-cell">8</div><div class="cal-cell">9</div><div class="cal-cell">10</div><div class="cal-cell">11</div><div class="cal-cell">12</div><div class="cal-cell">13</div>
+              <div class="cal-cell">14</div><div class="cal-cell">15</div><div class="cal-cell">16</div><div class="cal-cell">17</div>
+              <div class="cal-cell cal-cell--hl">18
+                <div class="cal-event"><img src="assets/ev-c-imgMunicipalRecoveryOfficeLogo1.png" alt=""><span>Digital Reconstruction Data Workshop</span></div>
+              </div>
+              <div class="cal-cell cal-cell--hl">19</div>
+              <div class="cal-cell">20</div>
+              <div class="cal-cell">21</div><div class="cal-cell">22</div><div class="cal-cell">23</div><div class="cal-cell">24</div><div class="cal-cell">25</div><div class="cal-cell">26</div><div class="cal-cell">27</div>
+              <div class="cal-cell">28</div><div class="cal-cell">29</div><div class="cal-cell">30</div>
+              <div class="cal-cell cal-cell--out">1</div><div class="cal-cell cal-cell--out">2</div><div class="cal-cell cal-cell--out">3</div><div class="cal-cell cal-cell--out">4</div>
+            </div>
+            <div class="cal-foot">
+              <div class="cal-foot__item"><span class="cal-foot__date">May 11</span><span class="cal-foot__title">AUVSI XPONENTIAL 2026</span></div>
+              <div class="cal-foot__item"><span class="cal-foot__date">Jul 02</span><span class="cal-foot__title">Rebuild Ukraine Municipal Roundtable</span></div>
+              <div class="cal-foot__item"><span class="cal-foot__date">Aug 05</span><span class="cal-foot__title">Energy Security Partner Briefing</span></div>
+            </div>
+          </div>
+        </section>
+      </main>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    function setView(view) {
+      document.querySelectorAll('.segment__btn').forEach(function (b) {
+        b.classList.toggle('is-active', b.getAttribute('data-view') === view);
+      });
+      document.querySelectorAll('[data-view-panel]').forEach(function (p) {
+        p.classList.toggle('is-shown', p.getAttribute('data-view-panel') === view);
+      });
+    }
+    document.querySelectorAll('.segment__btn').forEach(function (btn) {
+      btn.addEventListener('click', function () { setView(btn.getAttribute('data-view')); });
+    });
+    var initial = (location.hash || '').replace('#', '');
+    if (['tiles', 'map', 'calendar'].indexOf(initial) !== -1) setView(initial);
+  </script>
+  <script src="scripts/feed-nav.js" defer></script>
+</body>
+</html>
